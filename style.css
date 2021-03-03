@@ -1,0 +1,205 @@
+html,body{
+    width: 100%;
+}
+
+footer{
+    background-color:#f7f7f7 ;
+}
+
+.mainbody{
+    margin-left: 250px;
+    margin-right: 250px;
+    margin-top: 40px;
+    margin-bottom:30px;
+    background:  white;
+    border-radius: 3%;
+    box-shadow: 10px 10px 5px #4c4d4c;
+}
+
+.formclass{
+    padding-top : 40px;
+    padding-bottom: 130px;
+}
+
+.rowclass{
+    padding-right: 30px;
+}
+
+footer a{
+    color:black;
+}
+.rowclass h5{
+    margin-top: 50px;
+}
+
+.mainform h3{
+    margin-top: 10px;
+}
+.carousel-inner img {height:460px;border-top-left-radius: 3%; border-bottom-left-radius: 3%;}
+
+.bodyclass{
+    background-image: radial-gradient(#ffffff,#e1f4f3,#a5a5a5, #333333);
+    background-repeat:no-repeat ;
+    background-size: cover ;
+}
+
+.faqclass h4{
+    color:black;
+}
+
+
+#adminbutton{
+    color: white;
+}
+
+#deanbutton{
+    color:white;
+}
+
+.formclass button{
+    background: #333333;
+    color: white;
+    margin-top:10px;
+}
+
+.secondcarousel h5,.secondcarousel p{
+    color: white;
+}
+
+.admindash{
+    margin-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.quotes{
+    background-color: whitesmoke;
+}
+
+.quotes h3,h5{
+    color: black;
+}
+
+.admindash img{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+
+}
+
+@media only screen and (max-width: 1200px) {
+
+    .rowclass{
+        padding-right:0px;
+    }
+   
+    .rowclass h5{
+        margin-top: 0px;
+        padding-top:10px;
+    }
+
+    #bootstrap-overrides{
+        display: block;
+    }
+    .carousel-inner img {height:300px;border-radius: 3%;}
+
+    .carouselclass{
+        box-shadow: 10px 10px 5px #4c4d4c;
+    }
+
+    #carouselid{
+        padding-left:0px;
+        padding-right: 0px;
+        border-radius: 3%;
+    }
+
+    .formclass{
+        padding-left: 30px;
+        padding-right:30px;
+    }
+
+    .mainform h3{
+        display: none;
+    }
+
+    .mainform{
+        margin-top: 25px;
+        background-color: white;
+        border-radius: 3%;
+        box-shadow: 10px 10px 5px #4c4d4c;
+    }
+    
+    .mainbody{
+        background :none;
+        box-shadow: none;
+        margin-left: 150px;
+        margin-right: 150px;
+        margin-top: 40px;
+        margin-bottom:30px;
+    }
+  }
+
+  @media only screen and (max-width: 700px) {
+
+    .rowclass{
+        padding-right:0px;
+    }
+   
+    .rowclass h5{
+        margin-top: 0px;
+        padding-top:10px;
+    }
+
+    #bootstrap-overrides{
+        display: block;
+    }
+    .carousel-inner img {height:300px; border-radius: 3%;}
+
+    .carouselclass{
+        box-shadow: 10px 10px 5px #4c4d4c;
+    }
+
+    #carouselid{
+        padding-left:0px;
+        padding-right: 0px;
+        border-radius: 3%;
+    }
+
+    .formclass{
+        padding-left: 10px;
+        padding-right:10px;
+        padding-bottom: 80px;
+    }
+
+    .mainform h3{
+        display: none;
+    }
+
+    .mainform{
+        margin-top: 25px;
+        background-color: white;
+        border-radius: 3%;
+        box-shadow: 10px 10px 5px #4c4d4c;
+    }
+    
+    .mainbody{
+        background :none;
+        box-shadow: none;
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 40px;
+        margin-bottom:30px;
+    }
+
+    @media only screen and (max-width: 400px){
+
+        header h3{
+            font-size: medium;
+        }
+
+        #adminbutton, #deanbutton, #facultybutton{
+            font-size: x-small
+        }
+    }
+}
+
