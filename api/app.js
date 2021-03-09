@@ -1,4 +1,6 @@
 //dependencies
+
+
 var express = require('express');
 var app = express();
 
@@ -10,10 +12,23 @@ const { urlencoded } = require('body-parser');
 
 var mysql = require('mysql');
 
-app.use(express.static('../public'));
+app.use('./public',express.static("public"));
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 app.use(bodyParser.json()); 
+
+app.use(express.static(path.join(__dirname,'views')));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname,'views'));
+app.use(bodyParser.urlencoded({ extended: false }));
+
+//session init
+
+app.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
 
 //db init
 var connection = mysql.createConnection({
@@ -28,25 +43,30 @@ connection.connect((error) => {
         console.log(error);
     }
     else{
-        console.log('Connected Sucessfully!');
+        console.log('Database Connected Sucessfully!');
     }
 });
 
 //paths
 app.get('/', (req,res) => {
-    res.sendFile(path.join(__dirname,'../views/login.html'));
+    res.sendFile(path.join(__dirname,'/views/login.html'));
+    //res.render("login");
 });
 
 app.get('/adminlogin',(req,res) => {
-    res.sendFile(path.join(__dirname,'../views/adminlogin.html'));
+    res.sendFile(path.join(__dirname,'/views/adminlogin.html'));
 });
 
 app.get('/deanlogin',(req,res) => {
-    res.sendFile(path.join(__dirname,'../views/deanlogin.html'));
+    res.sendFile(path.join(__dirname,'/views/deanlogin.html'));
 });
 
 app.get('/faq',(req,res) => {
-    res.sendFile(path.join(__dirname,'../views/faq.html'));
+    res.sendFile(path.join(__dirname,'/views/faq.html'));
+});
+
+app.get('/facultydash', (req,res) => {
+    res.send('Logged in Sucessfully!!');
 });
 
 app.post('/auth', urlencodedParser, (req,res) => {
@@ -54,11 +74,20 @@ app.post('/auth', urlencodedParser, (req,res) => {
         var username = req.body.username;
 	    var password = req.body.password;
         if(username && password){
-            console.log(username, password);
+            connection.query('SELECT * FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ? AND `faculty_db`.`faculty_details`.`f_pwd` = ?', [username,password], (error, results, fields) => {
+                if (results.length > 0) {
+                    req.session.loggedin = true;
+                    req.session.username = username;
+                    res.redirect('/facultydash');
+                } else {
+                    res.send('Incorrect Username and/or Password!');
+                }			
+                res.end();
+            });
         }
         else{
             res.status(400).send('Please enter username and password!');
-            res.redirect
+            res.end();
         }
     }
     if(req.body.login_type == 'admin'){
@@ -94,5 +123,5 @@ app.post('/api/update', urlencodedParser, (req, res) => {
 });
 
 //listener
-var port = 5000;
+var port = 3000;
 app.listen(port, ()=> console.log(`Listening on port ${port}...`)); 

@@ -1,0 +1,415 @@
+html,body{
+    width: 100%;
+}
+
+footer{
+    font-family: 'Raleway', sans-serif;
+    background-color:#f7f7f7 ;
+}
+
+header{
+    font-family: 'Raleway', sans-serif;
+}
+
+
+header h3{
+    color: #c3073f;
+    text-shadow: 4px 4px 4px #6f2232;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.mainbody{
+    font-family: 'Raleway', sans-serif;
+    margin-left: 250px;
+    margin-right: 250px;
+    margin-top: 40px;
+    margin-bottom:30px;
+    background:  white;
+    border-radius: 3%;
+    box-shadow: 10px 10px 5px #6f2232;
+}
+
+.formclass{
+    padding-top : 40px;
+    padding-bottom: 130px;
+}
+
+.rowclass{
+    padding-right: 30px;
+}
+
+footer a{
+    color:#c3073f ;
+}
+.rowclass h5{
+    margin-top: 50px;
+}
+
+.mainform h3{
+    margin-top: 10px;
+    color: #6f2232;
+}
+
+.mainform h5{
+    color:#6f2232
+}
+.carousel-inner img {height:491px;border-top-left-radius: 3%; border-bottom-left-radius: 3%;}
+
+.bodyclass{
+    background-repeat:no-repeat ;
+    background-color: #1A1A1D;
+    background-size: cover ;
+}
+
+.faqclass h4{
+    font-family: 'Raleway', sans-serif;
+}
+
+.firstcarousel h5, .thirdcarousel h5{
+    color: white;
+}
+
+#adminbutton{
+    border: solid 2px #6f2232;
+    color: whitesmoke;
+    border-radius: 7%;
+}
+
+#logoutbutton{
+    margin-right: 10px;
+    border: solid 2px #6f2232;
+    color: whitesmoke;
+    border-radius: 7%;
+}
+
+#facultybutton{
+    border: solid 2px #6f2232;
+    color: whitesmoke;
+    border-radius: 7%;
+}
+
+#deanbutton{
+    border: solid 2px #6f2232;
+    border-radius: 7%;
+    color: whitesmoke;
+}
+
+.formclass button{
+    background: #6f2232;
+    color: white;
+    margin-top:10px;
+}
+
+.secondcarousel h5,.secondcarousel p{
+    color: white;
+}
+
+
+.quotes{
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px #6f2232;
+}
+
+#quotes{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left:100px;
+    margin-right: 100px;
+}
+
+.quotes h3,h5{
+    color: black;
+}
+
+.admindash img , .deandash img, .facultydash img{
+    height: 100px;
+    width: 100x;
+    border-radius: 50%;
+}
+
+.admindash, .deandash, .facultydash{
+    font-family: 'Raleway', sans-serif;
+}
+
+.adminprivileges a{
+    border: 1px solid whitesmoke;
+    border-radius: 5%;
+    background-color: black;
+    color: whitesmoke;
+}
+
+.adminprivileges{
+    margin-left: 85px;
+    margin-right: 85px;
+    margin-top: 30px;
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px #6f2232;
+}
+
+.deanprivileges a{
+    border: 1px solid whitesmoke;
+    border-radius: 5%;
+    background-color: black;
+    color: whitesmoke;
+}
+
+.deanprivileges{
+    margin-left:85px;
+    margin-right:85px;
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px #6f2232;
+}
+
+.facultyprivileges a{
+    border: 1px solid whitesmoke;
+    border-radius: 5%;
+    background-color: black;
+    color: whitesmoke;
+}
+
+.facultyprivileges{
+    margin-left:85px;
+    margin-right:85px;
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px #6f2232;
+}
+
+.adminprivileges svg , .deanprivileges svg, .facultyprivileges svg{
+    margin-left: 30px;
+}
+
+.faqform{
+    margin-left: 180px;
+    margin-right: 180px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: black;
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px #6f2232;
+    border-radius: 3%;
+}
+
+.faqform button{
+    background: #6f2232;
+    color: whitesmoke;
+    margin-top:20px;
+    margin-bottom:20px
+}
+
+.formheading{
+    margin-top: 50px;
+}
+
+.faq1, .faq2, .faq3, .faq4, .faq5{
+    margin-left: 180px;
+    margin-right: 180px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px #6f2232;
+    border-radius: 5%;
+    padding: 10px;
+}
+#mainform label, .faqform label{
+    color: #4e4e50;
+}
+
+@media only screen and (max-width: 1200px) {
+
+    .rowclass{
+        padding-right:0px;
+    }
+
+    .rowclass h5{
+        margin-top: 0px;
+        padding-top:10px;
+    }
+
+    #bootstrap-overrides{
+        display: block;
+    }
+    .carousel-inner img {height:300px;border-radius: 3%;}
+
+    .carouselclass{
+        box-shadow: 10px 10px 5px #6f2232;
+    }
+
+    #carouselid{
+        padding-left:0px;
+        padding-right: 0px;
+        border-radius: 3%;
+    }
+
+    .formclass{
+        padding-left: 30px;
+        padding-right:30px;
+    }
+
+    .mainform h3{
+        display: none;
+    }
+
+    .mainform{
+        margin-top: 25px;
+        background-color: white;
+        border-radius: 3%;
+        box-shadow: 10px 10px 5px #6f2232;
+    }
+    
+    .mainbody{
+        background :none;
+        box-shadow: none;
+        margin-left: 150px;
+        margin-right: 150px;
+        margin-top: 40px;
+        margin-bottom:30px;
+    }
+  }
+
+  @media only screen and (max-width: 700px) {
+
+    main h3, main h5, main h2, main h4, .formheading{
+        font-size: medium;
+    }
+
+    .adminprivileges a, .facultyprivileges a, .deanprivileges a{
+        font-size: small;
+    }
+    .faq1, .faq2, .faq3, .faq4, .faq5{
+        margin-left: 100px;
+        margin-right: 100px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background-color: whitesmoke;
+        box-shadow: 10px 10px 5px #6f2232;
+        border-radius: 5%;
+        padding: 10px;
+    }
+
+    .faqform{
+        margin-left: 100px;
+        margin-right: 100px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        color: black;
+        background-color: whitesmoke;
+        box-shadow: 10px 10px 5px #6f2232;
+        border-radius: 3%;
+    }
+
+    .adminprivileges{
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 30px;
+        margin-bottom:20px;
+        background-color: whitesmoke;
+    }
+
+    .deanprivileges{
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 30px;
+        margin-bottom:20px;
+        background-color: whitesmoke;
+    }
+
+    .facultyprivileges{
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 30px;
+        margin-bottom:20px;
+        background-color: whitesmoke;
+    }
+    
+    .rowclass{
+        padding-right:0px;
+    }
+   
+    .rowclass h5{
+        margin-top: 0px;
+        padding-top:10px;
+    }
+
+    #bootstrap-overrides{
+        display: block;
+    }
+    .carousel-inner img {height:300px; border-radius: 3%;}
+
+    .carouselclass{
+        box-shadow: 10px 10px 5px #6f2232;
+    }
+
+    #carouselid{
+        padding-left:0px;
+        padding-right: 0px;
+        border-radius: 3%;
+    }
+
+    .formclass{
+        padding-left: 10px;
+        padding-right:10px;
+        padding-bottom: 80px;
+    }
+
+    .mainform h3{
+        display: none;
+    }
+
+    .mainform{
+        margin-top: 25px;
+        background-color: white;
+        border-radius: 3%;
+        box-shadow: 10px 10px 5px #6f2232;
+    }
+    
+   
+
+    .mainbody{
+        background :none;
+        box-shadow: none;
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 40px;
+        margin-bottom:30px;
+    }
+
+    @media only screen and (max-width: 400px){
+        
+        #quotes{
+            margin-left:30px;
+            margin-right: 30px;
+        }
+
+        header h3{
+            font-size: medium;
+        }
+
+        #adminbutton, #deanbutton, #facultybutton{
+            font-size: x-small
+        }
+
+        .faq1, .faq2, .faq3, .faq4, .faq5{
+            margin-left: 30px;
+            margin-right: 30px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-color: whitesmoke;
+            box-shadow: 10px 10px 5px #6f2232;
+            border-radius: 5%;
+            padding: 10px;
+        }
+
+        .faqform{
+            margin-left: 30px;
+            margin-right: 30px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: black;
+            background-color: whitesmoke;
+            box-shadow: 10px 10px 5px #6f2232;
+            border-radius: 3%;
+        }
+
+    }
+}
+
