@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Alteration Helper</title>
+    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+</head>
+
+<body class="d-flex flex-column min-vh-100 bodyclass">
+    <header class="d-flex flex-row align-items-center text-white">
+        <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
+        <form action="/adminlogin" method="GET">
+            <button class="btn p-1 m-3" id="adminbutton">Admin Login</button>
+        </form>
+        <form action="/deanlogin" method="GET">
+            <button class="btn p-1 m-3" id="deanbutton">Dean Login</button>
+        </form>
+        <form action="/" method="GET">
+            <button class="btn p-1 m-3" id="facultybutton">Faculty Login</button>
+        </form>
+    </header>
+
+    <main class="faqclass">
+        <div class="text-center">
+            <h2 class="text-white"><u>Frequently Asked Questions</u></h2>
+            <h4 class="text-white">Got a question? We are here to answer. If you don't see your question here, drop us a line through the form below</h4>
+        </div>
+        <div class="faqs">
+            <div class="faq1">
+                <h5>1. I've forgot my password. How can I login?</h5>
+                <p><b>ANSWER:</b> Click the forgot password link on the login page and enter your registered e-mail address.You will recieve a reset link to your mail.</p> 
+            </div>
+
+            <div class="faq2">
+               <h5>2. Can I update my profile?</h5>
+               <p><b>ANSWER:</b> You can change them by clicking the edit details link in your dashboard.</p>
+            </div>
+
+            <div class="faq3">
+                 <h5>3. What are the info about myself that I can update?</h5>      
+                 <p><b>ANSWER:</b> You can change a lot of things once you login to your dashboard.You can change your display picture,e-mail address,password and contact details.</p>    
+            </div>
+                    
+            <div class="faq4">
+                <h5>4. How can I change my password?</h5>
+                <p><b>ANSWER:</b> Once you login to your dashboard click on the edit details button and then click change my password.Enter your old password and then enter your password.Your new password will be updated.</p>
+            </div>
+
+            <div class="faq5">
+                <h5>5. How to exchange substitution slots?</h5>
+                <p><b>ANSWER:</b> In your dashboard,click on the  Exchange Slot button.It will have the list of available faculties.Select one slot of the other faculty and request confirmation for replacement.</p>
+            </div>
+        </div>
+    </main>
+    <h3 class="formheading text-white text-center"><u>Didn't find your question? Ask your question here</u></h3>
+    <form class="faqform" action="/api/update" method="POST">
+        <div class="form-group m-2">
+            <label for="exampleInputName1" class="text-uppercase"><b>Name</b></label>
+            <input type="text" name="user_name" class="form-control" placeholder="">
+        </div>
+        <div class="form-group m-2">
+            <label for="exampleInputEmail1" class="text-uppercase"><b>E-mail</b></label>
+            <input type="email" name="email" class="form-control" placeholder="">
+        </div>
+        <div class="form-group m-2">
+            <label for="exampleInputQuestion1" class="text-uppercase"><b>Question?</b></label>
+            <input type="text" name="question" class="form-control" placeholder="">
+        </div>
+        <button type="submit" class=" m-2 btn btn-login float-left">Submit</button>
+    </form>
+
+    <footer class="mt-auto">
+        <div class="d-flex flex-row justify-content-around p-3">
+            <div><a href="./faq.html">FAQ's</a></div>
+            <div><a href="mailto:cb.en.u4cse18163@cb.students.amrita.edu">Mail Us</a></div>
+            <div><a href="">About</a></div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
