@@ -29,6 +29,23 @@ header h3{
     box-shadow: 10px 10px 5px #6f2232;
 }
 
+.aboutclass{
+    font-family: 'Raleway', sans-serif;
+    margin-left: 250px;
+    margin-right: 250px;
+    margin-top: 40px;
+    margin-bottom:30px;
+    background:  white;
+    border-radius: 3%;
+    box-shadow: 10px 10px 5px #6f2232;
+}
+
+.description{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-right: 20px;
+}
+
 .formclass{
     padding-top : 40px;
     padding-bottom: 130px;
@@ -53,7 +70,7 @@ footer a{
 .mainform h5{
     color:#6f2232
 }
-.carousel-inner img {height:491px;border-top-left-radius: 3%; border-bottom-left-radius: 3%;}
+.carousel-inner img {height: 491px;; border-top-left-radius:  3%; border-bottom-left-radius: 3%;}
 
 .bodyclass{
     background-repeat:no-repeat ;
@@ -286,6 +303,11 @@ footer a{
         padding: 10px;
     }
 
+    .aboutclass{
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+
     .faqform{
         margin-left: 100px;
         margin-right: 100px;
@@ -386,6 +408,11 @@ footer a{
 
         #adminbutton, #deanbutton, #facultybutton{
             font-size: x-small
+        }
+
+        .aboutclass{
+            margin-left: 30px;
+            margin-right: 30px;
         }
 
         .faq1, .faq2, .faq3, .faq4, .faq5{

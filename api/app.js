@@ -50,7 +50,6 @@ connection.connect((error) => {
 //paths
 app.get('/', (req,res) => {
     res.sendFile(path.join(__dirname,'/views/login.html'));
-    //res.render("login");
 });
 
 app.get('/adminlogin',(req,res) => {
@@ -65,8 +64,44 @@ app.get('/faq',(req,res) => {
     res.sendFile(path.join(__dirname,'/views/faq.html'));
 });
 
+app.get('/about', (req, res) =>{
+    res.sendFile(path.join(__dirname,'/views/about.html'));
+})
+
 app.get('/facultydash', (req,res) => {
-    res.send('Logged in Sucessfully!!');
+    if (req.session.loggedin) {
+		res.sendFile(path.join(__dirname,'./views/faculty_dashboard.html'));
+        return ;
+	} else {
+		res.send('Please login to view this page!');
+	}
+	res.end();  
+});
+
+app.get('/admindash', (req,res) => {
+    if (req.session.loggedin) {
+		res.sendFile(path.join(__dirname,'./views/admin_dashboard.html'));
+        return ;
+	} else {
+		res.send('Please login to view this page!');
+	}
+	res.end(); 
+});
+
+app.get('/logout', (req,res)=>{
+    req.session.loggedin = false;
+    res.redirect('/');
+    return;
+});
+
+app.get('/deandash', (req,res) => {
+    if (req.session.loggedin) {
+		res.sendFile(path.join(__dirname,'./views/dean_dashboard.html'));
+        return ;
+	} else {
+		res.send('Please login to view this page!');
+	}
+	res.end(); 
 });
 
 app.post('/auth', urlencodedParser, (req,res) => {
@@ -76,17 +111,18 @@ app.post('/auth', urlencodedParser, (req,res) => {
         if(username && password){
             connection.query('SELECT * FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ? AND `faculty_db`.`faculty_details`.`f_pwd` = ?', [username,password], (error, results, fields) => {
                 if (results.length > 0) {
+                    
                     req.session.loggedin = true;
                     req.session.username = username;
                     res.redirect('/facultydash');
                 } else {
-                    res.send('Incorrect Username and/or Password!');
+                    res.send('<script>alert("Wrong username and/or password!, Go back to continue")</script>');
                 }			
                 res.end();
             });
         }
         else{
-            res.status(400).send('Please enter username and password!');
+            res.send('<script>alert("Enter username and password, Go back to continue")</script>');
             res.end();
         }
     }
@@ -94,20 +130,36 @@ app.post('/auth', urlencodedParser, (req,res) => {
         var username = req.body.username;
 	    var password = req.body.password;
         if(username && password){
-
+            if(username == 'admin_amrita' && password== 'admin_amrita'){
+                req.session.loggedin = true;
+                req.session.username = username;
+                res.redirect('/admindash');
+            }
+            else{
+                res.send('<script>alert("Wrong username and/or password!, Go back to continue")</script>');
+            }
         }
         else{
-            
+            res.send('<script>alert("Enter username and password, Go back to continue")</script>');
+            res.end();
         }
     }
     if(req.body.login_type == 'dean'){
         var username = req.body.username;
 	    var password = req.body.password;
         if(username && password){
-
+            if(username == 'dean_amrita' && password== 'dean_amrita'){
+                req.session.loggedin = true;
+                req.session.username = username;
+                res.redirect('/deandash');
+            }
+            else{
+                res.send('<script>alert("Wrong username and/or password!, Go back to continue")</script>');
+            }
         }
         else{
-            
+            res.send('<script>alert("Enter username and password, Go back to continue")</script>');
+            res.end();
         }
     }
 });

@@ -70,7 +70,7 @@
             <div class="col-xl-4 mainform" id="mainform">
                 <h3 class="text-left"> Welcome..!!!</h3>
                 <h5 class="text-center"><u>Dean Login</u></h5>
-                <form class="login-form formclass">
+                <form class="login-form formclass" method="POST" action='/auth'>
                     <div class="form-group">
                         <label for="exampleInputEmail1" class="text-uppercase">Username</label>
                         <input type="text" class="form-control" placeholder="" name="username">
@@ -94,9 +94,17 @@
 
     <footer class="mt-auto">
         <div class="d-flex flex-row justify-content-around p-3">
-            <div><a href="./faq.html">FAQ's</a></div>
+            <div>
+                <form action="/faq" method="GET">
+                    <button>FAQ's</button>
+                </form>
+            </div>
             <div><a href="mailto:cb.en.u4cse18163@cb.students.amrita.edu">Mail Us</a></div>
-            <div><a href="">About</a></div>
+            <div>
+                <form action="/about" method="GET">
+                    <button>About</button>
+                </form>
+            </div>
         </div>
     </footer>
 

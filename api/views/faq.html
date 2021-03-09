@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exam Alteration Helper</title>
-    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
@@ -76,9 +76,12 @@
 
     <footer class="mt-auto">
         <div class="d-flex flex-row justify-content-around p-3">
-            <div><a href="./faq.html">FAQ's</a></div>
             <div><a href="mailto:cb.en.u4cse18163@cb.students.amrita.edu">Mail Us</a></div>
-            <div><a href="">About</a></div>
+            <div>
+                <form action="/about" method="GET">
+                    <button>About</button>
+            </form>
+            </div>
         </div>
     </footer>
 

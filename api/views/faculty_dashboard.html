@@ -14,7 +14,10 @@
 <body class="d-flex flex-column min-vh-100 bodyclass">
     <header class="d-flex flex-row align-items-center text-white">
         <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
-        <a class="btn text-white" id="logoutbutton" onclick="myFunction()" href="adminlogin.html">Logout</a>
+        <form action="/logout" method="GET">
+            <button class="btn logoutbutton">Logout</button>
+        </form>
+        
         <script>
             function myFunction() {
               alert("You've been Logged out Successfully");
@@ -30,7 +33,7 @@
             </div>
 
             <div class="text-center m-5">
-                <img src="images/faculty.png" class="center">
+                <img src="./images/faculty.jpg" class="center">
             </div>
         </div>
 
