@@ -70,12 +70,16 @@ footer a{
 .mainform h5{
     color:#6f2232
 }
-.carousel-inner img {height: 491px;; border-top-left-radius:  3%; border-bottom-left-radius: 3%;}
+.carousel-inner img {height: 460px;; border-top-left-radius:  3%; border-bottom-left-radius: 3%;}
 
 .bodyclass{
     background-repeat:no-repeat ;
     background-color: #1A1A1D;
     background-size: cover ;
+}
+
+.forgotsubmit{
+    padding-top: 15px;
 }
 
 .faqclass h4{
@@ -195,7 +199,7 @@ footer a{
     margin-left: 30px;
 }
 
-.faqform{
+.faqform, .forgotform, .resetform{
     margin-left: 180px;
     margin-right: 180px;
     margin-top: 20px;
@@ -206,7 +210,12 @@ footer a{
     border-radius: 3%;
 }
 
-.faqform button{
+
+.forgotform button, .resetform button{
+    margin-left: 20px;
+}
+
+.faqform button, .forgotform button, .resetform button{
     background: #6f2232;
     color: whitesmoke;
     margin-top:20px;
@@ -227,7 +236,7 @@ footer a{
     border-radius: 5%;
     padding: 10px;
 }
-#mainform label, .faqform label{
+#mainform label, .faqform label, .forgotform label, .resetform label{
     color: #4e4e50;
 }
 
@@ -308,7 +317,7 @@ footer a{
         margin-right: 100px;
     }
 
-    .faqform{
+    .faqform, .forgotform, .resetform{
         margin-left: 100px;
         margin-right: 100px;
         margin-top: 20px;
@@ -426,7 +435,7 @@ footer a{
             padding: 10px;
         }
 
-        .faqform{
+        .faqform, .forgotform, .resetform{
             margin-left: 30px;
             margin-right: 30px;
             margin-top: 20px;
