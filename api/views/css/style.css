@@ -43,7 +43,6 @@ header h3{
 .description{
     margin-left: 20px;
     margin-right: 20px;
-    margin-right: 20px;
 }
 
 .formclass{
@@ -70,7 +69,7 @@ footer a{
 .mainform h5{
     color:#6f2232
 }
-.carousel-inner img {height: 460px;; border-top-left-radius:  3%; border-bottom-left-radius: 3%;}
+.carousel-inner img {border-top-left-radius:  3%; border-bottom-left-radius: 3%;}
 
 .bodyclass{
     background-repeat:no-repeat ;
