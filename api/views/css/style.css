@@ -218,7 +218,6 @@ footer a{
     color: black;
     background-color: whitesmoke;
     box-shadow: 10px 10px 5px #6f2232;
-    border-radius: 3%;
 }
 
 
@@ -244,7 +243,6 @@ footer a{
     margin-bottom: 20px;
     background-color: whitesmoke;
     box-shadow: 10px 10px 5px #6f2232;
-    border-radius: 5%;
     padding: 10px;
 }
 #mainform label, .faqform label, .forgotform label, .resetform label{
@@ -319,7 +317,6 @@ footer a{
         margin-bottom: 20px;
         background-color: whitesmoke;
         box-shadow: 10px 10px 5px #6f2232;
-        border-radius: 5%;
         padding: 10px;
     }
 
@@ -336,7 +333,6 @@ footer a{
         color: black;
         background-color: whitesmoke;
         box-shadow: 10px 10px 5px #6f2232;
-        border-radius: 3%;
     }
 
     .adminprivileges{
@@ -442,7 +438,6 @@ footer a{
             margin-bottom: 20px;
             background-color: whitesmoke;
             box-shadow: 10px 10px 5px #6f2232;
-            border-radius: 5%;
             padding: 10px;
         }
 
@@ -454,7 +449,6 @@ footer a{
             color: black;
             background-color: whitesmoke;
             box-shadow: 10px 10px 5px #6f2232;
-            border-radius: 3%;
         }
 
     }

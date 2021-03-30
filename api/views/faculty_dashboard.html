@@ -14,9 +14,12 @@
 <body class="d-flex flex-column min-vh-100 bodyclass">
     <header class="d-flex flex-row align-items-center text-white">
         <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
-        <form action="/logout" method="GET">
-            <button class="btn" id="logoutbutton">Logout</button>
-        </form>
+        <a class="btn text-white" id="logoutbutton" onclick="myFunction()" href="adminlogin.html">Logout</a>
+        <script>
+            function myFunction() {
+                alert("You've been Logged out Successfully");
+            }
+        </script>
         
         <script>
             function myFunction() {
