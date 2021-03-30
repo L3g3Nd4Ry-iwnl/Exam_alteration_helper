@@ -2,6 +2,10 @@ html,body{
     width: 100%;
 }
 
+main h2, main h3, main h4{
+    font-family: 'Raleway', sans-serif;
+}
+
 footer{
     font-family: 'Raleway', sans-serif;
     background-color:#f7f7f7 ;
@@ -210,7 +214,7 @@ footer a{
     margin-left: 30px;
 }
 
-.faqform, .forgotform, .resetform{
+.faqform, .forgotform, .resetform, .accountform{
     margin-left: 180px;
     margin-right: 180px;
     margin-top: 40px;
@@ -225,7 +229,7 @@ footer a{
     margin-left: 20px;
 }
 
-.faqform button, .forgotform button, .resetform button{
+.faqform button, .forgotform button, .resetform button, .accountform button{
     background: #6f2232;
     color: whitesmoke;
     margin-top:20px;
@@ -245,7 +249,7 @@ footer a{
     box-shadow: 10px 10px 5px #6f2232;
     padding: 10px;
 }
-#mainform label, .faqform label, .forgotform label, .resetform label{
+#mainform label, .faqform label, .forgotform label, .resetform label,.accountform label{
     color: #4e4e50;
 }
 
@@ -325,7 +329,7 @@ footer a{
         margin-right: 100px;
     }
 
-    .faqform, .forgotform, .resetform{
+    .faqform, .forgotform, .resetform,.accountform{
         margin-left: 100px;
         margin-right: 100px;
         margin-top: 40px;
@@ -441,7 +445,7 @@ footer a{
             padding: 10px;
         }
 
-        .faqform, .forgotform, .resetform{
+        .faqform, .forgotform, .resetform,.accountform{
             margin-left: 30px;
             margin-right: 30px;
             margin-top: 40px;
