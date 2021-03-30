@@ -6,7 +6,13 @@ const{
     MYSQL_PASSWORD = 'hello_mysql',
     MYSQL_DATABASE_ACC = 'faculty_db',
     ADMIN_USP = 'admin_amrita',
-    DEAN_USP = 'dean_amrita'
+    DEAN_USP = 'dean_amrita',
+
+    NODE_ENV = 'development',
+
+    SESS_NAME = 'sid',
+    SESS_LIFETIME = 1000 * 60 * 60 * 1, // 1 hour
+    SESS_SECRET = 'LlK5_Z5_W3VjIv' //ThI5_I5_S3CrEt
 }=process.env
 
 //dependencies
@@ -20,6 +26,7 @@ const bodyParser= require('body-parser');
 const { urlencoded } = require('body-parser');
 
 const mysql = require('mysql');
+const e = require('express');
 
 //Helemt to prevent hackers to get info on the modules used
 // const helmet = require('helmet');
@@ -35,11 +42,17 @@ app.set("views", path.join(__dirname,'views'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //session init
-
+const IN_PROD = NODE_ENV === 'production'
 app.use(session({
-	secret: 'secret',
-	resave: true,
-	saveUninitialized: true
+	name: SESS_NAME,
+    resave: false,
+    saveUninitialized: false,
+    secret: SESS_SECRET,
+    cookie:{
+        maxAge: SESS_LIFETIME,
+        sameSite: true,
+        secure: IN_PROD
+    }
 }));
 
 //db init
@@ -59,62 +72,140 @@ connection.connect((error) => {
     }
 });
 
+// session redirectors
+
+// to redirect to home if the user is not auth
+const redirectLogin = (req, res, next) =>{
+    if (!req.session.userId){
+        res.redirect('/')
+    }
+    else{
+        next()
+    }
+}
+// if faculty auth they must be redirected directly to faculty dashboard
+const redirectFaculty = (req, res, next) =>{
+    if (req.session.userId){
+        res.redirect('/facultydash')
+    }
+    else{
+        next()
+    }
+}
+// if dean auth they must be redirected directly to dean dashboard
+const redirectDean = (req, res, next) =>{
+    if (req.session.userId === DEAN_USP){
+        res.redirect('/deandash')
+    }
+    else{
+        next()
+    }
+}
+// if admin auth they must be redirected directly to admin dashboard
+const redirectAdmin = (req, res, next) =>{
+    if (req.session.userId === ADMIN_USP){
+        res.redirect('/admindash')
+    }
+    else{
+        next()
+    }
+}
+
 //paths
-app.get('/', (req,res) => {
-    res.sendFile(path.join(__dirname,'/views/login.html'));
+app.get('/', redirectFaculty, (req,res) => {
+    res.render(path.join(__dirname,'/views/login.ejs'));
 });
 
-app.get('/adminlogin',(req,res) => {
-    res.sendFile(path.join(__dirname,'/views/adminlogin.html'));
+app.get('/adminlogin', redirectAdmin, (req,res) => {
+    res.render(path.join(__dirname,'/views/adminlogin.ejs'));
 });
 
-app.get('/deanlogin',(req,res) => {
-    res.sendFile(path.join(__dirname,'/views/deanlogin.html'));
+app.get('/deanlogin', redirectDean, (req,res) => {
+    res.render(path.join(__dirname,'/views/deanlogin.ejs'));
 });
 
 app.get('/faq',(req,res) => {
-    res.sendFile(path.join(__dirname,'/views/faq.html'));
+    res.render(path.join(__dirname,'/views/faq.ejs'));
 });
 
 app.get('/about', (req, res) =>{
-    res.sendFile(path.join(__dirname,'/views/about.html'));
+    res.render(path.join(__dirname,'/views/about.ejs'));
 })
 
-app.get('/facultydash', (req,res) => {
-    if (req.session.loggedin) {
-		res.sendFile(path.join(__dirname,'./views/faculty_dashboard.html'));
-        return ;
-	} else {
-		res.send('Please login to view this page!');
-	}
+app.get('/facultydash', redirectLogin, (req,res) => {
+    if (req.session.userId === DEAN_USP){
+        res.redirect('/deandash');
+    }
+    else if (req.session.userId === ADMIN_USP){
+        res.redirect('/admindash');
+    }
+    else{
+        res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'));
+    }
+	
 	res.end();  
 });
 
-app.get('/admindash', (req,res) => {
-    if (req.session.loggedin) {
-		res.sendFile(path.join(__dirname,'./views/admin_dashboard.html'));
-        return ;
-	} else {
-		res.send('Please login to view this page!');
-	}
+app.get('/deandash', redirectLogin, (req,res) => {
+    if (req.session.userId === DEAN_USP){
+        res.render(path.join(__dirname,'/views/dean_dashboard.ejs'));
+    }
+    else if (req.session.userId === ADMIN_USP){
+        res.redirect('/admindash');
+    }
+    else{
+        res.redirect('/facultydash');
+    } 
+    res.end();
+});
+
+app.get('/admindash', redirectLogin, (req,res) => {
+    if (req.session.userId === ADMIN_USP){
+        res.render(path.join(__dirname,'/views/admin_dashboard.ejs'));
+    }
+    else if (req.session.userId === DEAN_USP){
+        res.redirect('/deandash');
+    }
+    else{
+        res.redirect('/facultydash');
+    }
 	res.end(); 
 });
 
-app.get('/logout', (req,res)=>{
-    req.session.loggedin = false;
-    res.redirect('/');
-    return;
+// logouts
+
+app.post('/facultylogout', redirectLogin,(req,res)=>{
+    req.session.destroy(err => {
+        if (err){
+            return res.redirect('/facultydash');
+        }
+        res.clearCookie(SESS_NAME)
+        res.redirect('/')  
+    })
+      
 });
 
-app.get('/deandash', (req,res) => {
-    if (req.session.loggedin) {
-		res.sendFile(path.join(__dirname,'./views/dean_dashboard.html'));
-        return ;
-	} else {
-		res.send('Please login to view this page!');
-	}
-	res.end(); 
+app.post('/deanlogout', redirectLogin,(req,res)=>{
+    req.session.destroy(err => {
+        if (err){
+            return res.redirect('/deandash');
+        }
+        res.clearCookie(SESS_NAME)
+        res.redirect('/deanlogin') 
+    }) 
 });
+
+app.post('/adminlogout', redirectLogin,(req,res)=>{
+    req.session.destroy(err => {
+        if (err){
+            return res.redirect('/admindash');
+        }
+        res.clearCookie(SESS_NAME)
+        res.redirect('/adminlogin')
+    })  
+});
+
+// authentication
 
 app.post('/auth', urlencodedParser, (req,res) => {
     if(req.body.login_type == 'faculty'){
@@ -123,9 +214,7 @@ app.post('/auth', urlencodedParser, (req,res) => {
         if(username && password){
             connection.query('SELECT * FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ? AND `faculty_db`.`faculty_details`.`f_pwd` = ?', [username,password], (error, results, fields) => {
                 if (results.length > 0) {
-                    
-                    req.session.loggedin = true;
-                    req.session.username = username;
+                    req.session.userId = username;
                     res.redirect('/facultydash');
                 } else {
                     res.send('<script>alert("Wrong username and/or password!, Go back to continue")</script>');
@@ -143,8 +232,7 @@ app.post('/auth', urlencodedParser, (req,res) => {
 	    var password = req.body.password;
         if(username && password){
             if(username == ADMIN_USP && password== ADMIN_USP){
-                req.session.loggedin = true;
-                req.session.username = username;
+                req.session.userId = username;
                 res.redirect('/admindash');
             }
             else{
@@ -161,8 +249,7 @@ app.post('/auth', urlencodedParser, (req,res) => {
 	    var password = req.body.password;
         if(username && password){
             if(username == DEAN_USP && password== DEAN_USP){
-                req.session.loggedin = true;
-                req.session.username = username;
+                req.session.userId = username;
                 res.redirect('/deandash');
             }
             else{
@@ -176,9 +263,9 @@ app.post('/auth', urlencodedParser, (req,res) => {
     }
 });
 
+// python programs
 
 app.post('/api/update', urlencodedParser, (req, res) => {
-    //console.log(req.body)
     var spawn = require('child_process').spawn;
     var process = spawn('python',['./hello.py', req.body.user_name, req.body.email, req.body.question]);
     process.stdout.on('data', function(data) { 
@@ -188,5 +275,16 @@ app.post('/api/update', urlencodedParser, (req, res) => {
 
 
 
-//listener
+// listener
 app.listen(PORT, ()=> console.log(`Listening on port ${PORT}...   http://localhost:${PORT}`)); 
+
+
+/**TODO 
+ * 
+ * use express-mysql-session to store sessions in a database
+ * else it will be in memory only and get destoryed if server restarts 
+ *  
+ * need to throw error if wrong username or password is used
+ * 
+ * need to hash passwords
+ */

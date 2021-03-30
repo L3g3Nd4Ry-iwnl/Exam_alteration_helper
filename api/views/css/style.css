@@ -105,6 +105,12 @@ footer a{
     color: white;
 }
 
+#logoutbutton{
+    border: solid 2px #6f2232;
+    color: whitesmoke;
+    border-radius: 7%;
+}
+
 #adminbutton{
     border: solid 2px #6f2232;
     color: whitesmoke;
