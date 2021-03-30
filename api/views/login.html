@@ -33,7 +33,7 @@
                     </ol>
                     <div class="carousel-inner">
                         <div class="carousel-item active firstcarousel">
-                            <img class="d-block w-100 h-100" src="./images/anokha.jpg" alt="First slide">
+                            <img class="d-block w-100" src="./images/anokha.jpg" alt="First slide">
                             <div class="carousel-caption">
                                 <h5>ANOKHA 2K21</h5>
                                 <p>Biggest Cultural Fest</p>
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="carousel-item secondcarousel">
-                            <img class="d-block w-100 h-100" src="./images/hackathon.jpg" alt="Second slide">
+                            <img class="d-block w-100" src="./images/hackathon.jpg" alt="Second slide">
                             <div class="carousel-caption ">
                                 <h5>Amrita Hackathon 2K21</h5>
                                 <p>For Innovative Minds and Ideations</p>
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div class="carousel-item thirdcarousel">
-                            <img class="d-block w-100 h-100" src="./images/joanna-kosinska-unsplash.jpg" alt="Third slide">
+                            <img class="d-block w-100" src="./images/joanna-kosinska-unsplash.jpg" alt="Third slide">
                             <div class="carousel-caption">
                                 <h5>Literary Club Opening</h5>
                                 <p>Amriteshwari Hall</p>
@@ -96,14 +96,18 @@
         <div class="d-flex flex-row justify-content-around p-3">
             <div>
                 <form action="/faq" method="GET">
-                    <button>FAQ's</button>
+                    <button class="btn" id="ftr_btn">FAQ's</button>
                 </form>
             </div>
-            <div><a href="mailto:cb.en.u4cse18163@cb.students.amrita.edu">Mail Us</a></div>
+            <div>
+                <form action="mailto:cb.en.u4cse18163@cb.students.amrita.edu" method="GET">
+                    <button class="btn" id="ftr_btn">Mail Us</button>
+                </form>
+            </div>
             <div>
                 <form action="/about" method="GET">
-                    <button>About</button>
-            </form>
+                    <button class="btn" id="ftr_btn">About</button>
+                </form>
             </div>
         </div>
     </footer>

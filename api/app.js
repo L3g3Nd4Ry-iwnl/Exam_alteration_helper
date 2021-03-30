@@ -22,8 +22,9 @@ const { urlencoded } = require('body-parser');
 const mysql = require('mysql');
 
 //Helemt to prevent hackers to get info on the modules used
-const helmet = require('helmet');
-app.use(helmet());
+// const helmet = require('helmet');
+// app.use(helmet());
+app.disable('x-powered-by')
 
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 app.use(bodyParser.json()); 

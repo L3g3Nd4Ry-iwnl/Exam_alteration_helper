@@ -7,6 +7,10 @@ footer{
     background-color:#f7f7f7 ;
 }
 
+#ftr_btn{
+    color: #c3073f;
+}
+
 header{
     font-family: 'Raleway', sans-serif;
 }
@@ -69,7 +73,7 @@ footer a{
 .mainform h5{
     color:#6f2232
 }
-.carousel-inner img {border-top-left-radius:  3%; border-bottom-left-radius: 3%;}
+.carousel-inner img {border-top-left-radius:  3%; border-bottom-left-radius: 3%; height: 491px; background-size: cover;}
 
 .bodyclass{
     background-repeat:no-repeat ;
