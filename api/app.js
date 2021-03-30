@@ -1,20 +1,31 @@
+//env vars
+const{
+    PORT=3000,
+    MYSQL_URL = 'localhost',
+    MYSQL_USERNAME = 'root',
+    MYSQL_PASSWORD = 'hello_mysql',
+    MYSQL_DATABASE_ACC = 'faculty_db',
+    ADMIN_USP = 'admin_amrita',
+    DEAN_USP = 'dean_amrita'
+}=process.env
+
 //dependencies
+const express = require('express');
+const app = express();
 
+const path = require('path');
+const session = require('express-session');
 
-var express = require('express');
-var app = express();
-
-var path = require('path');
-var session = require('express-session');
-
-var bodyParser= require('body-parser');
+const bodyParser= require('body-parser');
 const { urlencoded } = require('body-parser');
 
-var mysql = require('mysql');
+const mysql = require('mysql');
 
-// app.use('./public',express.static("public"));
+//Helemt to prevent hackers to get info on the modules used
+const helmet = require('helmet');
+app.use(helmet());
 
-var urlencodedParser = bodyParser.urlencoded({ extended: true });
+const urlencodedParser = bodyParser.urlencoded({ extended: true });
 app.use(bodyParser.json()); 
 
 app.use(express.static(path.join(__dirname,'views')));
@@ -32,10 +43,10 @@ app.use(session({
 
 //db init
 var connection = mysql.createConnection({
-	host     : 'localhost',
-	user     : 'root',
-	password : 'hello_mysql',
-	database : 'faculty_db'
+	host     : MYSQL_URL,
+	user     : MYSQL_USERNAME,
+	password : MYSQL_PASSWORD,
+	database : MYSQL_DATABASE_ACC
 });
 
 connection.connect((error) => {
@@ -130,7 +141,7 @@ app.post('/auth', urlencodedParser, (req,res) => {
         var username = req.body.username;
 	    var password = req.body.password;
         if(username && password){
-            if(username == 'admin_amrita' && password== 'admin_amrita'){
+            if(username == ADMIN_USP && password== ADMIN_USP){
                 req.session.loggedin = true;
                 req.session.username = username;
                 res.redirect('/admindash');
@@ -148,7 +159,7 @@ app.post('/auth', urlencodedParser, (req,res) => {
         var username = req.body.username;
 	    var password = req.body.password;
         if(username && password){
-            if(username == 'dean_amrita' && password== 'dean_amrita'){
+            if(username == DEAN_USP && password== DEAN_USP){
                 req.session.loggedin = true;
                 req.session.username = username;
                 res.redirect('/deandash');
@@ -174,9 +185,7 @@ app.post('/api/update', urlencodedParser, (req, res) => {
     });
 });
 
-const{
-    PORT=3000
-}=process.env
+
 
 //listener
 app.listen(PORT, ()=> console.log(`Listening on port ${PORT}...   http://localhost:${PORT}`)); 
