@@ -12,7 +12,7 @@ const { urlencoded } = require('body-parser');
 
 var mysql = require('mysql');
 
-app.use('./public',express.static("public"));
+// app.use('./public',express.static("public"));
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 app.use(bodyParser.json()); 
@@ -174,6 +174,9 @@ app.post('/api/update', urlencodedParser, (req, res) => {
     });
 });
 
+const{
+    PORT=3000
+}=process.env
+
 //listener
-var port = 3000;
-app.listen(port, ()=> console.log(`Listening on port ${port}...`)); 
+app.listen(PORT, ()=> console.log(`Listening on port ${PORT}...   http://localhost:${PORT}`)); 
