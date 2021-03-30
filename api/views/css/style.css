@@ -213,7 +213,7 @@ footer a{
 .faqform, .forgotform, .resetform{
     margin-left: 180px;
     margin-right: 180px;
-    margin-top: 20px;
+    margin-top: 40px;
     margin-bottom: 20px;
     color: black;
     background-color: whitesmoke;
@@ -239,7 +239,7 @@ footer a{
 .faq1, .faq2, .faq3, .faq4, .faq5{
     margin-left: 180px;
     margin-right: 180px;
-    margin-top: 20px;
+    margin-top: 40px;
     margin-bottom: 20px;
     background-color: whitesmoke;
     box-shadow: 10px 10px 5px #6f2232;
@@ -313,7 +313,7 @@ footer a{
     .faq1, .faq2, .faq3, .faq4, .faq5{
         margin-left: 100px;
         margin-right: 100px;
-        margin-top: 20px;
+        margin-top: 40px;
         margin-bottom: 20px;
         background-color: whitesmoke;
         box-shadow: 10px 10px 5px #6f2232;
@@ -328,7 +328,7 @@ footer a{
     .faqform, .forgotform, .resetform{
         margin-left: 100px;
         margin-right: 100px;
-        margin-top: 20px;
+        margin-top: 40px;
         margin-bottom: 20px;
         color: black;
         background-color: whitesmoke;
@@ -434,7 +434,7 @@ footer a{
         .faq1, .faq2, .faq3, .faq4, .faq5{
             margin-left: 30px;
             margin-right: 30px;
-            margin-top: 20px;
+            margin-top: 40px;
             margin-bottom: 20px;
             background-color: whitesmoke;
             box-shadow: 10px 10px 5px #6f2232;
@@ -444,7 +444,7 @@ footer a{
         .faqform, .forgotform, .resetform{
             margin-left: 30px;
             margin-right: 30px;
-            margin-top: 20px;
+            margin-top: 40px;
             margin-bottom: 20px;
             color: black;
             background-color: whitesmoke;
