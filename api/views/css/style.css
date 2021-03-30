@@ -73,7 +73,15 @@ footer a{
 .mainform h5{
     color:#6f2232
 }
-.carousel-inner img {border-top-left-radius:  3%; border-bottom-left-radius: 3%; height: 491px; background-size: cover;}
+
+.carousel-item{
+    width: 100%; 
+    max-height: 500px;
+    height: 500px;
+    overflow: hidden;
+}
+
+.carousel-inner img {border-top-left-radius:  3%; border-bottom-left-radius: 3%;}
 
 .bodyclass{
     background-repeat:no-repeat ;
