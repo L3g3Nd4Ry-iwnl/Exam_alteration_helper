@@ -7,50 +7,65 @@
     <title>Exam Alteration Helper</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">  
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
 </head>
 
 <body class="d-flex flex-column min-vh-100 bodyclass">
     <header class="d-flex flex-row align-items-center text-white">
         <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
-        <a class="btn text-white" id="logoutbutton" onclick="myFunction()" href="adminlogin.html">Logout</a>
+        <form action="/facultylogout" method="POST">
+            <button class="btn" id="logoutbutton" onclick="myFunction()">Logout</button>
+        </form>
         <script>
             function myFunction() {
                 alert("You've been Logged out Successfully");
             }
         </script>
+        
+        <script>
+            function myFunction() {
+              alert("You've been Logged out Successfully");
+            }
+        </script>    
     </header>
 
     <main>
-        <div class="text-center text-white m-2">
-            <h3><strong><u>Faculty Account Setup</u></strong></h3>
-        </div>
+        <h3 class="text-center m-2">Hello Faculty</h3>
+        <h5 class="text-center text-white m-4"><u>Edit your Details</u></h5> 
+
         <div>
-            <form class="accountform" action="" method="POST">
-                <div class="form-group m-2 p-2">
+            <form class="updateform" action="" method="POST">
+                <div class="text-center m-5">
+                    <img style="border-radius: 50% ;height:150px; width: 150x;" src="./images/faculty.jpg" class="center" alt="Faculty Image">
+                </div>
+                <p class="text-center"><strong><u>Change Profile Picture</u></strong></p>
+                <div class="text-center">
+                    <input type="file" accept=".jpg , .jpeg, .png" id="myfile" name="myfile">
+                </div>
+                    <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="email"><strong>Mail</strong></label>
-                    <input type="email" id="email" name="email"class="form-control"  placeholder="Enter the Mail-ID" required>
+                    <input type="email" id="email" name="email"class="form-control"  placeholder="">
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="name"><strong>Name</strong></label>
-                    <input type="text" id="name" name="name" class="form-control"  placeholder="Enter the Name" required>
+                    <input type="text" id="name" name="name" class="form-control"  placeholder="">
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="phoneno"><strong>Mobile No</strong></label>
-                    <input type="text" id="phoneno" name="phoneno"class="form-control"  placeholder="Enter the Mobile Number" required>
+                    <input type="text" id="phoneno" name="phoneno"class="form-control"  placeholder="">
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="houseno"><strong>House No</strong></label>
-                    <input type="text" id="houseno" name="houseno" class="form-control" placeholder="Enter the House Number" required>
+                    <input type="text" id="houseno" name="houseno" class="form-control" placeholder="">
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="streetname"><strong>Street Name</strong></label>
-                    <input type="text" id="streetname" name="streetname"class="form-control"  placeholder="Enter the Street Name" required>
+                    <input type="text" id="streetname" name="streetname"class="form-control"  placeholder="">
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="area"><strong>Area</strong></label>
-                    <input type="text" id="area" name="area" class="form-control" placeholder="Enter the Area" required>
+                    <input type="text" id="area" name="area" class="form-control" placeholder="">
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="state"><strong>State</strong></label>
@@ -95,23 +110,31 @@
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="city"><strong>City</strong></label>
-                    <input type="text" id="city" name="city" class="form-control" placeholder="Enter the city" required>
+                    <input type="text" id="city" name="city" class="form-control" placeholder="">
                 </div>
-                <div class="form-group m-2 p-2">
-                    <label class="text-uppercase" for="pwd"><strong>Password</strong></label>
-                    <input type="password" id="pwd" name="pwd" class="form-control" placeholder="Enter the Password" required>
-                </div>
-                <div class="form-group m-2 p-2">
-                    <button type="submit" class=" btn">Submit</button>
-                    <button type="reset" class="btn resetbtn">Reset</button>
+                <div class="text-center form-group m-2 p-2">
+                    <button type="submit" class="btn">Submit</button>
                 </div>
             </form>
+        </div>
+        <div class="pwdchange text-center">
+            <button type="submit" class="btn">Change Password</button>
         </div>
     </main>
 
 
     <footer class="mt-auto">
         <div class="d-flex flex-row justify-content-around p-3">
+            <div>
+                <form action="/faq" method="GET">
+                    <button class="btn" id="ftr_btn">FAQ's</button>
+                </form>
+            </div>
+            <div>
+                <form action="mailto:cb.en.u4cse18163@cb.students.amrita.edu" method="GET">
+                    <button class="btn" id="ftr_btn">Mail Us</button>
+                </form>
+            </div>
             <div>
                 <form action="/about" method="GET">
                     <button class="btn" id="ftr_btn">About</button>
@@ -120,7 +143,7 @@
         </div>
     </footer>
 
-    <script src="https://code.jquery.com/jque.4.1.slim.min.js"
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
