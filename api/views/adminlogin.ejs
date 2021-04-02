@@ -79,14 +79,11 @@
                         <label for="exampleInputPassword1" class="text-uppercase">Password</label>
                         <input type="password" class="form-control" placeholder="" name="password">
                     </div>
-                    <div class="form-check formbutton">
-                        <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input">
-                            <small>Remember Me</small>
-                        </label>
-                    </div>
                     <button type="submit" class="btn btn-login float-left" name="login_type" value="admin">Submit</button>
                 </form>
+                <% if (error) { %>
+                    <strong><%= error %></strong>
+                <% } %>
             </div>
         </div>
     </main>

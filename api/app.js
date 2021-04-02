@@ -12,7 +12,9 @@ const{
 
     SESS_NAME = 'sid',
     SESS_LIFETIME = 1000 * 60 * 60 * 1, // 1 hour
-    SESS_SECRET = 'LlK5_Z5_W3VjIv' //ThI5_I5_S3CrEt
+    SESS_SECRET = 'LlK5_Z5_W3VjIv', //ThI5_I5_S3CrEt
+
+    CURRENT_EXAM = '/views/exam_schedules/periodical2.pdf'
 }=process.env
 
 //dependencies
@@ -26,7 +28,12 @@ const bodyParser= require('body-parser');
 const { urlencoded } = require('body-parser');
 
 const mysql = require('mysql');
-const e = require('express');
+
+
+const fs = require('fs')
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 //Helemt to prevent hackers to get info on the modules used
 // const helmet = require('helmet');
@@ -60,7 +67,8 @@ var connection = mysql.createConnection({
 	host     : MYSQL_URL,
 	user     : MYSQL_USERNAME,
 	password : MYSQL_PASSWORD,
-	database : MYSQL_DATABASE_ACC
+	database : MYSQL_DATABASE_ACC,
+    typeCast: false
 });
 
 connection.connect((error) => {
@@ -113,15 +121,15 @@ const redirectAdmin = (req, res, next) =>{
 
 //paths
 app.get('/', redirectFaculty, (req,res) => {
-    res.render(path.join(__dirname,'/views/login.ejs'));
+    res.render(path.join(__dirname,'/views/login.ejs'),{error:null});
 });
 
 app.get('/adminlogin', redirectAdmin, (req,res) => {
-    res.render(path.join(__dirname,'/views/adminlogin.ejs'));
+    res.render(path.join(__dirname,'/views/adminlogin.ejs'),{error:null});
 });
 
 app.get('/deanlogin', redirectDean, (req,res) => {
-    res.render(path.join(__dirname,'/views/deanlogin.ejs'));
+    res.render(path.join(__dirname,'/views/deanlogin.ejs'),{error:null});
 });
 
 app.get('/faq',(req,res) => {
@@ -140,7 +148,7 @@ app.get('/facultydash', redirectLogin, (req,res) => {
         res.redirect('/admindash');
     }
     else{
-        res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'));
+        res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:null});
     }
 	
 	res.end();  
@@ -212,18 +220,24 @@ app.post('/auth', urlencodedParser, (req,res) => {
         var username = req.body.username;
 	    var password = req.body.password;
         if(username && password){
-            connection.query('SELECT * FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ? AND `faculty_db`.`faculty_details`.`f_pwd` = ?', [username,password], (error, results, fields) => {
-                if (results.length > 0) {
+            connection.query('SELECT `f_pwd` FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ?', [username], (error, rows, fields) => {
+            if (rows.length == 1) {
+                if(bcrypt.compareSync(password, rows[0].f_pwd)){
                     req.session.userId = username;
                     res.redirect('/facultydash');
-                } else {
-                    res.send('<script>alert("Wrong username and/or password!, Go back to continue")</script>');
-                }			
+                }
+                else{
+                    res.render(path.join(__dirname,'/views/login.ejs'),{error:"Wrong username and/or password!"});
+                }
                 res.end();
+            } else {
+                res.render(path.join(__dirname,'/views/login.ejs'),{error:"Wrong username and/or password!"});
+            }			
+            res.end();
             });
         }
         else{
-            res.send('<script>alert("Enter username and password, Go back to continue")</script>');
+            res.render(path.join(__dirname,'/views/login.ejs'),{error:"Enter username and password!"});
             res.end();
         }
     }
@@ -236,11 +250,12 @@ app.post('/auth', urlencodedParser, (req,res) => {
                 res.redirect('/admindash');
             }
             else{
-                res.send('<script>alert("Wrong username and/or password!, Go back to continue")</script>');
+                res.render(path.join(__dirname,'/views/adminlogin.ejs'),{error:"Wrong username and/or password!"});
             }
+            res.end();
         }
         else{
-            res.send('<script>alert("Enter username and password, Go back to continue")</script>');
+            res.render(path.join(__dirname,'/views/adminlogin.ejs'),{error:"Enter username and password!"});
             res.end();
         }
     }
@@ -253,11 +268,12 @@ app.post('/auth', urlencodedParser, (req,res) => {
                 res.redirect('/deandash');
             }
             else{
-                res.send('<script>alert("Wrong username and/or password!, Go back to continue")</script>');
+                res.render(path.join(__dirname,'/views/deanlogin.ejs'),{error:"Wrong username and/or password!"});
             }
+            res.end
         }
         else{
-            res.send('<script>alert("Enter username and password, Go back to continue")</script>');
+            res.render(path.join(__dirname,'/views/deanlogin.ejs'),{error:"Enter username and password!"});
             res.end();
         }
     }
@@ -273,7 +289,20 @@ app.post('/api/update', urlencodedParser, (req, res) => {
     });
 });
 
+// display timetable
 
+app.get('/displayfacultytimetable', (req, res) => {
+    if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
+        const filepath = path.join(__dirname,'/views/faculty_timetables/',req.session.userId+'.pdf');
+        if (fs.existsSync(filepath)){
+            res.contentType('application/pdf');
+            fs.createReadStream(filepath).pipe(res);
+        }
+        else{
+            res.redirect('/facultydash', {error:"Sorry! File was not found!"})
+        }
+    }
+})
 
 // listener
 app.listen(PORT, ()=> console.log(`Listening on port ${PORT}...   http://localhost:${PORT}`)); 
@@ -286,5 +315,5 @@ app.listen(PORT, ()=> console.log(`Listening on port ${PORT}...   http://localho
  *  
  * need to throw error if wrong username or password is used
  * 
- * need to hash passwords
+ * need to hash passwords - done
  */
