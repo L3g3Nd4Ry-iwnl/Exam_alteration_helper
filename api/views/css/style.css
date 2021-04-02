@@ -58,8 +58,12 @@ header h3{
 }
 
 .formclass{
-    padding-top : 40px;
+    padding-top : 20px;
     padding-bottom: 130px;
+}
+
+.forget_pass_btn{
+    margin-left: 10px;
 }
 
 .rowclass{

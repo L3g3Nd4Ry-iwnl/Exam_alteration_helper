@@ -80,7 +80,11 @@
                         <input type="password" class="form-control" placeholder="" name="password">
                     </div>
                     <button type="submit" class="btn btn-login float-left" name="login_type" value="faculty">Submit</button>
+                    <form action="/forgotpassword" method="GET">
+                        <button type="submit" class="btn float-left forget_pass_btn" name="forget_pass_btn">Forgot password?</button>
+                    </form>
                 </form>
+                
                 <% if (error) { %>
                     <strong><%= error %></strong>
                 <% } %>

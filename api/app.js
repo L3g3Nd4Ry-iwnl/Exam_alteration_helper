@@ -14,7 +14,8 @@ const{
     SESS_LIFETIME = 1000 * 60 * 60 * 1, // 1 hour
     SESS_SECRET = 'LlK5_Z5_W3VjIv', //ThI5_I5_S3CrEt
 
-    CURRENT_EXAM = '/views/exam_schedules/periodical2.pdf'
+    CURRENT_EXAM = '/views/exam_schedules/periodical2.pdf',
+    QUOTE_OTD = 'Arise!Awake! Stop not till your goal is reached'
 }=process.env
 
 //dependencies
@@ -148,7 +149,7 @@ app.get('/facultydash', redirectLogin, (req,res) => {
         res.redirect('/admindash');
     }
     else{
-        res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:null});
+        res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{QOTD:QUOTE_OTD,error:null});
     }
 	
 	res.end();  
@@ -156,7 +157,7 @@ app.get('/facultydash', redirectLogin, (req,res) => {
 
 app.get('/deandash', redirectLogin, (req,res) => {
     if (req.session.userId === DEAN_USP){
-        res.render(path.join(__dirname,'/views/dean_dashboard.ejs'));
+        res.render(path.join(__dirname,'/views/dean_dashboard.ejs'),{QOTD:QUOTE_OTD});
     }
     else if (req.session.userId === ADMIN_USP){
         res.redirect('/admindash');
@@ -169,7 +170,7 @@ app.get('/deandash', redirectLogin, (req,res) => {
 
 app.get('/admindash', redirectLogin, (req,res) => {
     if (req.session.userId === ADMIN_USP){
-        res.render(path.join(__dirname,'/views/admin_dashboard.ejs'));
+        res.render(path.join(__dirname,'/views/admin_dashboard.ejs'),{QOTD:QUOTE_OTD});
     }
     else if (req.session.userId === DEAN_USP){
         res.redirect('/deandash');
@@ -301,8 +302,25 @@ app.get('/displayfacultytimetable', (req, res) => {
         else{
             res.redirect('/facultydash', {error:"Sorry! File was not found!"})
         }
+        res.end();
     }
-})
+    else{
+        res.status(403).render('./login.ejs',{error:'Unauthorized access!'});
+        res.end();
+    }
+});
+
+// add user
+
+app.post('/addnewfaculty', (req, res) => {
+    if(req.session.userId == ADMIN_USP){
+        
+    }
+    else{
+        res.status(403).render('./adminlogin.ejs',{error:'Unauthorized access!'});
+        res.end();
+    }
+});
 
 // listener
 app.listen(PORT, ()=> console.log(`Listening on port ${PORT}...   http://localhost:${PORT}`)); 
@@ -312,8 +330,8 @@ app.listen(PORT, ()=> console.log(`Listening on port ${PORT}...   http://localho
  * 
  * use express-mysql-session to store sessions in a database
  * else it will be in memory only and get destoryed if server restarts 
- *  
- * need to throw error if wrong username or password is used
  * 
- * need to hash passwords - done
+ * need to hash dean and admin passwords
+ * 
+ * change title for all html pages
  */
