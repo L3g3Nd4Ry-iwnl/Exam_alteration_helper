@@ -14,8 +14,8 @@ const{
     SESS_LIFETIME = 1000 * 60 * 60 * 1, // 1 hour
     SESS_SECRET = 'LlK5_Z5_W3VjIv', //ThI5_I5_S3CrEt
 
-    CURRENT_EXAM = '/views/exam_schedules/periodical2.pdf',
-    QUOTE_OTD = 'Arise!Awake! Stop not till your goal is reached'
+    CURRENT_EXAM = '/views/exam_schedules/periodical2',
+    QUOTE_OTD = 'The greatest glory in living lies not in never falling, but in rising every time we fall.'
 }=process.env
 
 //dependencies
@@ -149,7 +149,7 @@ app.get('/facultydash', redirectLogin, (req,res) => {
         res.redirect('/admindash');
     }
     else{
-        res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{QOTD:QUOTE_OTD,error:null});
+        res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{QOTD:QUOTE_OTD, error:null, img:req.session.userId});
     }
 	
 	res.end();  
@@ -157,7 +157,7 @@ app.get('/facultydash', redirectLogin, (req,res) => {
 
 app.get('/deandash', redirectLogin, (req,res) => {
     if (req.session.userId === DEAN_USP){
-        res.render(path.join(__dirname,'/views/dean_dashboard.ejs'),{QOTD:QUOTE_OTD});
+        res.render(path.join(__dirname,'/views/dean_dashboard.ejs'),{QOTD:QUOTE_OTD, error:null});
     }
     else if (req.session.userId === ADMIN_USP){
         res.redirect('/admindash');
@@ -170,7 +170,7 @@ app.get('/deandash', redirectLogin, (req,res) => {
 
 app.get('/admindash', redirectLogin, (req,res) => {
     if (req.session.userId === ADMIN_USP){
-        res.render(path.join(__dirname,'/views/admin_dashboard.ejs'),{QOTD:QUOTE_OTD});
+        res.render(path.join(__dirname,'/views/admin_dashboard.ejs'),{QOTD:QUOTE_OTD, error:null});
     }
     else if (req.session.userId === DEAN_USP){
         res.redirect('/deandash');
@@ -179,39 +179,6 @@ app.get('/admindash', redirectLogin, (req,res) => {
         res.redirect('/facultydash');
     }
 	res.end(); 
-});
-
-// logouts
-
-app.post('/facultylogout', redirectLogin,(req,res)=>{
-    req.session.destroy(err => {
-        if (err){
-            return res.redirect('/facultydash');
-        }
-        res.clearCookie(SESS_NAME)
-        res.redirect('/')  
-    })
-      
-});
-
-app.post('/deanlogout', redirectLogin,(req,res)=>{
-    req.session.destroy(err => {
-        if (err){
-            return res.redirect('/deandash');
-        }
-        res.clearCookie(SESS_NAME)
-        res.redirect('/deanlogin') 
-    }) 
-});
-
-app.post('/adminlogout', redirectLogin,(req,res)=>{
-    req.session.destroy(err => {
-        if (err){
-            return res.redirect('/admindash');
-        }
-        res.clearCookie(SESS_NAME)
-        res.redirect('/adminlogin')
-    })  
 });
 
 // authentication
@@ -280,6 +247,39 @@ app.post('/auth', urlencodedParser, (req,res) => {
     }
 });
 
+// logouts
+
+app.post('/facultylogout', redirectLogin,(req,res)=>{
+    req.session.destroy(err => {
+        if (err){
+            return res.redirect('/facultydash');
+        }
+        res.clearCookie(SESS_NAME)
+        res.render(path.join(__dirname,'views/login.ejs'),{error:"You have been logged out successfully!"}); 
+    })
+      
+});
+
+app.post('/deanlogout', redirectLogin,(req,res)=>{
+    req.session.destroy(err => {
+        if (err){
+            return res.redirect('/deandash');
+        }
+        res.clearCookie(SESS_NAME)
+        res.render(path.join(__dirname,'views/deanlogin.ejs'),{error:"You have been logged out successfully!"}); 
+    }) 
+});
+
+app.post('/adminlogout', redirectLogin,(req,res)=>{
+    req.session.destroy(err => {
+        if (err){
+            return res.redirect('/admindash');
+        }
+        res.clearCookie(SESS_NAME)
+        res.render(path.join(__dirname,'views/adminlogin.ejs'),{error:"You have been logged out successfully!"}); 
+    })  
+});
+
 // python programs
 
 app.post('/api/update', urlencodedParser, (req, res) => {
@@ -288,6 +288,106 @@ app.post('/api/update', urlencodedParser, (req, res) => {
     process.stdout.on('data', function(data) { 
         res.send(data.toString()); 
     });
+});
+
+// --------------------------faculty dashboard functions--------------------------
+
+// update faculty details and password
+
+app.get('/updatefacultydetails', (req, res) =>{
+    if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
+        connection.query('SELECT * FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ?', [req.session.userId], (error, rows, fields) => {
+            if (rows.length == 1){
+                res.render(path.join(__dirname,'/views/edit_faculty_details.ejs'), {img:req.session.userId, email:rows[0].f_mail_id, name:rows[0].f_name, phoneno:rows[0].f_phone_no, houseno:rows[0].f_house_no, streetname:rows[0].f_street_name, area:rows[0].f_area, city:rows[0].f_city});
+                res.end();
+            }
+        });
+    }
+    else{
+        res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:'Unauthorized access!'});
+        res.end();
+    }
+});
+
+app.post('/updatefacultydetails', (req,res) =>{
+    if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
+        connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_phone_no` = ?, `f_house_no` = ?, `f_street_name` = ?, `f_area` = ?, `f_city` = ? WHERE (`f_mail_id` = ?)', [req.body.phoneno, req.body.houseno, req.body.streetname, req.body.area, req.body.city, req.session.userId], (error, rows, fields) => {
+            if (error){
+                res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD, img:req.session.userId});
+                res.end();
+            }
+            else{
+                res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"Details have been updated successfully!", QOTD:QUOTE_OTD, img:req.session.userId});
+                res.end();
+            }
+        });
+    }
+    else{
+        res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:'Unauthorized access!'});
+        res.end();
+    }
+});
+
+app.get('/updateoldpassword', (req, res) =>{
+    if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
+        res.render(path.join(__dirname,'/views/resetpassword.ejs'));
+        res.end();
+    }
+    else{
+        res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:'Unauthorized access!'});
+        res.end();
+    }
+});
+
+app.post('/updateoldpassword', (req, res) =>{
+    if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
+        connection.query('SELECT `f_pwd` FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ?', [req.session.userId], (error, rows, fields) => {
+            if(bcrypt.compareSync(req.body.oldpass, rows[0].f_pwd)){
+                if (req.body.newpass1 === req.body.newpass2) {
+                    const hash = bcrypt.hashSync(req.body.newpass1, saltRounds);
+                    connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_pwd` = ? WHERE (`f_mail_id` = ?)', [hash, req.session.userId], (error, rows, fields) => {
+                        if (error){
+                            res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD, img:req.session.userId});
+                        }
+                        else{
+                            res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"Password updated successfully!", QOTD:QUOTE_OTD, img:req.session.userId});
+                        }
+                    });
+                }
+                else{
+                    res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"You re-entered the wrong password! Please try again!", QOTD:QUOTE_OTD, img:req.session.userId});
+                }
+            }
+            else{
+                res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"Your old password didn't match with our database! Please try again!", QOTD:QUOTE_OTD, img:req.session.userId});
+            }
+        });
+    }
+    else{
+        res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:'Unauthorized access!'});
+    }
+});
+
+// display exam timetable
+
+app.get('/displayexamtimetable', (req, res) =>{
+    if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
+        const filepath = path.join(__dirname,CURRENT_EXAM+'.pdf');
+        console.log(filepath)
+        if (fs.existsSync(filepath)){
+            res.contentType('application/pdf');
+            fs.createReadStream(filepath).pipe(res);
+            //not working...
+        }
+        else{
+            res.status(404).render(path.join(__dirname,'/views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:QUOTE_OTD, img:req.session.userId});
+        }
+        res.end();
+    }
+    else{
+        res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:'Unauthorized access!'});
+        res.end();
+    }
 });
 
 // display timetable
@@ -300,29 +400,99 @@ app.get('/displayfacultytimetable', (req, res) => {
             fs.createReadStream(filepath).pipe(res);
         }
         else{
-            res.redirect('/facultydash', {error:"Sorry! File was not found!"})
+            res.status(404).render(path.join(__dirname,'/views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:QUOTE_OTD, img:req.session.userId});
         }
         res.end();
     }
     else{
-        res.status(403).render('./login.ejs',{error:'Unauthorized access!'});
+        res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:'Unauthorized access!'});
         res.end();
     }
 });
 
-// add user
+// exchange slot
+
+app.get('/exchangefacultyslots', (req, res) =>{
+
+});
+
+// view slot request
+
+app.get('/viewfacultyrequestslots', (req, res) =>{
+
+});
+
+// --------------------------dean dashboard functions--------------------------
+
+// view all faculty details
+
+app.get('/viewfacultylist', (req, res) =>{
+
+});
+
+// view current exam time table
+
+app.get('/viewexamtimetable', (req, res) =>{
+
+});
+
+// --------------------------admin dashboard functions--------------------------
+
+// add new user
+
+app.get('/addnewfaculty', (req, res) => {
+    if(req.session.userId == ADMIN_USP){
+        res.render(path.join(__dirname,'/views/faculty_acc_setup.ejs'));
+        res.end();
+    }
+    else{
+        res.status(403).render(path.join(__dirname,'/views/adminlogin.ejs'),{error:'Unauthorized access!'});
+        res.end();
+    }
+});
+
 
 app.post('/addnewfaculty', (req, res) => {
     if(req.session.userId == ADMIN_USP){
-        
+        const hash = bcrypt.hashSync(req.body.pwd, saltRounds);
+        connection.query('INSERT INTO `faculty_db`.`faculty_details` (`f_mail_id`, `f_name`, `f_phone_no`, `f_house_no`, `f_street_name`, `f_area`, `f_city`, `f_pwd`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [req.body.email, req.body.name, req.body.phoneno, req.body.houseno, req.body.streetname, req.body.area, req.body.city, hash], (error, rows, fields) => { 
+            if (error){
+                res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD});
+                res.end();
+            }
+            else{
+                
+                res.status(200).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:'New user has been added!', QOTD:QUOTE_OTD});
+                res.end();
+            }
+        });
     }
     else{
-        res.status(403).render('./adminlogin.ejs',{error:'Unauthorized access!'});
+        res.status(403).render(path.join(__dirname,'/views/adminlogin.ejs'),{error:'Unauthorized access!'});
         res.end();
     }
 });
 
+// edit faculty list
+
+app.get('/editfacultylist', (req, res) =>{
+
+});
+
+// upload new exam timetable
+
+app.get('/uploadnewtimetable', (req, res) =>{
+
+});
+
+// view new FAQs
+
+app.get('/viewnewfaq', (req, res) =>{
+
+});
+
 // listener
+
 app.listen(PORT, ()=> console.log(`Listening on port ${PORT}...   http://localhost:${PORT}`)); 
 
 
@@ -334,4 +504,6 @@ app.listen(PORT, ()=> console.log(`Listening on port ${PORT}...   http://localho
  * need to hash dean and admin passwords
  * 
  * change title for all html pages
+ * 
+ * update image in update profile
  */
