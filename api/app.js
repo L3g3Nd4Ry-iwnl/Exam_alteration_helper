@@ -238,7 +238,7 @@ app.post('/auth', urlencodedParser, (req,res) => {
             else{
                 res.render(path.join(__dirname,'/views/deanlogin.ejs'),{error:"Wrong username and/or password!"});
             }
-            res.end
+            res.end();
         }
         else{
             res.render(path.join(__dirname,'/views/deanlogin.ejs'),{error:"Enter username and password!"});
@@ -298,7 +298,7 @@ app.get('/updatefacultydetails', (req, res) =>{
     if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
         connection.query('SELECT * FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ?', [req.session.userId], (error, rows, fields) => {
             if (rows.length == 1){
-                res.render(path.join(__dirname,'/views/edit_faculty_details.ejs'), {img:req.session.userId, email:rows[0].f_mail_id, name:rows[0].f_name, phoneno:rows[0].f_phone_no, houseno:rows[0].f_house_no, streetname:rows[0].f_street_name, area:rows[0].f_area, city:rows[0].f_city});
+                res.render(path.join(__dirname,'/views/edit_faculty_details.ejs'), {img:req.session.userId, email:rows[0].f_mail_id, name:rows[0].f_name, phoneno:rows[0].f_phone_no, houseno:rows[0].f_house_no, streetname:rows[0].f_street_name, area:rows[0].f_area, city:rows[0].f_city, dept:rows[0].f_department});
                 res.end();
             }
         });
@@ -455,7 +455,7 @@ app.get('/addnewfaculty', (req, res) => {
 app.post('/addnewfaculty', (req, res) => {
     if(req.session.userId == ADMIN_USP){
         const hash = bcrypt.hashSync(req.body.pwd, saltRounds);
-        connection.query('INSERT INTO `faculty_db`.`faculty_details` (`f_mail_id`, `f_name`, `f_phone_no`, `f_house_no`, `f_street_name`, `f_area`, `f_city`, `f_pwd`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [req.body.email, req.body.name, req.body.phoneno, req.body.houseno, req.body.streetname, req.body.area, req.body.city, hash], (error, rows, fields) => { 
+        connection.query('INSERT INTO `faculty_db`.`faculty_details` (`f_mail_id`, `f_name`, `f_phone_no`, `f_house_no`, `f_street_name`, `f_area`, `f_city`, `f_pwd`,`f_department`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.email, req.body.name, req.body.phoneno, req.body.houseno, req.body.streetname, req.body.area, req.body.city, hash, req.body.dept], (error, rows, fields) => { 
             if (error){
                 res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD});
                 res.end();
@@ -506,4 +506,6 @@ app.listen(PORT, ()=> console.log(`Listening on port ${PORT}...   http://localho
  * change title for all html pages
  * 
  * update image in update profile
+ * 
+ * add degree and depaartment in profile and add new 
  */
