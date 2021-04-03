@@ -79,10 +79,12 @@
                         <label for="exampleInputPassword1" class="text-uppercase">Password</label>
                         <input type="password" class="form-control" placeholder="" name="password">
                     </div>
-                    <button type="submit" class="btn btn-login float-left" name="login_type" value="faculty">Submit</button>
-                    <form action="/forgotpassword" method="GET">
-                        <button type="submit" class="btn float-left forget_pass_btn" name="forget_pass_btn">Forgot password?</button>
-                    </form>
+                    <div class="d-flex flex-row">
+                        <button type="submit" class="btn btn-login float-left" name="login_type" value="faculty">Submit</button>
+                        <form action="/forgotpassword" method="GET">
+                            <button type="submit" class="btn float-left forget_pass_btn" name="forget_pass_btn">Forgot password?</button>
+                        </form>
+                    </div>
                 </form>
                 
                 <% if (error) { %>
