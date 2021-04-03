@@ -193,7 +193,7 @@ footer a{
     font-family: 'Raleway', sans-serif;
 }
 
-.adminprivileges a{
+.adminprivileges button{
     border: 1px solid whitesmoke;
     border-radius: 5%;
     background-color: black;
@@ -208,7 +208,7 @@ footer a{
     box-shadow: 10px 10px 5px #6f2232;
 }
 
-.deanprivileges a{
+.deanprivileges button{
     border: 1px solid whitesmoke;
     border-radius: 5%;
     background-color: black;
@@ -222,7 +222,7 @@ footer a{
     box-shadow: 10px 10px 5px #6f2232;
 }
 
-.facultyprivileges a{
+.facultyprivileges button{
     border: 1px solid whitesmoke;
     border-radius: 5%;
     background-color: black;
@@ -364,7 +364,7 @@ input[type=email]{
         font-size: medium;
     }
 
-    .adminprivileges a, .facultyprivileges a, .deanprivileges a{
+    .adminprivileges button, .facultyprivileges button, .deanprivileges button{
         font-size: small;
     }
     .faq1, .faq2, .faq3, .faq4, .faq5{
