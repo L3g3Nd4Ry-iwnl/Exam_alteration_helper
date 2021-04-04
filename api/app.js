@@ -383,14 +383,13 @@ app.get('/displayexamtimetable', (req, res) =>{
         const filepath = path.join(__dirname,'/views/exam_schedules/',CURRENT_EXAM+'.pdf');
         console.log(filepath);
         if (fs.existsSync(filepath)){
-            res.contentType('application/pdf');
-            fs.createReadStream(filepath).pipe(res);
-            //not working...
+            res.render(path.join(__dirname,'/views/pdfdisplayer.ejs'),{message:CURRENT_EXAM+" timetable", file1:null, file2:CURRENT_EXAM});
+            res.end();
         }
         else{
             res.status(404).render(path.join(__dirname,'/views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:QUOTE_OTD, img:req.session.userId});
+            res.end();
         }
-        res.end();
     }
     else{
         res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:'Unauthorized access!'});
@@ -405,13 +404,13 @@ app.get('/displayfacultytimetable', (req, res) => {
         const filepath = path.join(__dirname,'/views/faculty_timetables/',req.session.userId+'.pdf');
         console.log(filepath);
         if (fs.existsSync(filepath)){
-            res.contentType('application/pdf');
-            fs.createReadStream(filepath).pipe(res);
+            res.render(path.join(__dirname,'/views/pdfdisplayer.ejs'),{message:"Your timetable", file1:req.session.userId, file2:null});
+            res.end();
         }
         else{
             res.status(404).render(path.join(__dirname,'/views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:QUOTE_OTD, img:req.session.userId});
+            res.end();
         }
-        res.end();
     }
     else{
         res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:'Unauthorized access!'});
@@ -512,9 +511,5 @@ app.listen(PORT, ()=> console.log(`Listening on port ${PORT}...   http://localho
  * 
  * need to hash dean and admin passwords
  * 
- * change title for all html pages
- * 
- * update image in update profile
- * 
- * add degree and depaartment in profile and add new 
+ * need to reflect dp changes
  */
