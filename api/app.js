@@ -14,7 +14,7 @@ const{
     SESS_LIFETIME = 1000 * 60 * 60 * 1, // 1 hour
     SESS_SECRET = 'LlK5_Z5_W3VjIv', //ThI5_I5_S3CrEt
 
-    CURRENT_EXAM = '/views/exam_schedules/periodical2',
+    CURRENT_EXAM = 'periodical2',
     QUOTE_OTD = 'The greatest glory in living lies not in never falling, but in rising every time we fall.'
 }=process.env
 
@@ -84,6 +84,7 @@ connection.connect((error) => {
 // session redirectors
 
 // to redirect to home if the user is not auth
+
 const redirectLogin = (req, res, next) =>{
     if (!req.session.userId){
         res.redirect('/')
@@ -92,7 +93,9 @@ const redirectLogin = (req, res, next) =>{
         next()
     }
 }
+
 // if faculty auth they must be redirected directly to faculty dashboard
+
 const redirectFaculty = (req, res, next) =>{
     if (req.session.userId){
         res.redirect('/facultydash')
@@ -101,7 +104,9 @@ const redirectFaculty = (req, res, next) =>{
         next()
     }
 }
+
 // if dean auth they must be redirected directly to dean dashboard
+
 const redirectDean = (req, res, next) =>{
     if (req.session.userId === DEAN_USP){
         res.redirect('/deandash')
@@ -110,7 +115,9 @@ const redirectDean = (req, res, next) =>{
         next()
     }
 }
+
 // if admin auth they must be redirected directly to admin dashboard
+
 const redirectAdmin = (req, res, next) =>{
     if (req.session.userId === ADMIN_USP){
         res.redirect('/admindash')
@@ -121,6 +128,7 @@ const redirectAdmin = (req, res, next) =>{
 }
 
 //paths
+
 app.get('/', redirectFaculty, (req,res) => {
     res.render(path.join(__dirname,'/views/login.ejs'),{error:null});
 });
@@ -372,8 +380,8 @@ app.post('/updateoldpassword', (req, res) =>{
 
 app.get('/displayexamtimetable', (req, res) =>{
     if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
-        const filepath = path.join(__dirname,CURRENT_EXAM+'.pdf');
-        console.log(filepath)
+        const filepath = path.join(__dirname,'/views/exam_schedules/',CURRENT_EXAM+'.pdf');
+        console.log(filepath);
         if (fs.existsSync(filepath)){
             res.contentType('application/pdf');
             fs.createReadStream(filepath).pipe(res);
@@ -395,6 +403,7 @@ app.get('/displayexamtimetable', (req, res) =>{
 app.get('/displayfacultytimetable', (req, res) => {
     if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
         const filepath = path.join(__dirname,'/views/faculty_timetables/',req.session.userId+'.pdf');
+        console.log(filepath);
         if (fs.existsSync(filepath)){
             res.contentType('application/pdf');
             fs.createReadStream(filepath).pipe(res);
