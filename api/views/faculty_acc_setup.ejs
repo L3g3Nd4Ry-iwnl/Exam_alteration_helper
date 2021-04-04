@@ -14,7 +14,9 @@
 <body class="d-flex flex-column min-vh-100 bodyclass">
     <header class="d-flex flex-row align-items-center text-white">
         <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
-        <a class="btn text-white" id="logoutbutton" href="adminlogin.html">Logout</a>
+        <form action="/adminlogout" method="POST">
+            <button class="btn" id="logoutbutton">Logout</button>
+        </form>
     </header>
 
     <main>

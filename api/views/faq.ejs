@@ -26,6 +26,12 @@
     </header>
 
     <main class="faqclass">
+        <% if (error) { %>
+            <div class=" text-center p-3 error" id="error">
+                <h3><u>Message</u></h3>
+                <h5><%= error %></h5>
+            </div>
+        <% } %>
         <div class="text-center">
             <h3 class="m-3"><u><strong>Frequently Asked Questions</strong></u></h3>
             <h5 class="text-white">Got a question? We are here to answer. If you don't see your question here, drop us a line through the form below</h5>
@@ -58,7 +64,7 @@
         </div>
     </main>
     <h3 class="formheading text-white text-center"><u>Didn't find your question? Ask your question here</u></h3>
-    <form class="faqform" action="/api/update" method="POST">
+    <form class="faqform" action="/addfaq" method="POST">
         <div class="form-group m-2">
             <label for="exampleInputName1" class="text-uppercase"><strong>Name</strong></label>
             <input type="text" name="user_name" class="form-control" placeholder="">
