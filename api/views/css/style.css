@@ -359,6 +359,26 @@ input[type=email]{
     margin-bottom:30px;
 }
 
+table{
+    width: 100%;
+}
+
+tr:hover {background-color: white;}
+
+th {
+    background-color: #c3073f;
+    color:black
+  }
+
+td{
+    text-align: left;
+}
+
+th, td{
+    border-bottom: 1px solid #4e4e50;
+    padding:10px;
+}
+
 @media only screen and (max-width: 1200px) {
 
     .rowclass{
