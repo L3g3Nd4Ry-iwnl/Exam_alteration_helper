@@ -5,8 +5,12 @@ const{
     MYSQL_USERNAME = 'root',
     MYSQL_PASSWORD = 'hello_mysql',
     MYSQL_DATABASE_ACC = 'faculty_db',
+
     ADMIN_USP = 'admin_amrita',
+    ADMIN_HASH = '$2b$10$XSGNYxtoh1G5uyw.NQlHruV/6N6p73TF6jsKn329U1uOoWGTIQ10y',
     DEAN_USP = 'dean_amrita',
+    DEAN_HASH =  '$2b$10$mLmAQ5KW/nLwFkA0dYVExe3weriG/WLwvWmAnnSA6gysljYuP00lG',
+
 
     NODE_ENV = 'development',
 
@@ -19,6 +23,7 @@ const{
 }=process.env
 
 //dependencies
+
 const express = require('express');
 const app = express();
 
@@ -39,10 +44,9 @@ const saltRounds = 10;
 const fileupload = require("express-fileupload");
 app.use(fileupload());
 
-//Helemt to prevent hackers to get info on the modules used
-// const helmet = require('helmet');
-// app.use(helmet());
-app.disable('x-powered-by')
+// x-powered-by is like S.H.I.E.L.D.
+
+app.disable('x-powered-by');
 
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 app.use(bodyParser.json()); 
@@ -224,7 +228,8 @@ app.post('/auth', urlencodedParser, (req,res) => {
         var username = req.body.username;
 	    var password = req.body.password;
         if(username && password){
-            if(username == ADMIN_USP && password== ADMIN_USP){
+            // if(bcrypt.compareSync(password, rows[0].f_pwd))
+            if(username == ADMIN_USP && bcrypt.compareSync(password, ADMIN_HASH)){
                 req.session.userId = username;
                 res.redirect('/admindash');
             }
@@ -242,7 +247,7 @@ app.post('/auth', urlencodedParser, (req,res) => {
         var username = req.body.username;
 	    var password = req.body.password;
         if(username && password){
-            if(username == DEAN_USP && password== DEAN_USP){
+            if(username == DEAN_USP && bcrypt.compareSync(password, DEAN_HASH)){
                 req.session.userId = username;
                 res.redirect('/deandash');
             }
@@ -364,13 +369,10 @@ app.post('/updatefacultydetails', (req,res) =>{
                 }
             });
         }
-        console.log(req.files);
-        console.log(req.files.myfile);
         if(req.files){
             file = req.files.myfile;
             var filepath = path.join(__dirname,'/views/profile_pictures/'+req.session.userId+'.jpg');
             file.mv(filepath, function(err){
-                console.log('yes');
               if(err){
                 res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD, img:req.session.userId});
               }
@@ -430,7 +432,6 @@ app.post('/updateoldpassword', (req, res) =>{
 app.get('/displayexamtimetable', (req, res) =>{
     if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
         const filepath = path.join(__dirname,'/views/exam_schedules/',CURRENT_EXAM+'.pdf');
-        console.log(filepath);
         if (fs.existsSync(filepath)){
             res.render(path.join(__dirname,'/views/pdfdisplayer.ejs'),{message:CURRENT_EXAM+" timetable", file1:null, file2:CURRENT_EXAM});
             res.end();
@@ -451,7 +452,6 @@ app.get('/displayexamtimetable', (req, res) =>{
 app.get('/displayfacultytimetable', (req, res) => {
     if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
         const filepath = path.join(__dirname,'/views/faculty_timetables/',req.session.userId+'.pdf');
-        console.log(filepath);
         if (fs.existsSync(filepath)){
             res.render(path.join(__dirname,'/views/pdfdisplayer.ejs'),{message:"Your timetable", file1:req.session.userId, file2:null});
             res.end();
@@ -507,7 +507,6 @@ app.get('/viewfacultylist', (req, res) =>{
 app.get('/viewexamtimetable', (req, res) =>{
     if(req.session.userId == DEAN_USP){
         const filepath = path.join(__dirname,'/views/exam_schedules/',CURRENT_EXAM+'.pdf');
-        console.log(filepath);
         if (fs.existsSync(filepath)){
             res.render(path.join(__dirname,'/views/pdfdisplayer.ejs'),{message:CURRENT_EXAM+" timetable", file1:null, file2:CURRENT_EXAM});
             res.end();
@@ -553,6 +552,14 @@ app.post('/addnewfaculty', (req, res) => {
                 res.end();
             }
         });
+        const demo_pic = path.join(__dirname,'/views/images/faculty.jpg');
+        const new_pic = path.join(__dirname,'/views/profile_pictures/',req.body.email+'.jpg');
+        fs.copyFileSync(demo_pic, new_pic, fs.constants.COPYFILE_EXCL, (error) => {
+            if(error){
+                res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD});
+                res.end();
+            }
+        });
     }
     else{
         res.status(403).render(path.join(__dirname,'/views/adminlogin.ejs'),{error:'Unauthorized access!'});
@@ -587,8 +594,4 @@ app.listen(PORT, ()=> console.log(`Listening on port ${PORT}...   http://localho
  * 
  * use express-mysql-session to store sessions in a database
  * else it will be in memory only and get destoryed if server restarts 
- * 
- * need to hash dean and admin passwords
- * 
- * need to reflect dp changes
  */

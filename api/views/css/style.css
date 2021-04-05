@@ -228,9 +228,9 @@ footer a{
 }
 
 .admindash img , .deandash img, .facultydash img{
-    height: 100px;
-    width: 100x;
-    border-radius: 50%;
+    height: 150px;
+    width: 200x;
+    border-radius: 5%;
 }
 
 .admindash, .deandash, .facultydash{
