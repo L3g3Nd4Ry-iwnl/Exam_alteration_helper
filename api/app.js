@@ -570,7 +570,18 @@ app.post('/addnewfaculty', (req, res) => {
 // edit faculty list
 
 app.get('/editfacultylist', (req, res) =>{
-
+    if(req.session.userId == ADMIN_USP){
+        connection.query('SELECT fdb.f_name, fdb.f_mail_id, fdb.f_phone_no, fdb.f_house_no, fdb.f_street_name, fdb.f_area, fdb.f_city, fplace.state, fdb.f_department FROM faculty_db.faculty_details AS fdb, faculty_db.place AS fplace WHERE fplace.city=fdb.f_city', (error, rows, fields) => {
+            if(error){
+                res.render(path.join(__dirname,'/views/admin_dashboard.ejs'),{QOTD:QUOTE_OTD, error:error});
+                res.end();
+            }
+            else{
+                res.render(path.join(__dirname,'/views/delete_faculty_list.ejs'),{error:null, userData:rows});
+                res.end();
+            }
+        });
+    }
 });
 
 // upload new exam timetable
