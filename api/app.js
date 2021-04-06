@@ -1,28 +1,8 @@
-//env vars
-const{
-    PORT=3000,
-    MYSQL_URL = 'localhost',
-    MYSQL_USERNAME = 'root',
-    MYSQL_PASSWORD = 'hello_mysql',
-    MYSQL_DATABASE_ACC = 'faculty_db',
+// dependencies
 
-    ADMIN_USP = 'admin_amrita',
-    ADMIN_HASH = '$2b$10$XSGNYxtoh1G5uyw.NQlHruV/6N6p73TF6jsKn329U1uOoWGTIQ10y',
-    DEAN_USP = 'dean_amrita',
-    DEAN_HASH =  '$2b$10$mLmAQ5KW/nLwFkA0dYVExe3weriG/WLwvWmAnnSA6gysljYuP00lG',
+// env vars
 
-
-    NODE_ENV = 'development',
-
-    SESS_NAME = 'sid',
-    SESS_LIFETIME = 1000 * 60 * 60 * 1, // 1 hour
-    SESS_SECRET = 'LlK5_Z5_W3VjIv', //ThI5_I5_S3CrEt
-
-    CURRENT_EXAM = 'periodical2',
-    QUOTE_OTD = 'The greatest glory in living lies not in never falling, but in rising every time we fall.'
-}=process.env
-
-//dependencies
+require('dotenv').config();
 
 const express = require('express');
 const app = express();
@@ -57,14 +37,14 @@ app.set("views", path.join(__dirname,'views'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //session init
-const IN_PROD = NODE_ENV === 'production'
+const IN_PROD = process.env.NODE_ENV === 'production'
 app.use(session({
-	name: SESS_NAME,
+	name: process.env.SESS_NAME,
     resave: false,
     saveUninitialized: false,
-    secret: SESS_SECRET,
+    secret: process.env.SESS_SECRET,
     cookie:{
-        maxAge: SESS_LIFETIME,
+        maxAge: Number(process.env.SESS_LIFETIME),
         sameSite: true,
         secure: IN_PROD
     }
@@ -72,10 +52,10 @@ app.use(session({
 
 //db init
 var connection = mysql.createConnection({
-	host     : MYSQL_URL,
-	user     : MYSQL_USERNAME,
-	password : MYSQL_PASSWORD,
-	database : MYSQL_DATABASE_ACC,
+	host     : process.env.MYSQL_URL,
+	user     : process.env.MYSQL_USERNAME,
+	password : process.env.MYSQL_PASSWORD,
+	database : process.env.MYSQL_DATABASE_ACC,
     typeCast: false
 });
 
@@ -115,7 +95,7 @@ const redirectFaculty = (req, res, next) =>{
 // if dean auth they must be redirected directly to dean dashboard
 
 const redirectDean = (req, res, next) =>{
-    if (req.session.userId === DEAN_USP){
+    if (req.session.userId === process.env.DEAN_USP){
         res.redirect('/deandash');
     }
     else{
@@ -126,7 +106,7 @@ const redirectDean = (req, res, next) =>{
 // if admin auth they must be redirected directly to admin dashboard
 
 const redirectAdmin = (req, res, next) =>{
-    if (req.session.userId === ADMIN_USP){
+    if (req.session.userId === process.env.ADMIN_USP){
         res.redirect('/admindash');
     }
     else{
@@ -137,42 +117,42 @@ const redirectAdmin = (req, res, next) =>{
 //paths
 
 app.get('/', redirectFaculty, (req,res) => {
-    res.render(path.join(__dirname,'/views/login.ejs'),{error:null});
+    res.status(200).render(path.join(__dirname,'/views/login.ejs'),{error:null});
 });
 
 app.get('/adminlogin', redirectAdmin, (req,res) => {
-    res.render(path.join(__dirname,'/views/adminlogin.ejs'),{error:null});
+    res.status(200).render(path.join(__dirname,'/views/adminlogin.ejs'),{error:null});
 });
 
 app.get('/deanlogin', redirectDean, (req,res) => {
-    res.render(path.join(__dirname,'/views/deanlogin.ejs'),{error:null});
+    res.status(200).render(path.join(__dirname,'/views/deanlogin.ejs'),{error:null});
 });
 
 app.get('/faq',(req,res) => {
-    res.render(path.join(__dirname,'/views/faq.ejs'),{error:null});
+    res.status(200).render(path.join(__dirname,'/views/faq.ejs'),{error:null});
 });
 
 app.get('/about', (req, res) =>{
-    res.render(path.join(__dirname,'/views/about.ejs'));
-})
+    res.status(200).render(path.join(__dirname,'/views/about.ejs'));
+});
 
 app.get('/facultydash', redirectLogin, (req,res) => {
-    if (req.session.userId === DEAN_USP){
+    if (req.session.userId === process.env.DEAN_USP){
         res.redirect('/deandash');
     }
-    else if (req.session.userId === ADMIN_USP){
+    else if (req.session.userId === process.env.ADMIN_USP){
         res.redirect('/admindash');
     }
     else{
-        res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{QOTD:QUOTE_OTD, error:null, img:req.session.userId});
+        res.status(200).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:null, img:req.session.userId});
     }
 	
 	res.end();  
 });
 
 app.get('/deandash', redirectLogin, (req,res) => {
-    if (req.session.userId === DEAN_USP){
-        res.render(path.join(__dirname,'/views/dean_dashboard.ejs'),{QOTD:QUOTE_OTD, error:null});
+    if (req.session.userId === process.env.DEAN_USP){
+        res.status(200).render(path.join(__dirname,'/views/dean_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:null});
     }
     else if (req.session.userId === ADMIN_USP){
         res.redirect('/admindash');
@@ -184,10 +164,10 @@ app.get('/deandash', redirectLogin, (req,res) => {
 });
 
 app.get('/admindash', redirectLogin, (req,res) => {
-    if (req.session.userId === ADMIN_USP){
-        res.render(path.join(__dirname,'/views/admin_dashboard.ejs'),{QOTD:QUOTE_OTD, error:null});
+    if (req.session.userId === process.env.ADMIN_USP){
+        res.status(200).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:null});
     }
-    else if (req.session.userId === DEAN_USP){
+    else if (req.session.userId === process.env.DEAN_USP){
         res.redirect('/deandash');
     }
     else{
@@ -210,17 +190,17 @@ app.post('/auth', urlencodedParser, (req,res) => {
                     res.redirect('/facultydash');
                 }
                 else{
-                    res.render(path.join(__dirname,'/views/login.ejs'),{error:"Wrong username and/or password!"});
+                    res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:"Wrong username and/or password!"});
                 }
                 res.end();
             } else {
-                res.render(path.join(__dirname,'/views/login.ejs'),{error:"Wrong username and/or password!"});
+                res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:"Wrong username and/or password!"});
             }			
             res.end();
             });
         }
         else{
-            res.render(path.join(__dirname,'/views/login.ejs'),{error:"Enter username and password!"});
+            res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:"Enter username and password!"});
             res.end();
         }
     }
@@ -228,18 +208,17 @@ app.post('/auth', urlencodedParser, (req,res) => {
         var username = req.body.username;
 	    var password = req.body.password;
         if(username && password){
-            // if(bcrypt.compareSync(password, rows[0].f_pwd))
-            if(username == ADMIN_USP && bcrypt.compareSync(password, ADMIN_HASH)){
+            if(username == process.env.ADMIN_USP && bcrypt.compareSync(password, process.env.ADMIN_HASH)){
                 req.session.userId = username;
                 res.redirect('/admindash');
             }
             else{
-                res.render(path.join(__dirname,'/views/adminlogin.ejs'),{error:"Wrong username and/or password!"});
+                res.status(403).render(path.join(__dirname,'/views/adminlogin.ejs'),{error:"Wrong username and/or password!"});
             }
             res.end();
         }
         else{
-            res.render(path.join(__dirname,'/views/adminlogin.ejs'),{error:"Enter username and password!"});
+            res.status(403).render(path.join(__dirname,'/views/adminlogin.ejs'),{error:"Enter username and password!"});
             res.end();
         }
     }
@@ -247,17 +226,17 @@ app.post('/auth', urlencodedParser, (req,res) => {
         var username = req.body.username;
 	    var password = req.body.password;
         if(username && password){
-            if(username == DEAN_USP && bcrypt.compareSync(password, DEAN_HASH)){
+            if(username == process.env.DEAN_USP && bcrypt.compareSync(password, process.env.DEAN_HASH)){
                 req.session.userId = username;
                 res.redirect('/deandash');
             }
             else{
-                res.render(path.join(__dirname,'/views/deanlogin.ejs'),{error:"Wrong username and/or password!"});
+                res.status(403).render(path.join(__dirname,'/views/deanlogin.ejs'),{error:"Wrong username and/or password!"});
             }
             res.end();
         }
         else{
-            res.render(path.join(__dirname,'/views/deanlogin.ejs'),{error:"Enter username and password!"});
+            res.status(403).render(path.join(__dirname,'/views/deanlogin.ejs'),{error:"Enter username and password!"});
             res.end();
         }
     }
@@ -270,7 +249,7 @@ app.post('/facultylogout', redirectLogin,(req,res)=>{
         if (err){
             return res.redirect('/facultydash');
         }
-        res.clearCookie(SESS_NAME)
+        res.clearCookie(process.env.SESS_NAME)
         res.render(path.join(__dirname,'views/login.ejs'),{error:"You have been logged out successfully!"}); 
     })
       
@@ -281,7 +260,7 @@ app.post('/deanlogout', redirectLogin,(req,res)=>{
         if (err){
             return res.redirect('/deandash');
         }
-        res.clearCookie(SESS_NAME)
+        res.clearCookie(process.env.SESS_NAME)
         res.render(path.join(__dirname,'views/deanlogin.ejs'),{error:"You have been logged out successfully!"}); 
     }) 
 });
@@ -291,7 +270,7 @@ app.post('/adminlogout', redirectLogin,(req,res)=>{
         if (err){
             return res.redirect('/admindash');
         }
-        res.clearCookie(SESS_NAME)
+        res.clearCookie(process.env.SESS_NAME)
         res.render(path.join(__dirname,'views/adminlogin.ejs'),{error:"You have been logged out successfully!"}); 
     })  
 });
@@ -313,10 +292,10 @@ app.post('/addfaq', urlencodedParser, (req, res) => {
 // update faculty details and password
 
 app.get('/updatefacultydetails', (req, res) =>{
-    if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
+    if(req.session.userId && req.session.userId != process.env.ADMIN_USP && req.session.userId != process.env.DEAN_USP){
         connection.query('SELECT * FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ?', [req.session.userId], (error, rows, fields) => {
             if (rows.length == 1){
-                res.render(path.join(__dirname,'/views/edit_faculty_details.ejs'), {img:req.session.userId, email:rows[0].f_mail_id, name:rows[0].f_name, phoneno:rows[0].f_phone_no, houseno:rows[0].f_house_no, streetname:rows[0].f_street_name, area:rows[0].f_area, city:rows[0].f_city, dept:rows[0].f_department});
+                res.status(200).render(path.join(__dirname,'/views/edit_faculty_details.ejs'), {img:req.session.userId, email:rows[0].f_mail_id, name:rows[0].f_name, phoneno:rows[0].f_phone_no, houseno:rows[0].f_house_no, streetname:rows[0].f_street_name, area:rows[0].f_area, city:rows[0].f_city, dept:rows[0].f_department});
                 res.end();
             }
         });
@@ -328,7 +307,7 @@ app.get('/updatefacultydetails', (req, res) =>{
 });
 
 app.post('/updatefacultydetails', (req,res) =>{
-    if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
+    if(req.session.userId && req.session.userId != process.env.ADMIN_USP && req.session.userId != process.env.DEAN_USP){
         var phoneno = req.body.phoneno;
         var houseno = req.body.houseno;
         var streetname = req.body.streetname;
@@ -337,35 +316,35 @@ app.post('/updatefacultydetails', (req,res) =>{
         if (phoneno !== '') {
             connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_phone_no` = ? WHERE (`f_mail_id` = ?)', [req.body.phoneno, req.session.userId], (error, rows, fields) => {
                 if (error){
-                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD, img:req.session.userId});
+                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                 }
             });
         }
         if (houseno !== '') {
             connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_house_no` = ? WHERE (`f_mail_id` = ?)', [req.body.houseno, req.session.userId], (error, rows, fields) => {
                 if (error){
-                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD, img:req.session.userId});
+                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                 }
             });
         }
         if (streetname !== '') {
             connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_street_name` = ? WHERE (`f_mail_id` = ?)', [req.body.streetname, req.session.userId], (error, rows, fields) => {
                 if (error){
-                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD, img:req.session.userId});
+                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                 }
             });
         }
         if (area !== '') {
             connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_area` = ? WHERE (`f_mail_id` = ?)', [req.body.area, req.session.userId], (error, rows, fields) => {
                 if (error){
-                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD, img:req.session.userId});
+                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                 }
             });
         }
         if (city !== '') {
             connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_city` = ? WHERE (`f_mail_id` = ?)', [req.body.city, req.session.userId], (error, rows, fields) => {
                 if (error){
-                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD, img:req.session.userId});
+                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                 }
             });
         }
@@ -374,11 +353,11 @@ app.post('/updatefacultydetails', (req,res) =>{
             var filepath = path.join(__dirname,'/views/profile_pictures/'+req.session.userId+'.jpg');
             file.mv(filepath, function(err){
               if(err){
-                res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD, img:req.session.userId});
+                res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
               }
             });
         }
-        res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"Details have been updated successfully!", QOTD:QUOTE_OTD, img:req.session.userId});
+        res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"Details have been updated successfully!", QOTD: process.env.QUOTE_OTD, img:req.session.userId});
     }
     else{
         res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:'Unauthorized access!'});
@@ -387,8 +366,8 @@ app.post('/updatefacultydetails', (req,res) =>{
 });
 
 app.get('/updateoldpassword', (req, res) =>{
-    if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
-        res.render(path.join(__dirname,'/views/resetpassword.ejs'));
+    if(req.session.userId && req.session.userId != process.env.ADMIN_USP && req.session.userId != process.env.DEAN_USP){
+        res.status(200).render(path.join(__dirname,'/views/resetpassword.ejs'));
         res.end();
     }
     else{
@@ -398,26 +377,26 @@ app.get('/updateoldpassword', (req, res) =>{
 });
 
 app.post('/updateoldpassword', (req, res) =>{
-    if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
+    if(req.session.userId && req.session.userId != process.env.ADMIN_USP && req.session.userId != process.env.DEAN_USP){
         connection.query('SELECT `f_pwd` FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ?', [req.session.userId], (error, rows, fields) => {
             if(bcrypt.compareSync(req.body.oldpass, rows[0].f_pwd)){
                 if (req.body.newpass1 === req.body.newpass2) {
                     const hash = bcrypt.hashSync(req.body.newpass1, saltRounds);
                     connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_pwd` = ? WHERE (`f_mail_id` = ?)', [hash, req.session.userId], (error, rows, fields) => {
                         if (error){
-                            res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD, img:req.session.userId});
+                            res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                         }
                         else{
-                            res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"Password updated successfully!", QOTD:QUOTE_OTD, img:req.session.userId});
+                            res.status(200).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"Password updated successfully!", QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                         }
                     });
                 }
                 else{
-                    res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"You re-entered the wrong password! Please try again!", QOTD:QUOTE_OTD, img:req.session.userId});
+                    res.status(403).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"You re-entered the wrong password! Please try again!", QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                 }
             }
             else{
-                res.render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"Your old password didn't match with our database! Please try again!", QOTD:QUOTE_OTD, img:req.session.userId});
+                res.status(403).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"Your old password didn't match with our database! Please try again!", QOTD: process.env.QUOTE_OTD, img:req.session.userId});
             }
         });
     }
@@ -430,14 +409,14 @@ app.post('/updateoldpassword', (req, res) =>{
 // display exam timetable
 
 app.get('/displayexamtimetable', (req, res) =>{
-    if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
-        const filepath = path.join(__dirname,'/views/exam_schedules/',CURRENT_EXAM+'.pdf');
+    if(req.session.userId && req.session.userId != process.env.ADMIN_USP && req.session.userId != process.env.DEAN_USP){
+        const filepath = path.join(__dirname,'/views/exam_schedules/', process.env.CURRENT_EXAM+'.pdf');
         if (fs.existsSync(filepath)){
-            res.render(path.join(__dirname,'/views/pdfdisplayer.ejs'),{message:CURRENT_EXAM+" timetable", file1:null, file2:CURRENT_EXAM});
+            res.status(200).render(path.join(__dirname,'/views/pdfdisplayer.ejs'),{message: process.env.CURRENT_EXAM+" timetable", file1:null, file2: process.env.CURRENT_EXAM});
             res.end();
         }
         else{
-            res.status(404).render(path.join(__dirname,'/views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:QUOTE_OTD, img:req.session.userId});
+            res.status(404).render(path.join(__dirname,'/views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:process.env.QUOTE_OTD, img:req.session.userId});
             res.end();
         }
     }
@@ -450,14 +429,14 @@ app.get('/displayexamtimetable', (req, res) =>{
 // display timetable
 
 app.get('/displayfacultytimetable', (req, res) => {
-    if(req.session.userId && req.session.userId != ADMIN_USP && req.session.userId != DEAN_USP){
+    if(req.session.userId && req.session.userId != process.env.ADMIN_USP && req.session.userId != process.env.DEAN_USP){
         const filepath = path.join(__dirname,'/views/faculty_timetables/',req.session.userId+'.pdf');
         if (fs.existsSync(filepath)){
-            res.render(path.join(__dirname,'/views/pdfdisplayer.ejs'),{message:"Your timetable", file1:req.session.userId, file2:null});
+            res.status(200).render(path.join(__dirname,'/views/pdfdisplayer.ejs'),{message:"Your timetable", file1:req.session.userId, file2:null});
             res.end();
         }
         else{
-            res.status(404).render(path.join(__dirname,'/views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:QUOTE_OTD, img:req.session.userId});
+            res.status(404).render(path.join(__dirname,'/views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD: process.env.QUOTE_OTD, img:req.session.userId});
             res.end();
         }
     }
@@ -484,14 +463,14 @@ app.get('/viewfacultyrequestslots', (req, res) =>{
 // view all faculty details
 
 app.get('/viewfacultylist', (req, res) =>{
-    if(req.session.userId == DEAN_USP){
+    if(req.session.userId == process.env.DEAN_USP){
         connection.query('SELECT fdb.f_name, fdb.f_mail_id, fdb.f_phone_no, fdb.f_house_no, fdb.f_street_name, fdb.f_area, fdb.f_city, fplace.state, fdb.f_department FROM faculty_db.faculty_details AS fdb, faculty_db.place AS fplace WHERE fplace.city=fdb.f_city', (error, rows, fields) => {
             if(error){
-                res.render(path.join(__dirname,'/views/dean_dashboard.ejs'),{QOTD:QUOTE_OTD, error:error});
+                res.status(500).render(path.join(__dirname,'/views/dean_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:error});
                 res.end();
             }
             else{
-                res.render(path.join(__dirname,'/views/view_faculty_list.ejs'),{error:null, userData:rows});
+                res.status(200).render(path.join(__dirname,'/views/view_faculty_list.ejs'),{error:null, userData:rows});
                 res.end();
             }
         });
@@ -505,14 +484,14 @@ app.get('/viewfacultylist', (req, res) =>{
 // view current exam time table
 
 app.get('/viewexamtimetable', (req, res) =>{
-    if(req.session.userId == DEAN_USP){
-        const filepath = path.join(__dirname,'/views/exam_schedules/',CURRENT_EXAM+'.pdf');
+    if(req.session.userId == process.env.DEAN_USP){
+        const filepath = path.join(__dirname,'/views/exam_schedules/', process.env.CURRENT_EXAM+'.pdf');
         if (fs.existsSync(filepath)){
-            res.render(path.join(__dirname,'/views/pdfdisplayer.ejs'),{message:CURRENT_EXAM+" timetable", file1:null, file2:CURRENT_EXAM});
+            res.status(200).render(path.join(__dirname,'/views/pdfdisplayer.ejs'),{message: process.env.CURRENT_EXAM+" timetable", file1:null, file2: process.env.CURRENT_EXAM});
             res.end();
         }
         else{
-            res.status(404).render(path.join(__dirname,'/views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:QUOTE_OTD, img:req.session.userId});
+            res.status(404).render(path.join(__dirname,'/views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:process.env.QUOTE_OTD, img:req.session.userId});
             res.end();
         }
     }
@@ -527,8 +506,8 @@ app.get('/viewexamtimetable', (req, res) =>{
 // add new user
 
 app.get('/addnewfaculty', (req, res) => {
-    if(req.session.userId == ADMIN_USP){
-        res.render(path.join(__dirname,'/views/faculty_acc_setup.ejs'));
+    if(req.session.userId == process.env.ADMIN_USP){
+        res.status(200).render(path.join(__dirname,'/views/faculty_acc_setup.ejs'));
         res.end();
     }
     else{
@@ -539,45 +518,47 @@ app.get('/addnewfaculty', (req, res) => {
 
 
 app.post('/addnewfaculty', (req, res) => {
-    if(req.session.userId == ADMIN_USP){
+    if(req.session.userId == process.env.ADMIN_USP){
         const hash = bcrypt.hashSync(req.body.pwd, saltRounds);
         connection.query('INSERT INTO `faculty_db`.`faculty_details` (`f_mail_id`, `f_name`, `f_phone_no`, `f_house_no`, `f_street_name`, `f_area`, `f_city`, `f_pwd`,`f_department`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.email, req.body.name, req.body.phoneno, req.body.houseno, req.body.streetname, req.body.area, req.body.city, hash, req.body.dept], (error, rows, fields) => { 
             if (error){
-                res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD});
-                res.end();
-            }
-            else{
-                
-                res.status(200).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:'New user has been added!', QOTD:QUOTE_OTD});
-                res.end();
+                res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
             }
         });
         const demo_pic = path.join(__dirname,'/views/images/faculty.jpg');
         const new_pic = path.join(__dirname,'/views/profile_pictures/',req.body.email+'.jpg');
         fs.copyFileSync(demo_pic, new_pic, fs.constants.COPYFILE_EXCL, (error) => {
             if(error){
-                res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD:QUOTE_OTD});
-                res.end();
+                res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
             }
         });
+        if(req.files){
+            file = req.files.myfile;
+            var filepath = path.join(__dirname,'/views/profile_pictures/'+req.session.userId+'.pdf');
+            file.mv(filepath, function(err){
+              if(err){
+                res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
+              }
+            });
+        }
+        res.status(200).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:'New user has been added!', QOTD: process.env.QUOTE_OTD});
     }
     else{
         res.status(403).render(path.join(__dirname,'/views/adminlogin.ejs'),{error:'Unauthorized access!'});
-        res.end();
     }
 });
 
 // edit faculty list
 
 app.get('/editfacultylist', (req, res) =>{
-    if(req.session.userId == ADMIN_USP){
+    if(req.session.userId == process.env.ADMIN_USP){
         connection.query('SELECT fdb.f_name, fdb.f_mail_id, fdb.f_phone_no, fdb.f_house_no, fdb.f_street_name, fdb.f_area, fdb.f_city, fplace.state, fdb.f_department FROM faculty_db.faculty_details AS fdb, faculty_db.place AS fplace WHERE fplace.city=fdb.f_city', (error, rows, fields) => {
             if(error){
-                res.render(path.join(__dirname,'/views/admin_dashboard.ejs'),{QOTD:QUOTE_OTD, error:error});
+                res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:error});
                 res.end();
             }
             else{
-                res.render(path.join(__dirname,'/views/delete_faculty_list.ejs'),{error:null, userData:rows});
+                res.status(200).render(path.join(__dirname,'/views/delete_faculty_list.ejs'),{error:null, userData:rows});
                 res.end();
             }
         });
@@ -597,8 +578,7 @@ app.get('/viewnewfaq', (req, res) =>{
 });
 
 // listener
-
-app.listen(PORT, ()=> console.log(`Listening on port ${PORT}...   http://localhost:${PORT}`)); 
+app.listen(process.env.PORT, ()=> console.log(`Listening on port ${process.env.PORT}...   http://localhost:${process.env.PORT}`)); 
 
 
 /**TODO 
