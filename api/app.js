@@ -15,11 +15,16 @@ const { urlencoded } = require('body-parser');
 
 const mysql = require('mysql');
 
+const jwt = require('jsonwebtoken');
+
+const nodemailer = require('nodemailer');
 
 const fs = require('fs')
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+
+const url = require('url');
 
 const fileupload = require("express-fileupload");
 app.use(fileupload());
@@ -65,6 +70,18 @@ connection.connect((error) => {
     }
     else{
         console.log('Database Connected Sucessfully!');
+    }
+});
+
+// mailer init
+
+let transport = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure:true,
+    auth: {
+       user: process.env.GMAIL_ID,
+       pass: process.env.GMAIL_PASSWORD
     }
 });
 
@@ -250,7 +267,7 @@ app.post('/facultylogout', redirectLogin,(req,res)=>{
             return res.redirect('/facultydash');
         }
         res.clearCookie(process.env.SESS_NAME)
-        res.render(path.join(__dirname,'views/login.ejs'),{error:"You have been logged out successfully!"}); 
+        res.status(200).render(path.join(__dirname,'views/login.ejs'),{error:"You have been logged out successfully!"}); 
     })
       
 });
@@ -261,7 +278,7 @@ app.post('/deanlogout', redirectLogin,(req,res)=>{
             return res.redirect('/deandash');
         }
         res.clearCookie(process.env.SESS_NAME)
-        res.render(path.join(__dirname,'views/deanlogin.ejs'),{error:"You have been logged out successfully!"}); 
+        res.status(200).render(path.join(__dirname,'views/deanlogin.ejs'),{error:"You have been logged out successfully!"}); 
     }) 
 });
 
@@ -271,8 +288,100 @@ app.post('/adminlogout', redirectLogin,(req,res)=>{
             return res.redirect('/admindash');
         }
         res.clearCookie(process.env.SESS_NAME)
-        res.render(path.join(__dirname,'views/adminlogin.ejs'),{error:"You have been logged out successfully!"}); 
+        res.status(200).render(path.join(__dirname,'views/adminlogin.ejs'),{error:"You have been logged out successfully!"}); 
     })  
+});
+
+// forgot password
+
+app.get('/forgotpassword', (req,res) =>{
+    res.status(200).render(path.join(__dirname,'views/forgotpassword.ejs'));
+});
+
+// mail token creation and mail it
+
+app.post('/forgotpassword', (req,res) =>{
+    
+    const email = req.body.email;
+    connection.query('SELECT `f_name` FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ?', [email], (error, rows, fields) => {
+        if (rows.length == 1) {
+            const token = jwt.sign({__id:req.body.email}, process.env.RESET_PASSWORD_JWT, {expiresIn: '30m'});
+            const message = {
+                from: 'examalterationhelper@gmail.com',
+                to: email,
+                subject: 'Reset password',
+                html: `Hello ${rows[0].f_name}! <br> Click <a href="http://127.0.0.1:${process.env.PORT}/updateforgotpassword?token=${token}">here</a> to reset your password <br> The Lannisters sent their regards!`
+            }
+            transport.sendMail(message, function(error, info) {
+                if (error) {
+                    console.log(error);
+                    res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:"Some server side error occured! Try again!"});
+                } else {
+                    console.log(info);
+                }
+            });
+            connection.query('UPDATE  `faculty_db`.`faculty_details` SET `f_reset_link` = ? WHERE (`faculty_db`.`faculty_details`.`f_mail_id` = ?)', [token, email], (error, rows, fields) => {
+                if(error){
+                    console.log(error);
+                    res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:"Some server side error occured! Try again!"});
+                }
+            });
+            res.status(200).render(path.join(__dirname,'/views/login.ejs'),{error:"Please check your e-mail for the reset link!"});
+        }
+        else if(error){
+            console.log(error);
+            res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:"Some server side error occured! Try again!"});
+        }
+        else{
+            res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:"The entered e-mail doesn't exist in our database!"});
+        }
+    });
+});
+
+// check token and allow access
+
+app.get('/updateforgotpassword', (req,res) =>{
+    const params = url.parse(req.url, true).search
+    const token = params.substr(7)
+
+    jwt.verify(token, process.env.RESET_PASSWORD_JWT, (error, decodeData) =>{
+        if(error){
+            res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:"The token is invalid!"});
+        }
+        else{
+            connection.query('SELECT `f_mail_id` FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_reset_link` = ?', [token], (error, rows, fields) => {
+                if(error){
+                    console.log(error);
+                }
+                else if (rows.length == 1){
+                    const email = rows[0].f_mail_id;
+                    return res.status(200).render(path.join(__dirname,'/views/resetforgotpassword.ejs'),{email:email});
+                }
+                res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:"The token is invalid!"});
+            });
+            
+        }
+    });
+});
+
+// reflect password in db
+
+app.post('/updateforgotpassword', (req,res) =>{
+    const email = req.body.email;
+    if(req.body.newpass1 == req.body.newpass2){
+        const hash = bcrypt.hashSync(req.body.newpass1, saltRounds);
+        connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_pwd` = ?, `f_reset_link`= ? WHERE (`f_mail_id` = ?)', [hash, null, email], (error, rows, fields) => {
+            if (error){
+                return res.status(500).render(path.join(__dirname,'/views/login.ejs'),{error:"Some server side error occured! Try again!"});
+            }
+            else{
+                return res.status(200).render(path.join(__dirname,'/views/login.ejs'),{error:"Password updated successfully!"});
+            }
+        });
+    }
+    else{
+        res.status(500).render(path.join(__dirname,'/views/login.ejs'),{error:"Passwords didn't match! Try again!"});
+    }
 });
 
 // python programs
@@ -282,7 +391,7 @@ app.post('/addfaq', urlencodedParser, (req, res) => {
     var process = spawn('python',['./add_new_faq.py', req.body.user_name, req.body.email, req.body.question]);
     process.stdout.on('data', function(data) { 
         console.log(data.toString());
-        res.render(path.join(__dirname,'/views/faq.ejs'),{error:"Your question was submitted successfully!"});
+        res.status(200).render(path.join(__dirname,'/views/faq.ejs'),{error:"Your question was submitted successfully!"});
         res.end();
     });
 });
@@ -316,44 +425,44 @@ app.post('/updatefacultydetails', (req,res) =>{
         if (phoneno !== '') {
             connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_phone_no` = ? WHERE (`f_mail_id` = ?)', [req.body.phoneno, req.session.userId], (error, rows, fields) => {
                 if (error){
-                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
+                    return res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                 }
             });
         }
         if (houseno !== '') {
             connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_house_no` = ? WHERE (`f_mail_id` = ?)', [req.body.houseno, req.session.userId], (error, rows, fields) => {
                 if (error){
-                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
+                    return res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                 }
             });
         }
         if (streetname !== '') {
             connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_street_name` = ? WHERE (`f_mail_id` = ?)', [req.body.streetname, req.session.userId], (error, rows, fields) => {
                 if (error){
-                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
+                    return res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                 }
             });
         }
         if (area !== '') {
             connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_area` = ? WHERE (`f_mail_id` = ?)', [req.body.area, req.session.userId], (error, rows, fields) => {
                 if (error){
-                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
+                    return res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                 }
             });
         }
         if (city !== '') {
             connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_city` = ? WHERE (`f_mail_id` = ?)', [req.body.city, req.session.userId], (error, rows, fields) => {
                 if (error){
-                    res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
+                    return res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                 }
             });
         }
         if(req.files){
-            file = req.files.myfile;
+            let file = req.files.myfile;
             var filepath = path.join(__dirname,'/views/profile_pictures/'+req.session.userId+'.jpg');
             file.mv(filepath, function(err){
               if(err){
-                res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
+                return res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
               }
             });
         }
@@ -384,25 +493,24 @@ app.post('/updateoldpassword', (req, res) =>{
                     const hash = bcrypt.hashSync(req.body.newpass1, saltRounds);
                     connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_pwd` = ? WHERE (`f_mail_id` = ?)', [hash, req.session.userId], (error, rows, fields) => {
                         if (error){
-                            res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
+                            return res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                         }
                         else{
-                            res.status(200).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"Password updated successfully!", QOTD: process.env.QUOTE_OTD, img:req.session.userId});
+                            return res.status(200).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"Password updated successfully!", QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                         }
                     });
                 }
                 else{
-                    res.status(403).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"You re-entered the wrong password! Please try again!", QOTD: process.env.QUOTE_OTD, img:req.session.userId});
+                    return res.status(403).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"You re-entered the wrong password! Please try again!", QOTD: process.env.QUOTE_OTD, img:req.session.userId});
                 }
             }
             else{
-                res.status(403).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"Your old password didn't match with our database! Please try again!", QOTD: process.env.QUOTE_OTD, img:req.session.userId});
+                return res.status(403).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:"Your old password didn't match with our database! Please try again!", QOTD: process.env.QUOTE_OTD, img:req.session.userId});
             }
         });
     }
     else{
-        res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:'Unauthorized access!'});
-        res.end();
+        return res.status(403).render(path.join(__dirname,'/views/login.ejs'),{error:'Unauthorized access!'});
     }
 });
 
@@ -522,25 +630,39 @@ app.post('/addnewfaculty', (req, res) => {
         const hash = bcrypt.hashSync(req.body.pwd, saltRounds);
         connection.query('INSERT INTO `faculty_db`.`faculty_details` (`f_mail_id`, `f_name`, `f_phone_no`, `f_house_no`, `f_street_name`, `f_area`, `f_city`, `f_pwd`,`f_department`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.email, req.body.name, req.body.phoneno, req.body.houseno, req.body.streetname, req.body.area, req.body.city, hash, req.body.dept], (error, rows, fields) => { 
             if (error){
-                res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
+                return res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
             }
         });
         const demo_pic = path.join(__dirname,'/views/images/faculty.jpg');
         const new_pic = path.join(__dirname,'/views/profile_pictures/',req.body.email+'.jpg');
         fs.copyFileSync(demo_pic, new_pic, fs.constants.COPYFILE_EXCL, (error) => {
             if(error){
-                res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
+                return res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
             }
         });
         if(req.files){
             file = req.files.myfile;
-            var filepath = path.join(__dirname,'/views/profile_pictures/'+req.session.userId+'.pdf');
-            file.mv(filepath, function(err){
-              if(err){
-                res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
+            var filepath = path.join(__dirname,'/views/faculty_timetables/'+req.body.email+'.pdf');
+            file.mv(filepath, function(error){
+              if(error){
+                return res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
               }
             });
         }
+        const message = {
+            from: 'examalterationhelper@gmail.com',
+            to: req.body.email,
+            subject: 'Your account has been created!',
+            html: `Hello ${req.body.name}! <br> Your account has been created with the credentials: <br> Username: ${req.body.email} <br> Password: ${req.body.pwd} <br> The Lannisters sent their regards!`
+        }
+        transport.sendMail(message, function(error, info) {
+            if (error) {
+                console.log(error);
+                return res.status(403).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
+            } else {
+                console.log(info);
+            }
+        });
         res.status(200).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:'New user has been added!', QOTD: process.env.QUOTE_OTD});
     }
     else{

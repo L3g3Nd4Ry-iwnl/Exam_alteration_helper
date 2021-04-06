@@ -59,7 +59,11 @@ header h3{
 
 .formclass{
     padding-top : 20px;
-    padding-bottom: 80px;
+    /* padding-bottom: 80px; */
+}
+
+.fgtclass{
+    padding-top : 20px;
 }
 
 .forget_pass_btn{
@@ -192,6 +196,11 @@ footer a{
     background: #6f2232;
     color: white;
     margin-top:10px;
+}
+
+.fgtclass button{
+    background: #6f2232;
+    color: white;
 }
 
 .secondcarousel h5,.secondcarousel p{
@@ -406,7 +415,7 @@ th, td{
         border-radius: 3%;
     }
 
-    .formclass{
+    .formclass, .fgtclass{
         padding-left: 30px;
         padding-right:30px;
     }
@@ -520,7 +529,7 @@ th, td{
         border-radius: 3%;
     }
 
-    .formclass{
+    .formclass, .fgtclass{
         padding-left: 10px;
         padding-right:10px;
         padding-bottom: 80px;

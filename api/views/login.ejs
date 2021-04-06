@@ -81,12 +81,12 @@
                     </div>
                     <div class="d-flex flex-row">
                         <button type="submit" class="btn btn-login float-left" name="login_type" value="faculty">Submit</button>
-                        <form action="/forgotpassword" method="GET">
-                            <button type="submit" class="btn float-left forget_pass_btn" name="forget_pass_btn">Forgot password?</button>
-                        </form>
                     </div>
                 </form>
-                
+                <form class="login-form fgtclass" action="/forgotpassword" method="GET">
+                    <button type="submit" class="btn float-left" name="forget_pass_btn">Forgot password?</button>
+                </form>
+                <br><br>
                 <% if (error) { %>
                     <strong><%= error %></strong>
                 <% } %>
