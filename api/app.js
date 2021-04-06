@@ -630,7 +630,8 @@ app.post('/addnewfaculty', (req, res) => {
         const hash = bcrypt.hashSync(req.body.pwd, saltRounds);
         connection.query('INSERT INTO `faculty_db`.`faculty_details` (`f_mail_id`, `f_name`, `f_phone_no`, `f_house_no`, `f_street_name`, `f_area`, `f_city`, `f_pwd`,`f_department`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.email, req.body.name, req.body.phoneno, req.body.houseno, req.body.streetname, req.body.area, req.body.city, hash, req.body.dept], (error, rows, fields) => { 
             if (error){
-                return res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
+                console.log(error);
+                res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
             }
         });
         const demo_pic = path.join(__dirname,'/views/images/faculty.jpg');
@@ -684,6 +685,34 @@ app.get('/editfacultylist', (req, res) =>{
                 res.end();
             }
         });
+    }
+});
+
+app.post('/editfacultylist', (req, res) =>{
+    if(req.session.userId == process.env.ADMIN_USP){
+        if(req.body.delete_email){
+            connection.query('DELETE FROM `faculty_db`.`faculty_details` WHERE (`f_mail_id` = ?);',[req.body.delete_email], (error, rows, fields) => {
+                if(error){
+                    return res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:error});
+                }
+            });
+            const path1 = path.join(__dirname,'/views/faculty_timetables',req.body.delete_email+'.pdf');
+            const path2 = path.join(__dirname,'/views/profile_pictures',req.body.delete_email+'.jpg')
+            fs.unlink(path1, (error) => {
+                if (error) {
+                    return res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:error});
+                }
+            });
+            fs.unlink(path2, (error) => {
+                if (error) {
+                    return res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:error});
+                }
+            });
+            return res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:"User has been deleted successfully!"});
+        }
+        else{
+            return res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:"Enter a faculty e-mail!",QOTD: process.env.QUOTE_OTD});
+        }
     }
 });
 

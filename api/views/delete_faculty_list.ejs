@@ -20,26 +20,21 @@
     </header>
 
     <main class="admindash">
-        <div class="quotimg">
-
-            <% if (error) { %>
-                <div class=" text-center p-3 error" id="error">
-                    <h3><u>Message</u></h3>
-                    <h5><%= error %></h5>
+        <div >
+            <form class="deletefacultyform d-flex flex-column" action="/editfacultylist" method="POST">
+                <div class="m-2 form-group">
+                    <label for="exampleInputEmail1" class="text-uppercase">Enter the e-mail of the record to be deleted!</label>
                 </div>
-            <% } %>
-        </div>
-        <div>
-            <form class="deletefacultyform" action="/deletefaculty" method="POST">
-                <div class="form-group">
-                    <label for="exampleInputEmail1" class="m-2 text-uppercase">Enter the e-mail of the record to be deleted!</label>
+                <div class="m-2 form-group">
+                    <input type="email" class="form-control" placeholder="" name="delete_email">
                 </div>
-                <div class="form-group">
-                    <input type="password" class="m-2 form-control" placeholder="" name="email">
+                <div class="m-2 form-group">
+                    <button type="submit" class="m-2 btn btn-login float-left" name="delete">Delete this record</button>
                 </div>
-                <button type="submit" class="m-2 btn btn-login float-left" name="delete">Delete this record</button>
+                
             </form>
         </div>
+        <br>
         <div class="m-5" style="overflow-x: auto;">
             <table>
                 <th>S.No</th>
