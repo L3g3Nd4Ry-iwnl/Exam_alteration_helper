@@ -384,15 +384,17 @@ app.post('/updateforgotpassword', (req,res) =>{
     }
 });
 
-// python programs
+// add new faq
 
 app.post('/addfaq', urlencodedParser, (req, res) => {
-    var spawn = require('child_process').spawn;
-    var process = spawn('python',['./add_new_faq.py', req.body.user_name, req.body.email, req.body.question]);
-    process.stdout.on('data', function(data) { 
-        console.log(data.toString());
-        res.status(200).render(path.join(__dirname,'/views/faq.ejs'),{error:"Your question was submitted successfully!"});
-        res.end();
+    connection.query('INSERT INTO `faculty_db`.`faq` (`name`, `email`, `question`) VALUES (?, ?, ?)', [req.body.user_name, req.body.email, req.body.question], (error, rows, fields) => {
+        if(error){
+            console.log(error);
+            res.status(500).render(path.join(__dirname,'/views/faq.ejs'),{error:"Some error occured!"});
+        }
+        else{
+            res.status(200).render(path.join(__dirname,'/views/faq.ejs'),{error:"Your question was submitted successfully!"});
+        }
     });
 });
 
@@ -400,7 +402,7 @@ app.post('/addfaq', urlencodedParser, (req, res) => {
 
 // update faculty details and password
 
-app.get('/updatefacultydetails', (req, res) =>{
+app.get('/updatefacultydetails', urlencodedParser, (req, res) =>{
     if(req.session.userId && req.session.userId != process.env.ADMIN_USP && req.session.userId != process.env.DEAN_USP){
         connection.query('SELECT * FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ?', [req.session.userId], (error, rows, fields) => {
             if (rows.length == 1){
@@ -415,7 +417,7 @@ app.get('/updatefacultydetails', (req, res) =>{
     }
 });
 
-app.post('/updatefacultydetails', (req,res) =>{
+app.post('/updatefacultydetails',  urlencodedParser,(req,res) =>{
     if(req.session.userId && req.session.userId != process.env.ADMIN_USP && req.session.userId != process.env.DEAN_USP){
         var phoneno = req.body.phoneno;
         var houseno = req.body.houseno;
@@ -474,7 +476,7 @@ app.post('/updatefacultydetails', (req,res) =>{
     }
 });
 
-app.get('/updateoldpassword', (req, res) =>{
+app.get('/updateoldpassword',  urlencodedParser, (req, res) =>{
     if(req.session.userId && req.session.userId != process.env.ADMIN_USP && req.session.userId != process.env.DEAN_USP){
         res.status(200).render(path.join(__dirname,'/views/resetpassword.ejs'));
         res.end();
@@ -485,7 +487,7 @@ app.get('/updateoldpassword', (req, res) =>{
     }
 });
 
-app.post('/updateoldpassword', (req, res) =>{
+app.post('/updateoldpassword',  urlencodedParser, (req, res) =>{
     if(req.session.userId && req.session.userId != process.env.ADMIN_USP && req.session.userId != process.env.DEAN_USP){
         connection.query('SELECT `f_pwd` FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ?', [req.session.userId], (error, rows, fields) => {
             if(bcrypt.compareSync(req.body.oldpass, rows[0].f_pwd)){
@@ -516,7 +518,7 @@ app.post('/updateoldpassword', (req, res) =>{
 
 // display exam timetable
 
-app.get('/displayexamtimetable', (req, res) =>{
+app.get('/displayexamtimetable',  urlencodedParser, (req, res) =>{
     if(req.session.userId && req.session.userId != process.env.ADMIN_USP && req.session.userId != process.env.DEAN_USP){
         const filepath = path.join(__dirname,'/views/exam_schedules/', process.env.CURRENT_EXAM+'.pdf');
         if (fs.existsSync(filepath)){
@@ -536,7 +538,7 @@ app.get('/displayexamtimetable', (req, res) =>{
 
 // display timetable
 
-app.get('/displayfacultytimetable', (req, res) => {
+app.get('/displayfacultytimetable',  urlencodedParser, (req, res) => {
     if(req.session.userId && req.session.userId != process.env.ADMIN_USP && req.session.userId != process.env.DEAN_USP){
         const filepath = path.join(__dirname,'/views/faculty_timetables/',req.session.userId+'.pdf');
         if (fs.existsSync(filepath)){
@@ -570,7 +572,7 @@ app.get('/viewfacultyrequestslots', (req, res) =>{
 
 // view all faculty details
 
-app.get('/viewfacultylist', (req, res) =>{
+app.get('/viewfacultylist',  urlencodedParser, (req, res) =>{
     if(req.session.userId == process.env.DEAN_USP){
         connection.query('SELECT fdb.f_name, fdb.f_mail_id, fdb.f_phone_no, fdb.f_house_no, fdb.f_street_name, fdb.f_area, fdb.f_city, fplace.state, fdb.f_department FROM faculty_db.faculty_details AS fdb, faculty_db.place AS fplace WHERE fplace.city=fdb.f_city', (error, rows, fields) => {
             if(error){
@@ -591,7 +593,7 @@ app.get('/viewfacultylist', (req, res) =>{
 
 // view current exam time table
 
-app.get('/viewexamtimetable', (req, res) =>{
+app.get('/viewexamtimetable',  urlencodedParser, (req, res) =>{
     if(req.session.userId == process.env.DEAN_USP){
         const filepath = path.join(__dirname,'/views/exam_schedules/', process.env.CURRENT_EXAM+'.pdf');
         if (fs.existsSync(filepath)){
@@ -613,7 +615,7 @@ app.get('/viewexamtimetable', (req, res) =>{
 
 // add new user
 
-app.get('/addnewfaculty', (req, res) => {
+app.get('/addnewfaculty',  urlencodedParser, (req, res) => {
     if(req.session.userId == process.env.ADMIN_USP){
         res.status(200).render(path.join(__dirname,'/views/faculty_acc_setup.ejs'));
         res.end();
@@ -625,7 +627,7 @@ app.get('/addnewfaculty', (req, res) => {
 });
 
 
-app.post('/addnewfaculty', (req, res) => {
+app.post('/addnewfaculty',  urlencodedParser, (req, res) => {
     if(req.session.userId == process.env.ADMIN_USP){
         const hash = bcrypt.hashSync(req.body.pwd, saltRounds);
         connection.query('INSERT INTO `faculty_db`.`faculty_details` (`f_mail_id`, `f_name`, `f_phone_no`, `f_house_no`, `f_street_name`, `f_area`, `f_city`, `f_pwd`,`f_department`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.email, req.body.name, req.body.phoneno, req.body.houseno, req.body.streetname, req.body.area, req.body.city, hash, req.body.dept], (error, rows, fields) => { 
@@ -673,7 +675,7 @@ app.post('/addnewfaculty', (req, res) => {
 
 // edit faculty list
 
-app.get('/editfacultylist', (req, res) =>{
+app.get('/editfacultylist',  urlencodedParser, (req, res) =>{
     if(req.session.userId == process.env.ADMIN_USP){
         connection.query('SELECT fdb.f_name, fdb.f_mail_id, fdb.f_phone_no, fdb.f_house_no, fdb.f_street_name, fdb.f_area, fdb.f_city, fplace.state, fdb.f_department FROM faculty_db.faculty_details AS fdb, faculty_db.place AS fplace WHERE fplace.city=fdb.f_city', (error, rows, fields) => {
             if(error){
@@ -688,7 +690,7 @@ app.get('/editfacultylist', (req, res) =>{
     }
 });
 
-app.post('/editfacultylist', (req, res) =>{
+app.post('/editfacultylist',  urlencodedParser, (req, res) =>{
     if(req.session.userId == process.env.ADMIN_USP){
         if(req.body.delete_email){
             connection.query('DELETE FROM `faculty_db`.`faculty_details` WHERE (`f_mail_id` = ?);',[req.body.delete_email], (error, rows, fields) => {
@@ -718,14 +720,24 @@ app.post('/editfacultylist', (req, res) =>{
 
 // upload new exam timetable
 
-app.get('/uploadnewtimetable', (req, res) =>{
+app.get('/uploadnewtimetable',  urlencodedParser, (req, res) =>{
 
 });
 
 // view new FAQs
 
-app.get('/viewnewfaq', (req, res) =>{
-
+app.get('/viewnewfaq',  urlencodedParser, (req, res) =>{
+    if(req.session.userId == process.env.ADMIN_USP){
+        connection.query('SELECT * FROM `faculty_db`.`faq`', (error, rows, fields) => {
+            if(error){
+                console.log(error);
+                res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:"Some error occured!"});
+            }
+            else{
+                res.status(200).render(path.join(__dirname,'/views/viewfaq.ejs'),{userData:rows});
+            }
+        });
+    }
 });
 
 // listener

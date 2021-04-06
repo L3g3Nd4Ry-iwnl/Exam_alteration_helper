@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dean Dashboard</title>
+    <title>View FAQs</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">  
@@ -14,59 +14,32 @@
 <body class="d-flex flex-column min-vh-100 bodyclass">
     <header class="d-flex flex-row align-items-center text-white">
         <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
-        <form action="/deanlogout" method="POST">
+        <form action="/adminlogout" method="POST">
             <button class="btn" id="logoutbutton">Logout</button>
         </form>  
     </header>
 
     <main class="admindash">
-        <div >
-            <form class="deletefacultyform d-flex flex-column" action="/editfacultylist" method="POST">
-                <div class="m-2 form-group">
-                    <label for="exampleInputEmail1" class="text-uppercase">Enter the e-mail of the record to be deleted!</label>
-                </div>
-                <div class="m-2 form-group">
-                    <input type="email" class="form-control" placeholder="" name="delete_email">
-                </div>
-                <div class="m-2 form-group">
-                    <button type="submit" class="m-2 btn btn-login float-left" name="delete">Delete this record</button>
-                </div>
-                
-            </form>
-        </div>
-        <br>
         <div class="m-5" style="overflow-x: auto;">
             <table>
                 <th>S.No</th>
-                <th>Full Name</th>
+                <th>Name</th>
                 <th>Email Address</th>
-                <th>Phone number</th>
-                <th>House number</th>
-                <th>Street Name</th>
-                <th>Area</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Department</th>
+                <th>Question</th>
                 <% if(userData.length!=0){
                     var i=1;
                     userData.forEach(function(data){
                 %>
                 <tr>
                     <td><%= i; %></td>
-                    <td><%= data.f_name %></td>
-                    <td><%= data.f_mail_id %></td>
-                    <td><%= data.f_phone_no %></td>
-                    <td><%= data.f_house_no %></td>
-                    <td><%= data.f_street_name %></td>
-                    <td><%= data.f_area %></td>
-                    <td><%= data.f_city %></td>
-                    <td><%= data.state %></td>
-                    <td><%= data.f_department %></td>
+                    <td><%= data.name %></td>
+                    <td><%= data.email %></td>
+                    <td><%= data.question %></td>
                 </tr>
                 <%  i++; }) %>
                 <% } else { %>
                     <td>
-                        <td colspan="10">No Data Found</td>
+                        <td colspan="4">No Data Found</td>
                     </td>
                 <% } %>
             </table>
@@ -77,16 +50,6 @@
 
     <footer class="mt-auto">
         <div class="d-flex flex-row justify-content-around p-3">
-            <div>
-                <form action="/faq" method="GET">
-                    <button class="btn" id="ftr_btn">FAQ's</button>
-                </form>
-            </div>
-            <div>
-                <form action="mailto:cb.en.u4cse18163@cb.students.amrita.edu" method="GET">
-                    <button class="btn" id="ftr_btn">Mail Us</button>
-                </form>
-            </div>
             <div>
                 <form action="/about" method="GET">
                     <button class="btn" id="ftr_btn">About</button>
