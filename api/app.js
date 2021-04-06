@@ -76,8 +76,8 @@ connection.connect((error) => {
 // mailer init
 
 let transport = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
+    host: process.env.GMAIL_HOST,
+    port: Number(process.env.GMAIL_PORT),
     secure:true,
     auth: {
        user: process.env.GMAIL_ID,
