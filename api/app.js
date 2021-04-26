@@ -56,7 +56,7 @@ app.use(session({
 }));
 
 //db init
-var connection = mysql.createConnection({
+let connection = mysql.createConnection({
 	host     : process.env.MYSQL_URL,
 	user     : process.env.MYSQL_USERNAME,
 	password : process.env.MYSQL_PASSWORD,
@@ -88,6 +88,9 @@ let transport = nodemailer.createTransport({
 // session redirectors
 
 // to redirect to home if the user is not auth
+
+const test = require('./routes/faculty');
+app.use('/test',test);
 
 const redirectLogin = (req, res, next) =>{
     if (!req.session.userId){
@@ -197,8 +200,8 @@ app.get('/admindash', redirectLogin, (req,res) => {
 
 app.post('/auth', urlencodedParser, (req,res) => {
     if(req.body.login_type == 'faculty'){
-        var username = req.body.username;
-	    var password = req.body.password;
+        let username = req.body.username;
+	    let password = req.body.password;
         if(username && password){
             connection.query('SELECT `f_pwd` FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ?', [username], (error, rows, fields) => {
             if (rows.length == 1) {
@@ -222,8 +225,8 @@ app.post('/auth', urlencodedParser, (req,res) => {
         }
     }
     if(req.body.login_type == 'admin'){
-        var username = req.body.username;
-	    var password = req.body.password;
+        let username = req.body.username;
+	    let password = req.body.password;
         if(username && password){
             if(username == process.env.ADMIN_USP && bcrypt.compareSync(password, process.env.ADMIN_HASH)){
                 req.session.userId = username;
@@ -240,8 +243,8 @@ app.post('/auth', urlencodedParser, (req,res) => {
         }
     }
     if(req.body.login_type == 'dean'){
-        var username = req.body.username;
-	    var password = req.body.password;
+        let username = req.body.username;
+	    let password = req.body.password;
         if(username && password){
             if(username == process.env.DEAN_USP && bcrypt.compareSync(password, process.env.DEAN_HASH)){
                 req.session.userId = username;
@@ -419,11 +422,11 @@ app.get('/updatefacultydetails', urlencodedParser, (req, res) =>{
 
 app.post('/updatefacultydetails',  urlencodedParser,(req,res) =>{
     if(req.session.userId && req.session.userId != process.env.ADMIN_USP && req.session.userId != process.env.DEAN_USP){
-        var phoneno = req.body.phoneno;
-        var houseno = req.body.houseno;
-        var streetname = req.body.streetname;
-        var area = req.body.area;
-        var city = req.body.city;
+        let phoneno = req.body.phoneno;
+        let houseno = req.body.houseno;
+        let streetname = req.body.streetname;
+        let area = req.body.area;
+        let city = req.body.city;
         if (phoneno !== '') {
             connection.query('UPDATE `faculty_db`.`faculty_details` SET `f_phone_no` = ? WHERE (`f_mail_id` = ?)', [req.body.phoneno, req.session.userId], (error, rows, fields) => {
                 if (error){
@@ -461,7 +464,7 @@ app.post('/updatefacultydetails',  urlencodedParser,(req,res) =>{
         }
         if(req.files){
             let file = req.files.myfile;
-            var filepath = path.join(__dirname,'/views/profile_pictures/'+req.session.userId+'.jpg');
+            let filepath = path.join(__dirname,'/views/profile_pictures/'+req.session.userId+'.jpg');
             file.mv(filepath, function(err){
               if(err){
                 return res.status(500).render(path.join(__dirname,'/views/faculty_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD, img:req.session.userId});
@@ -644,8 +647,8 @@ app.post('/addnewfaculty',  urlencodedParser, (req, res) => {
             }
         });
         if(req.files){
-            file = req.files.myfile;
-            var filepath = path.join(__dirname,'/views/faculty_timetables/'+req.body.email+'.pdf');
+            let file = req.files.myfile;
+            let filepath = path.join(__dirname,'/views/faculty_timetables/'+req.body.email+'.pdf');
             file.mv(filepath, function(error){
               if(error){
                 return res.status(500).render(path.join(__dirname,'/views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
@@ -656,7 +659,7 @@ app.post('/addnewfaculty',  urlencodedParser, (req, res) => {
             from: 'examalterationhelper@gmail.com',
             to: req.body.email,
             subject: 'Your account has been created!',
-            html: `Hello ${req.body.name}! <br> Your account has been created with the credentials: <br> Username: ${req.body.email} <br> Password: ${req.body.pwd} <br> The Lannisters sent their regards!`
+            html: `Hello ${req.body.name}! <br> Your account has been created with the credentials: <br> Username: ${req.body.email} <br> Password: ${req.body.pwd} <br> The Lannisters sent their regards! <br> We are extremely sorry if you recieved this mail by mistake.`
         }
         transport.sendMail(message, function(error, info) {
             if (error) {
