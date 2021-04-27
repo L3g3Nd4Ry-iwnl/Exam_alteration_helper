@@ -2,6 +2,19 @@ html,body{
     width: 100%;
 }
 
+.animation{
+    margin:auto auto;
+    font-size: 50px;
+}
+
+.anitext{
+    display: inline-block;
+    line-height: 20px;
+    color: white;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+
 main h1, main h2, main h3, main h4, main h5{
     font-family: 'Josefin Sans', sans-serif;
 }
