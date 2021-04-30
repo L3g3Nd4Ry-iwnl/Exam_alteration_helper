@@ -3,8 +3,12 @@ html,body{
 }
 
 .animation{
-    margin:auto auto;
+    margin-top: 20vw;
     font-size: 50px;
+}
+
+.slogan{
+    text-shadow: 2px 2px #c3073f;
 }
 
 .anitext{
@@ -12,6 +16,17 @@ html,body{
     line-height: 20px;
     color: white;
     font-family: 'Josefin Sans', sans-serif;
+}
+
+.homefaculty, .homedean, .homeadmin{
+    border-radius: 25px;
+    height: 200px;
+    width: 400px;
+    background-color: white;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 
@@ -112,7 +127,7 @@ footer a{
 
 .carousel-inner img {border-top-left-radius:  3%; border-bottom-left-radius: 3%;}
 
-.containerr {
+.containerr, .homeadmin, .homedean, .homefaculty {
     position: relative;
     width: 50%;
 }
@@ -133,9 +148,10 @@ footer a{
     width: 0;
     height: 100%;
     transition: .5s ease;
+    border-radius: 25px;
 }
   
-.containerr:hover .overlay {
+.containerr:hover .overlay, .homefaculty:hover .overlay, .homedean:hover .overlay, .homeadmin:hover .overlay {
     width: 100%;
 }
   
@@ -150,11 +166,8 @@ footer a{
     transform: translate(-50%, -50%);
     white-space: nowrap;
     padding-right: 20px;
-    padding-left:20px;
-    
+    padding-left:20px;    
 }
-
-
 
 .bodyclass{
     background-repeat:no-repeat ;
@@ -456,6 +469,25 @@ th, td{
 
   @media only screen and (max-width: 700px) {
 
+    .text{
+        font-size: 15px;
+    }
+
+    .animation{
+        font-size: 30px;
+    }
+
+    .homefaculty, .homedean, .homeadmin{
+        height: 200px;
+        width: 400px;
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+
+    .homefaculty h3, .homedean h3, .homeadmin h3{
+        font-size: 25px;
+    }
+
     main h3, main h5, main h2, main h4, .formheading{
         font-size: medium;
     }
@@ -570,6 +602,16 @@ th, td{
         margin-bottom:30px;
     }
 
+    @media only screen and (max-width: 455px){
+        
+        .homefaculty, .homedean, .homeadmin{
+            height: 200px;
+            width: 300px;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+    }
+
     @media only screen and (max-width: 400px){
         
         #quotes{
@@ -636,5 +678,14 @@ th, td{
 @media only screen and (max-width: 415px){
     .text{
         font-size: 7px;
+    }
+}
+
+@media only screen and (max-width: 415px){
+    .homefaculty, .homedean, .homeadmin{
+        height: 200px;
+        width: 250px;
+        margin-left: 20px;
+        margin-right: 20px;
     }
 }
