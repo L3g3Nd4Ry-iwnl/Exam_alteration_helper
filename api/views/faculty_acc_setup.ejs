@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faculty Account Setup</title>
+    <title>Setup a faculty account</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 <body class="d-flex flex-column min-vh-100 bodyclass">
     <header class="d-flex flex-row align-items-center text-white">
         <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
-        <form action="/adminlogout" method="POST">
+        <form action="/admin/logout" method="POST">
             <button class="btn" id="logoutbutton">Logout</button>
         </form>
     </header>
@@ -24,7 +24,7 @@
             <h3><strong><u>Faculty Account Setup</u></strong></h3>
         </div>
         <div>
-            <form class="accountform" action="/addnewfaculty" method="POST" enctype="multipart/form-data">
+            <form class="accountform" action="/admin/faculty/add" method="POST" enctype="multipart/form-data">
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="email"><strong>Mail</strong></label>
                     <input type="email" id="email" name="email"class="form-control"  placeholder="Enter the Mail-ID" required>
@@ -104,7 +104,11 @@
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="tt"><strong>Upload their timetable</strong></label><br>
-                    <input type="file" accept=".pdf" id="myfile" name="myfile" required>
+                    <input type="file" accept=".pdf" id="timetable" name="timetable" required>
+                </div>
+                <div class="form-group m-2 p-2">
+                    <label class="text-uppercase" for="dp"><strong>Upload their profile picture (Not neccesary)</strong></label><br>
+                    <input type="file" accept=".jpg,.jpeg" id="profilepic" name="profilepic">
                 </div>
 
                 <div class="form-group m-2 p-2">

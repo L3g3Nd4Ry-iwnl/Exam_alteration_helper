@@ -14,7 +14,7 @@
 <body class="d-flex flex-column min-vh-100 bodyclass">
     <header class="d-flex flex-row align-items-center text-white">
         <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
-        <form action="/adminlogout" method="POST">
+        <form action="/admin/logout" method="POST">
             <button class="btn" id="logoutbutton">Logout</button>
         </form>
     </header>
@@ -45,7 +45,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="40" fill="currentColor" class="m-2 bi bi-file-earmark-person-fill" viewBox="0 0 16 16">
                         <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm2 5.755V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-.245S4 12 8 12s5 1.755 5 1.755z" />
                     </svg>
-                    <form action="/addnewfaculty" method="GET">
+                    <form action="/admin/faculty/add" method="GET">
                         <button class="m-2 btn">Setup a new faculty account</button>
                     </form>
                 </div>
@@ -55,7 +55,7 @@
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                     </svg>
-                    <form action="/editfacultylist" method="GET">
+                    <form action="/admin/faculty/edit" method="GET">
                         <button class="m-2 btn">Delete a faculty</button>
                     </form>
                 </div>
@@ -63,7 +63,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="40" fill="currentColor" class="m-2 bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
                         <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z" />
                     </svg>
-                    <form action="/uploadnewtimetable" method="GET">
+                    <form action="/admin/upload/timetable" method="GET">
                         <button class="m-2 btn">Upload new exam timetable</button>
                     </form>
                 </div>
@@ -71,15 +71,15 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="40" fill="currentColor" class="m-2 bi bi-calendar-check-fill" viewBox="0 0 16 16">
                         <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z"/>
                     </svg>
-                    <form action="" method="GET">
-                        <button class="m-2 btn">Upload hall allotment</button>
+                    <form action="/admin/upload/hallalloc" method="GET">
+                        <button class="m-2 btn">Upload new hall allotment</button>
                     </form>
                 </div>
                 <div class="d-flex flex-row">
                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="40" fill="currentColor" class="m-2 bi bi-view-list" viewBox="0 0 16 16">
                         <path d="M3 4.5h10a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H3zM1 2a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 2zm0 12a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 14z" />
                     </svg>
-                    <form action="/viewnewfaq" method="GET">
+                    <form action="/admin/view/faq" method="GET">
                         <button class="m-2 btn">View new FAQ</button>
                     </form>
                 </div>

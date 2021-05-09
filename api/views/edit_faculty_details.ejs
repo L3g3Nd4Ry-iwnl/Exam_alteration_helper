@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faculty Details</title>
+    <title>Edit my details</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">  
@@ -14,7 +14,7 @@
 <body class="d-flex flex-column min-vh-100 bodyclass">
     <header class="d-flex flex-row align-items-center text-white">
         <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
-        <form action="/facultylogout" method="POST">
+        <form action="/faculty/logout" method="POST">
             <button class="btn" id="logoutbutton">Logout</button>
         </form>   
     </header>
@@ -24,7 +24,7 @@
         <h5 class="text-center text-white m-4"><u>Edit your Details</u></h5> 
 
         <div>
-            <form class="updateform" action="/updatefacultydetails" method="POST" enctype="multipart/form-data">
+            <form class="updateform" action="/faculty/update/details" method="POST" enctype="multipart/form-data">
                 <div class="text-center m-5">
                     <img style="border-radius: 50% ;height:200px; width: 200px;" src="./profile_pictures/<%= img %>.jpg" class="center" alt="Faculty Image">
                 </div>
@@ -113,7 +113,7 @@
             </form>
         </div>
         <div class="pwdchange text-center">
-            <form action="/updateoldpassword" method="GET">
+            <form action="/faculty/update/password" method="GET">
                 <button type="submit" class="btn">Change Password</button>
             </form>
         </div>

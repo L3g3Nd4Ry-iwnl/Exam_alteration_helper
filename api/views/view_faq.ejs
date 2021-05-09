@@ -4,44 +4,52 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password</title>
+    <title>View FAQs</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">  
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
 </head>
 
 <body class="d-flex flex-column min-vh-100 bodyclass">
     <header class="d-flex flex-row align-items-center text-white">
         <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
+        <form action="/admin/logout" method="POST">
+            <button class="btn" id="logoutbutton">Logout</button>
+        </form>  
     </header>
 
-    <main class="resetform">
-        <form action="/updateforgotpassword" method="POST">
-            <div class="form-group m-4">
-                <label for="exampleInputName1" class="text-uppercase m-1"><strong>Enter your New Password</strong></label>
-                <input type="password" name="newpass1" class="form-control" placeholder="Enter your new Password" required>
-            </div>
-            <div class="form-group m-4">
-                <label for="exampleInputEmail1" class="text-uppercase"><strong>Confirm your Password</strong></label>
-                <input type="password" name="newpass2" class="form-control" placeholder="Re-enter your new password" required>
-            </div>
-            <button type="submit" class="forgotsubmit btn btn-login float-left" name="email" value="<%= email %>">Submit</button>
-        </form>
-        
+    <main class="admindash">
+        <div class="m-5" style="overflow-x: auto;">
+            <table>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Email Address</th>
+                <th>Question</th>
+                <% if(userData.length!=0){
+                    var i=1;
+                    userData.forEach(function(data){
+                %>
+                <tr>
+                    <td><%= i; %></td>
+                    <td><%= data.name %></td>
+                    <td><%= data.email %></td>
+                    <td><%= data.question %></td>
+                </tr>
+                <%  i++; }) %>
+                <% } else { %>
+                    <td>
+                        <td colspan="4">No Data Found</td>
+                    </td>
+                <% } %>
+            </table>
+        </div>
+
     </main>
+
+
     <footer class="mt-auto">
         <div class="d-flex flex-row justify-content-around p-3">
-            <div>
-                <form action="/faq" method="GET">
-                    <button class="btn" id="ftr_btn">FAQ's</button>
-                </form>
-            </div>
-            <div>
-                <form action="mailto:cb.en.u4cse18163@cb.students.amrita.edu" method="GET">
-                    <button class="btn" id="ftr_btn">Mail Us</button>
-                </form>
-            </div>
             <div>
                 <form action="/about" method="GET">
                     <button class="btn" id="ftr_btn">About</button>

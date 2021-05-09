@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dean Login</title>
+    <title>Faculty Login</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
@@ -14,11 +14,11 @@
 <body class="d-flex flex-column min-vh-100 bodyclass">
     <header class="d-flex flex-row align-items-center text-white">
         <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
-        <form action="/adminlogin" method="GET">
+        <form action="/admin/login" method="GET">
             <button class="btn p-1 m-3" id="adminbutton">Admin Login</button>
         </form>
-        <form action="/" method="GET">
-            <button class="btn p-1 m-3" id="facultybutton">Faculty Login</button>
+        <form action="/dean/login" method="GET">
+            <button class="btn p-1 m-3" id="deanbutton">Dean Login</button>
         </form>
     </header>
 
@@ -62,15 +62,15 @@
                         <span class="sr-only">Previous</span>
                     </a>
                     <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="carousel-control-next- " aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
             </div>
             <div class="col-xl-4 mainform" id="mainform">
                 <h3 class="text-left"> Welcome</h3>
-                <h5 class="text-center"><u>Dean Login</u></h5>
-                <form class="login-form formclass" method="POST" action='/auth'>
+                <h5 class="text-center"><u>Faculty Login</u></h5>
+                <form class="login-form formclass" method="POST" action="/auth">
                     <div class="form-group">
                         <label for="exampleInputEmail1" class="text-uppercase">Username</label>
                         <input type="text" class="form-control" placeholder="" name="username">
@@ -79,8 +79,14 @@
                         <label for="exampleInputPassword1" class="text-uppercase">Password</label>
                         <input type="password" class="form-control" placeholder="" name="password">
                     </div>
-                    <button type="submit" class="btn btn-login float-left"name="login_type" value="dean">Submit</button>
+                    <div class="d-flex flex-row">
+                        <button type="submit" class="btn btn-login float-left" name="login_type" value="faculty">Submit</button>
+                    </div>
                 </form>
+                <form class="login-form fgtclass" action="/forgot/getlink" method="GET">
+                    <button type="submit" class="btn float-left" name="forget_pass_btn">Forgot password?</button>
+                </form>
+                <br><br>
                 <% if (error) { %>
                     <strong><%= error %></strong>
                 <% } %>
