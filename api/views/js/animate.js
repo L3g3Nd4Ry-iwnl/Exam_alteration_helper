@@ -17,7 +17,6 @@ anime.timeline({loop: false})
     duration: 800,
     delay: (el, i) => 800 * i
   })
-  .add({targets:'.animation', margin:0},0)
   .add({targets:'.anitext', color:'#c3073f'},0)
   .add({
     targets: '.slogan .letter',

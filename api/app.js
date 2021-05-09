@@ -71,18 +71,29 @@ connection.connect((error) => {
 // redirectors
 
 app.use('/faculty',express.static(path.join(__dirname,'views')));
+app.use('/faculty/update',express.static(path.join(__dirname,'views')));
+app.use('/faculty/display',express.static(path.join(__dirname,'views')));
+
 const faculty = require('./routes/faculty');
 app.use('/faculty', faculty);
 
 app.use('/dean',express.static(path.join(__dirname,'views')));
+app.use('/dean/faculty',express.static(path.join(__dirname,'views')));
+app.use('/dean/display',express.static(path.join(__dirname,'views')));
+
 const dean = require('./routes/dean');
 app.use('/dean', dean);
 
 app.use('/admin',express.static(path.join(__dirname,'views')));
+app.use('/admin/faculty',express.static(path.join(__dirname,'views')));
+app.use('/admin/upload',express.static(path.join(__dirname,'views')));
+app.use('/admin/view',express.static(path.join(__dirname,'views')));
+
 const admin = require('./routes/admin');
 app.use('/admin', admin);
 
 app.use('/forgot',express.static(path.join(__dirname,'views')));
+
 const forgot = require('./routes/forgot_password');
 app.use('/forgot', forgot);
 

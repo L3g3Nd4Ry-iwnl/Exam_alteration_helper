@@ -3,7 +3,6 @@ html,body{
 }
 
 .animation{
-    margin-top: 20vw;
     font-size: 50px;
 }
 
@@ -133,6 +132,7 @@ footer a{
 }
   
 .image {
+    border-radius: 25px;
     display: block;
     max-width: 100%;
     max-height: auto;
