@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Exam Time-Table</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" type="text/css" href="./bootstrap-5.0.0-dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="./bootstrap-5.0.0-dist/js/bootstrap.min.js"> </script>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+</head>
+
+<body class="d-flex flex-column min-vh-100 bodyclass">
+    <header class="d-flex flex-row align-items-center text-white">
+        <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
+        <form action="/admin/logout" method="POST">
+            <button class="btn" id="logoutbutton">Logout</button>
+        </form>   
+    </header>
+
+    <main>
+        <h3 class="text-center m-2">Hello Admin</h3>
+        <h5 class="text-center text-white m-4"><u>Upload the Exam Time-Table</u></h5> 
+
+        <div>
+            <form class="examttform" action="" method="POST" enctype="multipart/form-data">
+                            
+                <div class="form-group m-2 p-2">
+                    <label class="text-uppercase" for="examname"><strong>Exam-Name</strong></label>
+                    <select name="examname" id="examname" class="form-control">
+                        <option value="P1">P2</option>
+                        <option value="P2">P1</option>
+                        <option value="End-Sem">End-Sem</option>
+                        <option value="Supplementary">Supplementary</option>
+                    </select>
+                </div>
+                <div class="form-group m-2 p-2">
+                    <label class="text-uppercase" for="year"><strong>Year</strong></label>
+                    <select name="year" id="year" class="form-control">
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                    </select>
+                </div>
+                <div class="form-group m-2 p-2">
+                    <label class="text-uppercase" for="branch"><strong>Branch</strong></label>
+                    <select name="branch" id="branch" class="form-control">
+                        <option value="btech">btech</option>
+                        <option value="eng">eng</option>
+                        <option value="math">math</option>
+                    </select>
+                </div>
+
+                <div class="text-center m-2 p-2">
+                    <input type="file" accept=".pdf" id="myfile" name="myfile">
+                </div>
+            </form>
+        </div>
+    </main>
+
+
+    <footer class="mt-auto">
+        <div class="d-flex flex-row justify-content-around p-3">
+            <div>
+                <form action="/about" method="GET">
+                    <button class="btn" id="ftr_btn">About</button>
+                </form>
+            </div>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

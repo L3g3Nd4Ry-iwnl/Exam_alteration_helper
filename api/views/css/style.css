@@ -319,7 +319,7 @@ footer a{
     margin-left: 30px;
 }
 
-.faqform, .forgotform, .resetform, .accountform, .updateform, .pwdchange, .deletefacultyform{
+.faqform, .forgotform, .resetform, .accountform, .updateform, .pwdchange, .deletefacultyform, .hallallocform, .examttform{
     margin-left: 180px;
     margin-right: 180px;
     margin-top: 40px;
@@ -358,7 +358,7 @@ input[type=email]{
     margin-top: 20px;
 }
 
-.faqform button, .forgotform button, .resetform button, .accountform button, .updateform button, .pwdchange button, .deletefacultyform button{
+.faqform button, .forgotform button, .resetform button, .accountform button, .updateform button, .pwdchange button, .deletefacultyform button, .hallallocform button, .examttform button{
     background: #6f2232;
     color: whitesmoke;
     margin-top:20px;
@@ -381,7 +381,7 @@ input[type=email]{
     border-radius: 25px;
 
 }
-#mainform label, .faqform label, .forgotform label, .resetform label,.accountform label , .updateform label, .deletefacultyform label{
+#mainform label, .faqform label, .forgotform label, .resetform label,.accountform label , .updateform label, .deletefacultyform label, .hallallocform label, .examttform label{
     color: #4e4e50;
 }
 
@@ -516,7 +516,7 @@ th, td{
         max-height: auto;
     }
 
-    .faqform, .forgotform, .resetform,.accountform ,.updateform, .pwdchange, .deletefacultyform{
+    .faqform, .forgotform, .resetform,.accountform ,.updateform, .pwdchange, .deletefacultyform, .hallallocform, .examttform{
         margin-left: 100px;
         margin-right: 100px;
         margin-top: 40px;
@@ -648,7 +648,7 @@ th, td{
             padding: 10px;
         }
 
-        .faqform, .forgotform, .resetform,.accountform, .updateform , .pwdchange,  .deletefacultyform{
+        .faqform, .forgotform, .resetform,.accountform, .updateform , .pwdchange,  .deletefacultyform ,.hallallocform, .examttform{
             margin-left: 30px;
             margin-right: 30px;
             margin-top: 40px;

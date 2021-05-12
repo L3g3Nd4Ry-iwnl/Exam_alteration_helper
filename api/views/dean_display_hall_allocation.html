@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Hall Allocation List</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" type="text/css" href="./bootstrap-5.0.0-dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="./bootstrap-5.0.0-dist/js/bootstrap.min.js"> </script>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+</head>
+
+<body class="d-flex flex-column min-vh-100 bodyclass">
+    <header class="d-flex flex-row align-items-center text-white">
+        <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
+        <form action="/dean/logout" method="POST">
+            <button class="btn" id="logoutbutton">Logout</button>
+        </form>   
+    </header>
+
+    <main>
+        <h3 class="text-center m-2">Hello Dean</h3>
+        <h5 class="text-center text-white m-4"><u>View the Hall Allocation List</u></h5> 
+        <h5 class="text-center text-white m-4"><u>Choose the Year, Exam-Name and Department</u></h5> 
+        <div>
+            <form class="hallallocform" action="" method="POST" enctype="multipart/form-data">
+                            
+                <div class="form-group m-2 p-2">
+                    <label class="text-uppercase" for="examname"><strong>Exam-Name</strong></label>
+                    <select name="examname" id="examname" class="form-control">
+                        <option value="P1">P2</option>
+                        <option value="P2">P1</option>
+                        <option value="End-Sem">End-Sem</option>
+                        <option value="Supplementary">Supplementary</option>
+                    </select>
+                </div>
+                <div class="form-group m-2 p-2">
+                    <label class="text-uppercase" for="year"><strong>Year</strong></label>
+                    <select name="year" id="year" class="form-control">
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                    </select>
+                </div>
+                <div class="form-group m-2 p-2">
+                    <label class="text-uppercase" for="dept"><strong>Department</strong></label>
+                    <select name="dept" id="dept" class="form-control">
+                        <option value="cse">cse</option>
+                        <option value="mech">mech</option>
+                        <option value="eng">eng</option>
+                        <option value="math">math</option>
+                    </select>
+                </div>
+                <div class="text-center form-group m-2 p-2">
+                    <button type="submit" class="btn">Submit</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+
+    <footer class="mt-auto">
+        <div class="d-flex flex-row justify-content-around p-3">
+            <div>
+                <form action="/faq" method="GET">
+                    <button class="btn" id="ftr_btn">FAQ's</button>
+                </form>
+            </div>
+            <div>
+                <form action="mailto:cb.en.u4cse18163@cb.students.amrita.edu" method="GET">
+                    <button class="btn" id="ftr_btn">Mail Us</button>
+                </form>
+            </div>
+            <div>
+                <form action="/about" method="GET">
+                    <button class="btn" id="ftr_btn">About</button>
+                </form>
+            </div>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>
