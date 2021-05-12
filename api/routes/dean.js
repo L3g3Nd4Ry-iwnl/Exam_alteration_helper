@@ -107,15 +107,15 @@ router
 router
     .route('/display/examtt')
     .get(verify.isdean,  urlencodedParser, (req, res) =>{
-        const filepath = path.join(__dirname,'../views/exam_schedules/', process.env.CURRENT_EXAM+'.pdf');
-        if (fs.existsSync(filepath)){
-            res.status(200).render(path.join(__dirname,'../views/pdf_displayer.ejs'),{message: process.env.CURRENT_EXAM+" timetable", file1:null, file2: process.env.CURRENT_EXAM});
-            res.end();
-        }
-        else{
-            res.status(404).render(path.join(__dirname,'../views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:process.env.QUOTE_OTD, img:req.session.userId});
-            res.end();
-        }
+        // const filepath = path.join(__dirname,'../views/exam_schedules/', process.env.CURRENT_EXAM+'.pdf');
+        // if (fs.existsSync(filepath)){
+        //     res.status(200).render(path.join(__dirname,'../views/pdf_displayer.ejs'),{message: process.env.CURRENT_EXAM+" timetable", file1:null, file2: process.env.CURRENT_EXAM});
+        //     res.end();
+        // }
+        // else{
+        //     res.status(404).render(path.join(__dirname,'../views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:process.env.QUOTE_OTD, img:req.session.userId});
+        //     res.end();
+        // }
     });
 
 router

@@ -33,6 +33,10 @@ const fs = require('fs');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+// csv parser
+
+const csv = require('csv-parser')
+
 // mySQL database connection
 
 const mysql = require('mysql');
@@ -196,32 +200,110 @@ router
         }
     });
 
+// get year, exam name (p1/p2/endsem/supplementary) from user
+ 
 router    
     .route('/display/examtt')
     .get(verify.isfaculty, urlencodedParser, (req, res) =>{
-        const filepath = path.join(__dirname,'../views/exam_schedules/', process.env.CURRENT_EXAM+'.pdf');
-        if (fs.existsSync(filepath)){
-            res.status(200).render(path.join(__dirname,'../views/pdf_displayer.ejs'),{message: process.env.CURRENT_EXAM+" timetable", file1:null, file2: process.env.CURRENT_EXAM});
-            res.end();
-        }
-        else{
-            res.status(404).render(path.join(__dirname,'../views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:process.env.QUOTE_OTD, img:req.session.userId});
-            res.end();
-        }
+        return res.send("Display exam tt");
+    })
+    .post(verify.isfaculty, urlencodedParser, (req, res) =>{
+        connection.query('SELECT `faculty_db`.`faculty_details`.`f_department` FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ? LIMIT 1', [req.session.userId], (error, rows, fields) => {
+            if (error){
+                console.log(error)
+                return res.status(404).render(path.join(__dirname,'../views/faculty_dashboard.ejs'), {error:'Sorry! Some server side error occured!', QOTD:process.env.QUOTE_OTD, img:req.session.userId});
+            }
+            let dept = rows[0].f_department;
+            let branch = '';
+            if (dept === 'cse' || dept === 'mechanical engineering'){
+                branch = 'btech';
+            }
+            else{
+                branch = dept;
+            }
+            let filepath = path.join(__dirname+"../views/exam_schedules/"+req.body.year+"_"+global.branch+"_"+req.body.examname+".pdf");
+            if (fs.existsSync(filepath)){
+                return res.status(200).render(path.join(__dirname,'../views/pdf_displayer.ejs'),{message: process.env.CURRENT_EXAM+" timetable", file1:null, file2: process.env.CURRENT_EXAM});
+            }
+            else{
+                return res.status(404).render(path.join(__dirname,'../views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:process.env.QUOTE_OTD, img:req.session.userId});
+            }
+        });
     });
+
+// get year , exam name (p1/p2/endsem/supplementary) from user end
 
 router
     .route('/display/hallalloc')
     .get(verify.isfaculty, urlencodedParser, (req, res) =>{
-        res.send("Hello display hall alloc");
+        return res.send("Hello display hall alloc");
+    })
+    .post(verify.isfaculty, urlencodedParser, (req, res) =>{
+        connection.query('SELECT `faculty_db`.`faculty_details`.`f_department` FROM `faculty_db`.`faculty_details` WHERE `faculty_db`.`faculty_details`.`f_mail_id` = ? LIMIT 1', [req.session.userId], (error, rows, fields) => {
+            if (error){
+                console.log(error)
+                return res.status(404).render(path.join(__dirname,'../views/faculty_dashboard.ejs'), {error:'Sorry! Some server side error occured!', QOTD:process.env.QUOTE_OTD, img:req.session.userId});
+            }
+            let dept = rows[0].f_department;
+            let slots = [];
+            fs
+                .createReadStream(path.join(__dirname,'../views/hall_allocation/'+req.body.year+"_"+req.body.examname+'_'+global.dept+'.csv'))
+                .pipe(csv())
+                .on('data', (data) => {
+                    if (data.Facultyemail === req.session.userId){
+                        slots.push(data)
+                    }   
+                })
+                // replace filename with the actual filename
+                .on('end', () => {
+                    console.log(slots);
+                    if (slots.length > 0){
+                        return res.status(200).render(path.join(__dirname,'../views/filename1'),{slots:slots,error:null,file:year+"_"+process.env.CURRENT_EXAM+'_'+dept+'.csv'});
+                    }
+                    else{
+                        return res.status(200).render(path.join(__dirname,'../views/filename1'),{slots:null,error:'No slots have been allocated for you!'});
+                    }
+                });
+        });
     });
 
 router
     .route('/exchange')
     .get(verify.isfaculty, urlencodedParser, (req, res) =>{
-        res.send("Hello exchange slot");
+        // get slots of faculty who are free during the slot
+        // use submit button and radio button...
+        let filename = path.join(__dirname,'../views/hall_allocation/'+req.body.filename);
+        let slot = req.body.slot;
+        let date = req.body.date;
+
+        let free_slots = [];
+        fs
+            .createReadStream(filename)
+            .pipe(csv())
+            .on('data', (data) => {
+                if ((data.Facultyemail !== req.session.userId) && ((data.Date === date && data.Slot !== slot) || (data.Date !== date))){
+                    free_slots.push(data)
+                }   
+            })
+        // replace filename with the actual filename
+            .on('end', () => {
+                console.log(slots);
+                if (free_slots.length > 0){
+                    return res.status(200).render(path.join(__dirname,'../views/filename2'),{slots:free_slots,error:null,file:req.body.filename,req_id:req.body.id});
+                }
+                else{
+                    return res.status(200).render(path.join(__dirname,'../views/filename2'),{slots:null,error:'No faculties are free for the time being, please contact the COE!'});
+                }
+            });
+    })
+    .post(verify.isfaculty, urlencodedParser, (req, res) =>{
+        let req_id = req.body.req_id;
+        let to_make_id = req.body.to_make_id;
+        let filename = path.join(__dirname,'../views/hall_allocation/'+req.body.filename);
+
     });
 
+// add mailer to send accepted/ rejected request
 router
     .route('/viewrequests')
     .get(verify.isfaculty, urlencodedParser, (req, res) =>{

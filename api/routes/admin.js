@@ -111,7 +111,7 @@ router
         const hash = bcrypt.hashSync(req.body.pwd, saltRounds);
         connection.query('INSERT INTO `faculty_db`.`faculty_details` (`f_mail_id`, `f_name`, `f_phone_no`, `f_house_no`, `f_street_name`, `f_area`, `f_city`, `f_pwd`,`f_department`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.email, req.body.name, req.body.phoneno, req.body.houseno, req.body.streetname, req.body.area, req.body.city, hash, req.body.dept], (error, rows, fields) => { 
             if (error){
-                console.log(error);
+                // console.log(error);
                 return res.status(500).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
             }
         });
@@ -156,7 +156,7 @@ router
                 console.log(info);
             }
         });
-        res.status(200).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{error:'New user has been added!', QOTD: process.env.QUOTE_OTD});
+        return res.status(200).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{error:'New user has been added!', QOTD: process.env.QUOTE_OTD});
     });
 
 router
@@ -199,16 +199,47 @@ router
         }
     });
 
+// for upload
+// get year, exam name (p1/p2/endsem/supplementary), branch
+// send mail to all faculties about the upload
 router
     .route('/upload/timetable')
     .get(verify.isadmin,  urlencodedParser, (req, res) =>{
-
+        res.status(200).render(path.join(__dirname,'../views/upload_time_table.ejs'),{error:null, userData:rows});
+    })
+    .post(verify.isadmin,  urlencodedParser, (req, res) =>{
+        if(req.files.timetable){
+            let file = req.files.timetable;
+            let filepath = path.join(__dirname,'../views/exam_schedules/'+req.body.year+"_"+req.body.branch+"_"+req.body.examname+'.pdf');
+            file.mv(filepath, function(error){
+                if(error){
+                    return res.status(500).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
+                }
+            });
+        }
+        return res.status(200).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{error:"File uploaded successfully! Make sure to change the name in .env!", QOTD: process.env.QUOTE_OTD});
     });
 
+// for upload
+// get year, exam name (p1/p2/endsem/supplementary), department
+// change everything to lower
+// send mail to all faculties about the upload
 router
     .route('/upload/hallalloc')
     .get(verify.isadmin,  urlencodedParser, (req, res) =>{
-
+        res.status(200).render(path.join(__dirname,'../views/upload_hall_allocation.ejs'),{error:null, userData:rows});
+    })
+    .post(verify.isadmin,  urlencodedParser, (req, res) =>{
+        if(req.files.hallalloc){
+            let file = req.files.hallalloc;
+            let filepath = path.join(__dirname,'../views/hall_allocation/'+req.body.year+"_"+req.body.examname+"_"+req.body.department+'.csv');
+            file.mv(filepath, function(error){
+                if(error){
+                    return res.status(500).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
+                }
+            });
+        }
+        return res.status(200).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{error:"File uploaded successfully! Make sure to change the name in .env!", QOTD: process.env.QUOTE_OTD});
     });
 
 router
