@@ -19,14 +19,20 @@
     </header>
 
     <main class="pdffiledisplayer">
-        <div>
+        <div class="text-center">
             <h2><%= message %></h2>
         </div>
-        <div>
-            <% if (file1) { %>
-                <iframe src="./faculty_timetables/<%= file1 %>.pdf" style="width:1000px; height:1000px;" frameborder="0"></iframe>
-            <% } else if(file2) {%>
-                <iframe src="./exam_schedules/<%= file2 %>.pdf" style="width:1000px; height:1000px;" frameborder="0"></iframe>
+        <div class="text-center">
+            <% if (facultytt) { %>
+                <!-- <iframe src="./faculty_timetables/<%= facultytt %>.pdf" style="width:1000px; height:1000px;" frameborder="0"></iframe> -->
+                <object data="./faculty_timetables/<%= facultytt %>.pdf" type="application/pdf" width="800px" height="1000px">
+                    alt : <a href="./faculty_timetables/<%= facultytt %>.pdf">Faculty time table</a>
+                </object>
+            <% } else if(examtt) {%>
+                <!-- <iframe src="./exam_schedules/<%= examtt %>.pdf" style="width:1000px; height:1000px;" frameborder="0"></iframe> -->
+                <object data="./exam_schedules/<%= examtt %>.pdf" type="application/pdf" width="800px" height="1000px">
+                    alt : <a href="./exam_schedules/<%= examtt %>.pdf">Exam time table</a>
+                </object>
             <% } else {%>
                 <h1>Server side error! Try again!</h1>
             <% } %>

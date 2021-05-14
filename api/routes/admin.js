@@ -199,47 +199,40 @@ router
         }
     });
 
-// for upload
-// get year, exam name (p1/p2/endsem/supplementary), branch
-// send mail to all faculties about the upload
 router
     .route('/upload/timetable')
     .get(verify.isadmin,  urlencodedParser, (req, res) =>{
-        res.status(200).render(path.join(__dirname,'../views/upload_time_table.ejs'),{error:null, userData:rows});
+        res.status(200).render(path.join(__dirname,'../views/admin_upload_exam_tt.ejs'));
     })
     .post(verify.isadmin,  urlencodedParser, (req, res) =>{
         if(req.files.timetable){
             let file = req.files.timetable;
-            let filepath = path.join(__dirname,'../views/exam_schedules/'+req.body.year+"_"+req.body.branch+"_"+req.body.examname+'.pdf');
+            let filepath = path.join(__dirname,'../views/exam_schedules/',req.body.year+"_"+req.body.branch+"_"+req.body.examname+'.pdf');
             file.mv(filepath, function(error){
                 if(error){
                     return res.status(500).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
                 }
             });
         }
-        return res.status(200).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{error:"File uploaded successfully! Make sure to change the name in .env!", QOTD: process.env.QUOTE_OTD});
+        return res.status(200).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{error:"File uploaded successfully!", QOTD: process.env.QUOTE_OTD});
     });
 
-// for upload
-// get year, exam name (p1/p2/endsem/supplementary), department
-// change everything to lower
-// send mail to all faculties about the upload
 router
     .route('/upload/hallalloc')
     .get(verify.isadmin,  urlencodedParser, (req, res) =>{
-        res.status(200).render(path.join(__dirname,'../views/upload_hall_allocation.ejs'),{error:null, userData:rows});
+        res.status(200).render(path.join(__dirname,'../views/admin_upload_hall_alloc.ejs'));
     })
     .post(verify.isadmin,  urlencodedParser, (req, res) =>{
         if(req.files.hallalloc){
             let file = req.files.hallalloc;
-            let filepath = path.join(__dirname,'../views/hall_allocation/'+req.body.year+"_"+req.body.examname+"_"+req.body.department+'.csv');
+            let filepath = path.join(__dirname,'../views/hall_allocation/',req.body.year+"_"+req.body.examname+"_"+req.body.department+'.csv');
             file.mv(filepath, function(error){
                 if(error){
                     return res.status(500).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{error:error, QOTD: process.env.QUOTE_OTD});
                 }
             });
         }
-        return res.status(200).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{error:"File uploaded successfully! Make sure to change the name in .env!", QOTD: process.env.QUOTE_OTD});
+        return res.status(200).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{error:"File uploaded successfully!", QOTD: process.env.QUOTE_OTD});
     });
 
 router

@@ -107,21 +107,33 @@ router
 router
     .route('/display/examtt')
     .get(verify.isdean,  urlencodedParser, (req, res) =>{
-        // const filepath = path.join(__dirname,'../views/exam_schedules/', process.env.CURRENT_EXAM+'.pdf');
-        // if (fs.existsSync(filepath)){
-        //     res.status(200).render(path.join(__dirname,'../views/pdf_displayer.ejs'),{message: process.env.CURRENT_EXAM+" timetable", file1:null, file2: process.env.CURRENT_EXAM});
-        //     res.end();
-        // }
-        // else{
-        //     res.status(404).render(path.join(__dirname,'../views/faculty_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:process.env.QUOTE_OTD, img:req.session.userId});
-        //     res.end();
-        // }
+        res.status(200).render(path.join(__dirname,'../views/dean_display_exam_tt.ejs'));
+    })
+    .post(verify.isdean,  urlencodedParser, (req, res) =>{
+        let filepath = path.join(__dirname,"../views/exam_schedules/",req.body.year+"_"+req.body.branch+"_"+req.body.examname+".pdf");
+        console.log(filepath);
+        if (fs.existsSync(filepath)){
+            return res.status(200).render(path.join(__dirname,'../views/pdf_displayer.ejs'),{message: req.body.year+" "+req.body.branch+" "+req.body.examname+" timetable", facultytt:null, examtt:req.body.year+"_"+req.body.branch+"_"+req.body.examname});
+        }
+        else{
+            return res.status(404).render(path.join(__dirname,'../views/dean_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:process.env.QUOTE_OTD});
+        }
     });
 
 router
     .route('/display/hallalloc')
     .get(verify.isdean, urlencodedParser, (req,res) => {
-
+        res.status(200).render(path.join(__dirname,'../views/dean_display_hall_alloc.ejs'));
+    })
+    .post(verify.isdean, urlencodedParser, (req,res) => {
+        let filepath = path.join(__dirname,'../views/hall_allocation/',req.body.year+"_"+req.body.examname+"_"+req.body.department+'.csv');
+        if (fs.existsSync(filepath)){
+            // display csv as table filename
+            
+        }
+        else{
+            return res.status(404).render(path.join(__dirname,'../views/dean_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:process.env.QUOTE_OTD});
+        }
     });
 
 module.exports = router

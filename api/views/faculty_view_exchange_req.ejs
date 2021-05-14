@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View and edit your requests</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" type="text/css" href="./bootstrap-5.0.0-dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="./bootstrap-5.0.0-dist/js/bootstrap.min.js"> </script>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+</head>
+
+<body class="d-flex flex-column min-vh-100 bodyclass">
+    <header class="d-flex flex-row align-items-center text-white">
+        <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
+        <form action="/faculty/logout" method="POST">
+            <button class="btn" id="logoutbutton">Logout</button>
+        </form>  
+    </header>
+
+    <main class="admindash">
+        <div class="info text-center">
+            <br>
+            If you want to accept a slot exchange request, click on accept!</br>
+            If you want to reject a slot exchange request, click on reject!
+            <br>
+            <br>
+        </div>
+        <br>
+        <div class="m-5 slot" style="overflow-x: auto;">
+            <table>
+                <th>S.No</th>
+                <th>Requested Faculty</th>
+                <th>Their Date</th>
+                <th>Their Slot</th>
+                <th>It's Start Time</th>
+                <th>It's End Time</th>
+                <th>It's Room Number</th>
+                <th>It's Subject</th>
+                <th>Your Date</th>
+                <th>Your Slot</th>
+                <th>It's Start Time</th>
+                <th>It's End Time</th>
+                <th>It's Room Number</th>
+                <th>It's Subject</th>
+                <th>Action</th>
+                <% if(slots.length!=0){
+                    var i=1;
+                    slots.forEach(function(data){
+                %>
+                    <tr>
+                        <td><%= i; %></td>
+                        <td><%= data.req_name %></td>
+                        <td><%= data.req_date %></td>
+                        <td><%= data.req_slot %></td>
+                        <td><%= data.req_start %></td>
+                        <td><%= data.req_end %></td>
+                        <td><%= data.req_room %></td>
+                        <td><%= data.req_subject %></td>
+                        <td><%= data.exchange_date %></td>
+                        <td><%= data.exchange_slot %></td>
+                        <td><%= data.exchange_start %></td>
+                        <td><%= data.exchange_end %></td>
+                        <td><%= data.exchange_room %></td>
+                        <td><%= data.exchange_subject %></td>
+                        <td>
+                            <a href="/faculty/request/accept?reqid:<%= req_slot_id %>&exchangeid=<%= exchange_slot_id %>">Accept</a><br>
+                            <a href="/faculty/request/reject?reqid:<%= req_slot_id %>&exchangeid=<%= exchange_slot_id %>">Reject</a>
+                        </td>
+                    </tr>
+                <%  i++; }) }%>
+                </table>
+        </div>
+    </main>
+
+
+    <footer class="mt-auto">
+        <div class="d-flex flex-row justify-content-around p-3">
+            <div>
+                <form action="/faq" method="GET">
+                    <button class="btn" id="ftr_btn">FAQ's</button>
+                </form>
+            </div>
+            <div>
+                <form action="mailto:cb.en.u4cse18163@cb.students.amrita.edu" method="GET">
+                    <button class="btn" id="ftr_btn">Mail Us</button>
+                </form>
+            </div>
+            <div>
+                <form action="/about" method="GET">
+                    <button class="btn" id="ftr_btn">About</button>
+                </form>
+            </div>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

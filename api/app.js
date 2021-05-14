@@ -73,6 +73,8 @@ connection.connect((error) => {
 app.use('/faculty',express.static(path.join(__dirname,'views')));
 app.use('/faculty/update',express.static(path.join(__dirname,'views')));
 app.use('/faculty/display',express.static(path.join(__dirname,'views')));
+app.use('/faculty/exchange',express.static(path.join(__dirname,'views')));
+app.use('/faculty/requests',express.static(path.join(__dirname,'views')));
 
 const faculty = require('./routes/faculty');
 app.use('/faculty', faculty);

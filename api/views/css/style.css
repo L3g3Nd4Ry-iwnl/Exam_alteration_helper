@@ -319,7 +319,7 @@ footer a{
     margin-left: 30px;
 }
 
-.faqform, .forgotform, .resetform, .accountform, .updateform, .pwdchange, .deletefacultyform, .hallallocform, .examttform{
+.faqform, .forgotform, .resetform, .accountform, .updateform, .pwdchange, .deletefacultyform, .hallallocform, .examttform, .info{
     margin-left: 180px;
     margin-right: 180px;
     margin-top: 40px;
@@ -358,7 +358,7 @@ input[type=email]{
     margin-top: 20px;
 }
 
-.faqform button, .forgotform button, .resetform button, .accountform button, .updateform button, .pwdchange button, .deletefacultyform button, .hallallocform button, .examttform button{
+.faqform button, .forgotform button, .resetform button, .accountform button, .updateform button, .pwdchange button, .deletefacultyform button, .hallallocform button, .examttform button, .slot button{
     background: #6f2232;
     color: whitesmoke;
     margin-top:20px;
