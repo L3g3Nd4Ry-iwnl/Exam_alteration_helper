@@ -335,19 +335,22 @@ router
         let req_id = req.body.req_id;
         let to_make_id = req.body.to_make_id;
         let filename = path.join(__dirname,'../views/hall_allocation/'+req.body.filename);
-        let temp=[];
+        let req_slot_detail=[];
+        let exchange_slot_detail=[];
         fs
             .createReadStream(filename)
             .pipe(csv())
             .on('data', (data) => {
                 if (data.ID === to_make_id){
-                    temp.push(data);
+                    exchange_slot_detail.push(data);
+                }
+                if (data.ID === req_id){
+                    req_slot_detail.push(data);
                 }   
             })
             .on('end', ()=>{
-                console.log(temp);
                 let len = 0;
-                let to_check = {req_id:req_id, to_make_id:to_make_id, to_make_email:temp[0].Facultyemail,filename:req.body.filename };
+                let to_check = {req_id:req_id, to_make_id:to_make_id, to_make_email:exchange_slot_detail[0].Facultyemail,filename:req.body.filename };
                 let exist = 0;
                 fs
                     .createReadStream(path.join(__dirname,'../views/exchange_slot/exchange.csv'))
@@ -360,15 +363,34 @@ router
                     })
                     .on('end', () => {
                         if(exist === 0 ){
-                            let to_append = { ID:len+1, req_id:req_id, to_make_id:to_make_id, to_make_email:temp[0].Facultyemail,filename:req.body.filename };
+                            let to_append = { 
+                                ID:len+1,
+                                to_make_email:exchange_slot_detail[0].Facultyemail,
+                                req_email: req_slot_detail[0].Facultyemail,
+                                req_slot_id:req_id,
+                                exchange_slot_id:to_make_id,
+                                req_name:req_slot_detail[0].Facultyname,
+                                req_date:req_slot_detail[0].Date,
+                                req_slot:req_slot_detail[0].Slot,
+                                req_start:req_slot_detail[0].Starttime,
+                                req_end:req_slot_detail[0].Endtime,
+                                req_room:req_slot_detail[0].Roomnumber,
+                                req_subject:req_slot_detail[0].Subject,
+                                exchange_date:exchange_slot_detail[0].Date,
+                                exchange_slot:exchange_slot_detail[0].Slot,
+                                exchange_start:exchange_slot_detail[0].Starttime,
+                                exchange_end:exchange_slot_detail[0].Endtime,
+                                exchange_room:exchange_slot_detail[0].Roomnumber,
+                                exchange_subject:exchange_slot_detail[0].Subject
+                            };
                             const RELATIVE_PATH_TO_CSV = './views/exchange_slot/exchange.csv';
                             const { append, end } = csv_append.csvAppend(RELATIVE_PATH_TO_CSV, true);
                             append(to_append);
                             const message = {
                                 from: 'examalterationhelper@gmail.com',
-                                to: temp[0].Facultyemail,
+                                to: exchange_slot_detail[0].Facultyemail,
                                 subject: 'New slot exchange request!',
-                                html: `Hello!</br>You have received a new slot exchange request.</br>Please login to the portal to accept or reject it.</br>Thank you.`
+                                html: `Hello! <br> You have received a new slot exchange request. <br> Please login to the portal to accept or reject it. <br> Thank you.`
                             }
                             transport.sendMail(message);                            
                             return res.status(200).render(path.join(__dirname,'../views/faculty_dashboard.ejs'),{error:'Request has been made! Please wait for the respective faculty to respond!', QOTD:process.env.QUOTE_OTD, img:req.session.userId});
@@ -384,48 +406,29 @@ router
 router
     .route('/requests/view')
     .get(verify.isfaculty, urlencodedParser, (req, res) =>{
-        let temp=[];
         let my_requests=[];
         fs
             .createReadStream(path.join(__dirname,'../views/exchange_slot/exchange.csv'))
             .pipe(csv())
             .on('data', (data) => {
                 if(data.to_make_email === req.session.userId){
-                    temp.push(data);
+                    my_requests.push(data);
                 }
             })
             .on('end', () => {
-                temp.forEach((something) => {
-                    console.log(something);
-                    let req_slot_detail = [];
-                    let exchange_slot_detail = [];
-                    fs
-                        .createReadStream(path.join(__dirname,"../views/hall_allocation/"+something.filename))
-                        .on('data', (data) => {
-                             // check the type of data.ID , something.req_id
-                            if(data.ID == something.req_id){
-                                req_slot_detail.push(data);
-                                console.log('a');
-                            }
-                            else if(data.ID == something.to_make_id){
-                                exchange_slot_detail.push(data);
-                                console.log('b');
-                            }
-                        })
-                        .on('end', () => {
-                            let obj = {req_slot_id:something.req_id, exchange_slot_id:something.to_make_id,req_name:req_slot_detail[0].Facultyname, req_date:req_slot_detail[0].Date, req_slot:req_slot_detail[0].Slot, req_start:req_slot_detail[0].Starttime, req_end:req_slot_detail[0].Endtime, req_room:req_slot_detail[0].Roomnumber, req_subject:req_slot_detail[0].Subject, exchange_date:exchange_slot_detail[0].Date, exchange_slot:exchange_slot_detail[0].Slot, exchange_start:exchange_slot_detail[0].Starttime, exchange_end:exchange_slot_detail[0].Endtime, exchange_room:exchange_slot_detail[0].Roomnumber, exchange_subject:exchange_slot_detail[0].Subject};
-                            my_requests.push(obj);
-                            console.log(my_requests);
-                        });
-                    console.log(my_requests);
-                });
-            });
-        res.send("Fuck off");       
+                if (my_requests.length > 0){
+                    return res.status(200).render(path.join(__dirname,'../views/faculty_view_exchange_req.ejs'),{slots:my_requests}); 
+                }
+                else{
+                    return res.status(200).render(path.join(__dirname,'../views/faculty_dashboard.ejs'),{error:'You have no requests!', QOTD:process.env.QUOTE_OTD, img:req.session.userId}); 
+                }
+            });     
     })
 
 router
     .route('/requests/accept')
     .get(verify.isfaculty, urlencodedParser, (req, res) =>{
+        console.log(req.params);
         res.send("Hello accept exchange slot");
     })
 

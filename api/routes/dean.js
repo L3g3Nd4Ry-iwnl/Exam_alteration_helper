@@ -27,11 +27,9 @@ require('dotenv').config();
 
 const fs = require('fs');
 
-// bcrypt hash
+// csv parser
 
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-
+const csv = require('csv-parser')
 
 // mySQL database connection
 
@@ -123,13 +121,22 @@ router
 router
     .route('/display/hallalloc')
     .get(verify.isdean, urlencodedParser, (req,res) => {
-        res.status(200).render(path.join(__dirname,'../views/dean_display_hall_alloc.ejs'));
+        res.status(200).render(path.join(__dirname,'../views/dean_select_hall_alloc.ejs'));
     })
     .post(verify.isdean, urlencodedParser, (req,res) => {
         let filepath = path.join(__dirname,'../views/hall_allocation/',req.body.year+"_"+req.body.examname+"_"+req.body.department+'.csv');
         if (fs.existsSync(filepath)){
             // display csv as table filename
-            
+            let slots=[];
+            fs
+                .createReadStream(filepath)
+                .pipe(csv())
+                .on('data', (data) =>{
+                    slots.push(data);
+                })
+                .on('end', () => {
+                    return res.status(200).render(path.join(__dirname,'../views/dean_display_hall_alloc.ejs'), {slots:slots});
+                });
         }
         else{
             return res.status(404).render(path.join(__dirname,'../views/dean_dashboard.ejs'), {error:'Sorry! File was not found!', QOTD:process.env.QUOTE_OTD});
