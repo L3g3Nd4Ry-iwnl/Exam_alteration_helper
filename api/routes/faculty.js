@@ -381,7 +381,8 @@ router
                                 exchange_start:exchange_slot_detail[0].Starttime,
                                 exchange_end:exchange_slot_detail[0].Endtime,
                                 exchange_room:exchange_slot_detail[0].Roomnumber,
-                                exchange_subject:exchange_slot_detail[0].Subject
+                                exchange_subject:exchange_slot_detail[0].Subject,
+                                filename: req.body.filename
                             };
                             const RELATIVE_PATH_TO_CSV = './views/exchange_slot/exchange.csv';
                             const { append, end } = csv_append.csvAppend(RELATIVE_PATH_TO_CSV, true);
