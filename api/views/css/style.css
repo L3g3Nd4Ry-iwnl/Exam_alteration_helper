@@ -191,16 +191,13 @@ footer a{
     border: solid 2px #6f2232;
     color: whitesmoke;
     border-radius: 7%;
-}
-
-#adminbutton{
+    margin-right: 10px;
     border: solid 2px #6f2232;
     color: whitesmoke;
     border-radius: 7%;
 }
 
-#logoutbutton{
-    margin-right: 10px;
+#adminbutton{
     border: solid 2px #6f2232;
     color: whitesmoke;
     border-radius: 7%;
