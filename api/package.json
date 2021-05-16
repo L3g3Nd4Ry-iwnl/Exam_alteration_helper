@@ -1,15 +1,15 @@
 {
-  "name": "api",
+  "name": "exam-alteration-helper",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A portal for faculties to exchange their exam slots at ease!",
+  "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
     "start": "node app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["exam alteration helper"],
+  "author": "Aadhith S",
+  "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
@@ -26,5 +26,13 @@
     "mysql": "^2.18.1",
     "nodemailer": "^6.5.0",
     "url": "^0.11.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/L3g3Nd4Ry-iwnl/Exam_alteration_helper"
+  },
+  "engines": {
+    "node":"14.x",
+    "npm":"6.x"
   }
 }
