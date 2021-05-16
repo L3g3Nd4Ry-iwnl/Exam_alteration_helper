@@ -7,8 +7,6 @@
     <title>Setup a faculty account</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" type="text/css" href="./bootstrap-5.0.0-dist/css/bootstrap.min.css">
-    <script type="text/javascript" src="./bootstrap-5.0.0-dist/js/bootstrap.min.js"> </script>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
 </head>
@@ -26,26 +24,31 @@
             <h3><strong><u>Faculty Account Setup</u></strong></h3>
         </div>
         <div>
-            <form name= "setupform" class="accountform" action="/admin/faculty/add" method="POST" enctype="multipart/form-data">
+            <form name="setupform" class="accountform" action="/admin/faculty/add" method="POST"
+                enctype="multipart/form-data">
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="email"><strong>Mail</strong></label>
-                    <input type="email" id="email" name="email"class="form-control"  placeholder="Enter the Mail-ID" required>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter the Mail-ID"
+                        required>
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="name"><strong>Name</strong></label>
-                    <input type="text" id="name" name="name" class="form-control"  placeholder="Enter the Name" required>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter the Name" required>
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="phoneno"><strong>Mobile No</strong></label>
-                    <input type="text" id="phoneno" name="phoneno"class="form-control"  placeholder="Enter the Mobile Number" required>
+                    <input type="text" id="phoneno" name="phoneno" class="form-control"
+                        placeholder="Enter the Mobile Number" required>
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="houseno"><strong>House No</strong></label>
-                    <input type="text" id="houseno" name="houseno" class="form-control" placeholder="Enter the House Number" required>
+                    <input type="text" id="houseno" name="houseno" class="form-control"
+                        placeholder="Enter the House Number" required>
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="streetname"><strong>Street Name</strong></label>
-                    <input type="text" id="streetname" name="streetname"class="form-control"  placeholder="Enter the Street Name" required>
+                    <input type="text" id="streetname" name="streetname" class="form-control"
+                        placeholder="Enter the Street Name" required>
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="area"><strong>Area</strong></label>
@@ -98,18 +101,21 @@
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="dept"><strong>Department</strong></label>
-                    <input type="text" id="dept" name="dept" class="form-control" placeholder="Enter their department" required>
+                    <input type="text" id="dept" name="dept" class="form-control" placeholder="Enter their department"
+                        required>
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="pwd"><strong>Password</strong></label>
-                    <input type="password" id="pwd" name="pwd" class="form-control" placeholder="Enter the Password" required>
+                    <input type="password" id="pwd" name="pwd" class="form-control" placeholder="Enter the Password"
+                        required>
                 </div>
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="tt"><strong>Upload their timetable</strong></label><br>
                     <input type="file" accept=".pdf" id="timetable" name="timetable" required>
                 </div>
                 <div class="form-group m-2 p-2">
-                    <label class="text-uppercase" for="dp"><strong>Upload their profile picture (Not neccesary)</strong></label><br>
+                    <label class="text-uppercase" for="dp"><strong>Upload their profile picture (Not
+                            neccesary)</strong></label><br>
                     <input type="file" accept=".jpg,.jpeg" id="profilepic" name="profilepic">
                 </div>
 
@@ -126,29 +132,38 @@
         <div class="d-flex flex-row justify-content-around p-3">
             <div>
                 <form action="/about" method="GET">
-                    <button class="btn" id="ftr_btn">About</button>
+                    <button class="btn" id="ftr_btn1">About</button>
                 </form>
             </div>
         </div>
     </footer>
-    
+
     <script>
-        function ValidateEmail(input) 
-        {
+        function ValidateEmail(input) {
             var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-            if (input.value.match(validRegex)) 
-            {
+            if (input.value.match(validRegex)) {
                 document.setupform.email.focus();
                 return true;
-            } 
-            else 
-            {
+            }
+            else {
                 alert("Invalid email address!");
-                document.form1.text1.focus();   
+                document.form1.text1.focus();
                 return false;
             }
         }
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 
 </body>
 
