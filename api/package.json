@@ -7,12 +7,15 @@
     "dev": "nodemon app.js",
     "start": "node app.js"
   },
-  "keywords": ["exam alteration helper"],
+  "keywords": [
+    "exam alteration helper"
+  ],
   "author": "Aadhith S",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
+    "chai": "^4.3.4",
     "csv-append": "^1.0.0",
     "csv-parser": "^3.0.0",
     "dotenv": "^8.2.0",
@@ -23,6 +26,7 @@
     "express-session": "^1.17.1",
     "fs": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^8.4.0",
     "mysql": "^2.18.1",
     "nodemailer": "^6.5.0",
     "url": "^0.11.0"
@@ -32,7 +36,7 @@
     "url": "https://github.com/L3g3Nd4Ry-iwnl/Exam_alteration_helper"
   },
   "engines": {
-    "node":"14.x",
-    "npm":"6.x"
+    "node": "14.x",
+    "npm": "6.x"
   }
 }
