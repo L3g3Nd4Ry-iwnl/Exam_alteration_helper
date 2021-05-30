@@ -247,4 +247,42 @@ router
         }
     });
 
+router
+    .route('/download/hallalloc')
+    .get(verify.isadmin,  urlencodedParser, (req, res) =>{
+        res.status(200).render(path.join(__dirname,'../views/admin_download_hall_alloc.ejs'));
+    })
+    .post(verify.isadmin,  urlencodedParser, (req, res) =>{
+        let filepath = path.join(__dirname,"../views/hall_allocation/"+req.body.year+"_"+req.body.examname+'_'+req.body.department+'.csv');
+        if (fs.existsSync(filepath) === true){
+            return res.download(path.join(__dirname,"../views/hall_allocation",req.body.year+"_"+req.body.examname+'_'+req.body.department+'.csv'), req.body.year+"_"+req.body.examname+'_'+req.body.department+'.csv');
+        }
+        else{
+            res.status(500).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:"File doesn't exist!"});
+        }
+    });
+
+router
+    .route('/delete/hallalloc')
+    .get(verify.isadmin,  urlencodedParser, (req, res) =>{
+        res.status(200).render(path.join(__dirname,'../views/admin_download_hall_alloc.ejs'));
+    })
+    .post(verify.isadmin,  urlencodedParser, (req, res) =>{
+        let filepath = path.join(__dirname,"../views/hall_allocation/"+req.body.year+"_"+req.body.examname+'_'+req.body.department+'.csv');
+        if (fs.existsSync(filepath) === true){
+            // delete file
+            fs.unlink(filepath, (error) => {
+                if (error) {
+                    return res.status(500).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:error});
+                }
+                else{
+                    return res.status(500).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:"File deleted!"});
+                }
+            });  
+        }
+        else{
+            res.status(500).render(path.join(__dirname,'../views/admin_dashboard.ejs'),{QOTD: process.env.QUOTE_OTD, error:"File doesn't exist!"});
+        }
+    });
+
 module.exports = router

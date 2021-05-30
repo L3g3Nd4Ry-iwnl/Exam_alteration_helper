@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Exam Time-Table</title>
+    <title>View Hall Allocation List</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">  
@@ -14,17 +14,16 @@
 <body class="d-flex flex-column min-vh-100 bodyclass">
     <header class="d-flex flex-row align-items-center text-white">
         <h3 class="p-3 mr-auto">Exam Alteration Helper</h3>
-        <form action="/faculty/logout" method="POST">
+        <form action="/admin/logout" method="POST">
             <button class="btn" id="logoutbutton">Logout</button>
         </form>   
     </header>
 
     <main>
-        <h3 class="text-center m-2">Hello Faculty</h3>
-        <h5 class="text-center text-white m-4"><u>View the Exam Time-Table</u></h5> 
+        <h5 class="text-center text-white m-4"><u>View the Hall Allocation List</u></h5> 
         <h5 class="text-center text-white m-4"><u>Choose the Year and Exam-Name</u></h5> 
         <div>
-            <form class="examttform" action="/faculty/display/examtt" method="POST" enctype="multipart/form-data">
+            <form class="hallallocform" action="" method="POST" enctype="multipart/form-data">
                             
                 <div class="form-group m-2 p-2">
                     <label class="text-uppercase" for="examname"><strong>Exam Name</strong></label>
@@ -42,6 +41,15 @@
                         <option value="2019">2019</option>
                         <option value="2020">2020</option>
                         <option value="2021">2021</option>
+                    </select>
+                </div>
+                <div class="form-group m-2 p-2">
+                    <label class="text-uppercase" for="dept"><strong>Department</strong></label>
+                    <select name="department" id="department" class="form-control">
+                        <option value="cse">CSE</option>
+                        <option value="mechanical_engineering">Mechanical Engineering</option>
+                        <option value="english">English</option>
+                        <option value="mathematics">Mathematics</option>
                     </select>
                 </div>
 

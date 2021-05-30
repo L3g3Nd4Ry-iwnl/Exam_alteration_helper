@@ -90,6 +90,8 @@ app.use('/admin',express.static(path.join(__dirname,'views')));
 app.use('/admin/faculty',express.static(path.join(__dirname,'views')));
 app.use('/admin/upload',express.static(path.join(__dirname,'views')));
 app.use('/admin/view',express.static(path.join(__dirname,'views')));
+app.use('/admin/download',express.static(path.join(__dirname,'views')));
+app.use('/admin/delete',express.static(path.join(__dirname,'views')));
 
 const admin = require('./routes/admin');
 app.use('/admin', admin);
