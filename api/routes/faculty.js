@@ -15,14 +15,13 @@ const bodyParser= require('body-parser');
 
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
+// qotd for accept / reject
+
+const quoteoftheday = process.env.QUOTE_OTD;
 
 // verify middleware
 
 const verify = require('../middleware/verify');
-
-// env vars
-
-require('dotenv').config();
 
 // fs
 
@@ -33,6 +32,10 @@ const fs = require('fs');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+// child spawner
+
+var spawn = require("child_process").spawn;
+
 // csv parser
 
 const csv = require('csv-parser')
@@ -40,6 +43,33 @@ const csv = require('csv-parser')
 // csv appender
 
 const csv_append = require('csv-append');
+
+// csv writer
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+
+const csvWriter = createCsvWriter({
+    path: "./views/exchange_slot/exchange.csv",
+    header: [
+        {id: "ID", title: "ID"},
+        {id: "to_make_email", title: "to_make_email"},
+        {id: "req_email", title: "req_email"},
+        {id: "req_slot_id", title: "req_slot_id"},
+        {id: "req_name", title: "req_name"},
+        {id: "req_date", title: "req_date"},
+        {id: "req_slot", title: "req_slot"},
+        {id: "req_start", title: "req_start"},
+        {id: "req_end", title: "req_end"},
+        {id: "req_room", title: "req_room"},
+        {id: "req_subject", title: "req_subject"},
+        {id: "exchange_date", title: "exchange_date"},
+        {id: "exchange_slot", title: "exchange_slot"},
+        {id: "exchange_start", title: "exchange_start"},
+        {id: "exchange_end", title: "exchange_end"},
+        {id: "exchange_room", title: "exchange_room"},
+        {id: "exchange_subject", title: "exchange_subject"},
+        {id: "filename", title: "filename"}
+    ]
+});
 
 //  Node mailer
 
@@ -350,21 +380,21 @@ router
             })
             .on('end', ()=>{
                 let len = 0;
-                let to_check = {req_id:req_id, to_make_id:to_make_id, to_make_email:exchange_slot_detail[0].Facultyemail,filename:req.body.filename };
                 let exist = 0;
                 fs
                     .createReadStream(path.join(__dirname,'../views/exchange_slot/exchange.csv'))
                     .pipe(csv())
                     .on('data', (data) => {
                         len += 1;
-                        if((data.req_id === to_check.req_id) && (data.to_make_id === to_check.to_make_id) && (data.to_make_email === to_check.to_make_email) && (data.filename === to_check.filename)){
+                        //
+                        if((data.to_make_email===exchange_slot_detail[0].Facultyemail) && (data.req_email=== req_slot_detail[0].Facultyemail) && (data.req_slot_id===req_id) && (data.exchange_slot_id===to_make_id) && (data.req_name===req_slot_detail[0].Facultyname) && (data.req_date===req_slot_detail[0].Date) && (data.req_slot===req_slot_detail[0].Slot) && (data.req_start===req_slot_detail[0].Starttime) && (data.req_end===req_slot_detail[0].Endtime) && (data.req_room===req_slot_detail[0].Roomnumber) && (data.req_subject===req_slot_detail[0].Subject) && (data.exchange_date===exchange_slot_detail[0].Date) && (data.exchange_slot===exchange_slot_detail[0].Slot) && (data.exchange_start===exchange_slot_detail[0].Starttime) && (data.exchange_end===exchange_slot_detail[0].Endtime) && (data.exchange_room===exchange_slot_detail[0].Roomnumber) && (data.exchange_subject===exchange_slot_detail[0].Subject) && (data.filename=== req.body.filename)){
                             exist = exist + 1;
                         }  
                     })
                     .on('end', () => {
                         if(exist === 0 ){
                             let to_append = { 
-                                ID:len+1,
+                                ID:len,
                                 to_make_email:exchange_slot_detail[0].Facultyemail,
                                 req_email: req_slot_detail[0].Facultyemail,
                                 req_slot_id:req_id,
@@ -429,14 +459,30 @@ router
 router
     .route('/requests/accept')
     .get(verify.isfaculty, urlencodedParser, (req, res) =>{
-        console.log(req.params);
-        res.send("Hello accept exchange slot");
-    })
+        var process = spawn('python',[path.join(__dirname,"../python_programs/accept_request.py"), req.query.id] );
+        const message = {
+            from: 'examalterationhelper@gmail.com',
+            to: req.query.mail,
+            subject: 'Slot exchange request rejected!',
+            html: `Hello! <br> Your slot exchange request to ${req.session.userId} on the exam slot on date: ${req.query.date}, slot: ${req.query.slot} has been accepted! <br> Thank you.`
+        }
+        transport.sendMail(message);
+        return res.status(200).render(path.join(__dirname,'../views/faculty_dashboard.ejs'),{error:'Request accepted successfully!', QOTD:quoteoftheday, img:req.session.userId});
+    });
 
 router
     .route('/requests/reject')
     .get(verify.isfaculty, urlencodedParser, (req, res) =>{
-        res.send("Hello reject exchange slot");
-    })
+        var process = spawn('python',[path.join(__dirname,"../python_programs/reject_request.py"), req.query.id] );
+        console.log('Rejected successfully!');
+        const message = {
+            from: 'examalterationhelper@gmail.com',
+            to: req.query.mail,
+            subject: 'Slot exchange request rejected!',
+            html: `Hello! <br> Your slot exchange request to ${req.session.userId} on the exam slot on date: ${req.query.date}, slot: ${req.query.slot} has been declined! <br> Thank you.`
+        }
+        transport.sendMail(message);
+        return res.status(200).render(path.join(__dirname,'../views/faculty_dashboard.ejs'),{error:'Request rejected successfully!', QOTD:quoteoftheday, img:req.session.userId}); 
+    });
 
 module.exports = router

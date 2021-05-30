@@ -65,8 +65,8 @@
                         <td><%= data.exchange_room %></td>
                         <td><%= data.exchange_subject %></td>
                         <td>
-                            <a href="/faculty/requests/accept?id=<%= data.ID%>">Accept</a><br>
-                            <a href="/faculty/requests/reject?id=<%= data.ID%>">Reject</a>
+                            <a href="/faculty/requests/accept?id=<%= data.ID %>&mail=<%= data.req_email %>&date=<%= data.req_date %>&slot=<%= data.req_slot %>">Accept</a><br>
+                            <a href="/faculty/requests/reject?id=<%= data.ID%>&mail=<%= data.req_email %>&date=<%= data.req_date %>&slot=<%= data.req_slot %>">Reject</a>
                         </td>
                     </tr>
                 <%  i++; }) }%>

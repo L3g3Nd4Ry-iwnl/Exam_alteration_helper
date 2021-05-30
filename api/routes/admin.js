@@ -19,10 +19,6 @@ const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 const verify = require('../middleware/verify');
 
-// env vars
-
-require('dotenv').config();
-
 // fs
 
 const fs = require('fs');

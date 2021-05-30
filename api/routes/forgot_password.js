@@ -24,10 +24,6 @@ const verify = require('../middleware/verify');
 
 const url = require('url');
 
-// env vars
-
-require('dotenv').config();
-
 // fs
 
 const fs = require('fs');

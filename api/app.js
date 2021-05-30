@@ -132,12 +132,3 @@ app.post('/addfaq', urlencodedParser, (req, res) => {
 });
 // listener
 app.listen(process.env.PORT, ()=> console.log(`Listening on port ${process.env.PORT}...   http://localhost:${process.env.PORT}`)); 
-
-
-/**TODO 
- * 
- * use express-mysql-session to store sessions in a database
- * else it will be in memory only and get destoryed if server restarts 
- * 
- * Remove DB query in jwt verify
- */
