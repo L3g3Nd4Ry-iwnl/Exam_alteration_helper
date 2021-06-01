@@ -190,25 +190,25 @@ footer a{
 #logoutbutton{
     border: solid 2px #6f2232;
     color: whitesmoke;
-    border-radius: 7%;
+    border-radius: 25px 0px;
     margin-right: 10px;
 }
 
 #adminbutton{
     border: solid 2px #6f2232;
     color: whitesmoke;
-    border-radius: 7%;
+    border-radius: 25px 0px;
 }
 
 #facultybutton{
     border: solid 2px #6f2232;
     color: whitesmoke;
-    border-radius: 7%;
+    border-radius: 25px 0px;
 }
 
 #deanbutton{
     border: solid 2px #6f2232;
-    border-radius: 7%;
+    border-radius: 25px 0px;
     color: whitesmoke;
 }
 
@@ -268,7 +268,7 @@ footer a{
 
 .adminprivileges button{
     border: 1px solid whitesmoke;
-    border-radius: 5%;
+    border-radius: 25px 0px;
     background-color: black;
     color: whitesmoke;
 }
@@ -283,7 +283,7 @@ footer a{
 
 .deanprivileges button{
     border: 1px solid whitesmoke;
-    border-radius: 5%;
+    border-radius: 25px 0px;
     background-color: black;
     color: whitesmoke;
 }
@@ -297,7 +297,7 @@ footer a{
 
 .facultyprivileges button{
     border: 1px solid whitesmoke;
-    border-radius: 5%;
+    border-radius: 25px 0px;
     background-color: black;
     color: whitesmoke;
 }
