@@ -1,0 +1,685 @@
+html,body{
+    width: 100%;
+}
+
+.animation{
+    font-size: 50px;
+}
+
+.slogan{
+    text-shadow: 2px 2px #c3073f;
+}
+
+.anitext{
+    display: inline-block;
+    line-height: 20px;
+    color: white;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.homefaculty, .homedean, .homeadmin{
+    border-radius: 25px;
+    height: 200px;
+    width: 400px;
+    background-color: white;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+main h1, main h2, main h3, main h4, main h5{
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+main h3{
+    color:#c3073f
+}
+
+footer{
+    font-family: 'Raleway', sans-serif;
+    background-color:#f7f7f7 ;
+}
+
+#ftr_btn1, #ftr_btn2, #ftr_btn3{
+    color: #c3073f;
+}
+
+header{
+    font-family: 'Raleway', sans-serif;
+}
+
+
+header h3{
+    color: #c3073f;
+    text-shadow: 4px 4px 4px #6f2232;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.mainbody{
+    font-family: 'Raleway', sans-serif;
+    margin-left: 250px;
+    margin-right: 250px;
+    margin-top: 40px;
+    margin-bottom:30px;
+    background:  white;
+    border-radius: 3%;
+    box-shadow: 10px 10px 5px #6f2232;
+}
+
+.aboutclass{
+    font-family: 'Raleway', sans-serif;
+    margin-left: 250px;
+    margin-right: 250px;
+    margin-top: 40px;
+    margin-bottom:30px;
+    background:  white;
+    border-radius: 25px;
+    box-shadow: 10px 10px 5px #6f2232;
+}
+
+.description{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.formclass{
+    padding-top : 20px;
+    /* padding-bottom: 80px; */
+}
+
+.fgtclass{
+    padding-top : 20px;
+}
+
+.forget_pass_btn{
+    margin-left: 10px;
+}
+
+.rowclass{
+    padding-right: 30px;
+}
+
+footer a{
+    color:#c3073f ;
+}
+.rowclass h5{
+    margin-top: 50px;
+}
+
+.mainform h3{
+    margin-top: 10px;
+    color: #6f2232;
+}
+
+.mainform h5{
+    color:#6f2232
+}
+
+.carousel-item{
+    width: 100%; 
+    max-height: 500px;
+    height: 500px;
+    overflow: hidden;
+}
+
+.carousel-inner img {border-top-left-radius:  3%; border-bottom-left-radius: 3%;}
+
+.containerr, .homeadmin, .homedean, .homefaculty {
+    position: relative;
+    width: 50%;
+}
+  
+.image {
+    border-radius: 25px;
+    display: block;
+    max-width: 100%;
+    max-height: auto;
+}
+  
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #c3073f;
+    overflow: hidden;
+    width: 0;
+    height: 100%;
+    transition: .5s ease;
+    border-radius: 25px;
+}
+  
+.containerr:hover .overlay, .homefaculty:hover .overlay, .homedean:hover .overlay, .homeadmin:hover .overlay {
+    width: 100%;
+}
+  
+.text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    padding-right: 20px;
+    padding-left:20px;    
+}
+
+.bodyclass{
+    background-repeat:no-repeat ;
+    background-color: #1A1A1D;
+    background-size: cover ;
+}
+
+.forgotsubmit{
+    padding-top: 15px;
+}
+
+.faqclass h4{
+    font-family: 'Raleway', sans-serif;
+}
+
+.firstcarousel h5, .thirdcarousel h5{
+    color: white;
+}
+
+#logoutbutton{
+    border: solid 2px #6f2232;
+    color: whitesmoke;
+    border-radius: 25px 0px;
+    margin-right: 10px;
+}
+
+#adminbutton{
+    border: solid 2px #6f2232;
+    color: whitesmoke;
+    border-radius: 25px 0px;
+}
+
+#facultybutton{
+    border: solid 2px #6f2232;
+    color: whitesmoke;
+    border-radius: 25px 0px;
+}
+
+#deanbutton{
+    border: solid 2px #6f2232;
+    border-radius: 25px 0px;
+    color: whitesmoke;
+}
+
+.formclass button{
+    background: #6f2232;
+    color: white;
+    margin-top:10px;
+}
+
+.fgtclass button{
+    background: #6f2232;
+    color: white;
+}
+
+.secondcarousel h5,.secondcarousel p{
+    color: white;
+}
+
+
+.quotes{
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px #6f2232;
+}
+
+#quotes{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left:100px;
+    margin-right: 100px;
+}
+
+.error{
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px #6f2232;
+}
+
+#error{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left:100px;
+    margin-right: 100px;
+}
+
+.quotes h3,h5{
+    color: black;
+}
+
+.admindash img , .deandash img, .facultydash img{
+    height: 150px;
+    width: 200x;
+    border-radius: 5%;
+}
+
+.admindash, .deandash, .facultydash{
+    font-family: 'Raleway', sans-serif;
+}
+
+.adminprivileges button{
+    border: 1px solid whitesmoke;
+    border-radius: 25px 0px;
+    background-color: black;
+    color: whitesmoke;
+}
+
+.adminprivileges{
+    margin-left: 85px;
+    margin-right: 85px;
+    margin-top: 30px;
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px #6f2232;
+}
+
+.deanprivileges button{
+    border: 1px solid whitesmoke;
+    border-radius: 25px 0px;
+    background-color: black;
+    color: whitesmoke;
+}
+
+.deanprivileges{
+    margin-left:85px;
+    margin-right:85px;
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px #6f2232;
+}
+
+.facultyprivileges button{
+    border: 1px solid whitesmoke;
+    border-radius: 25px 0px;
+    background-color: black;
+    color: whitesmoke;
+}
+
+.facultyprivileges{
+    margin-left:85px;
+    margin-right:85px;
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px #6f2232;
+}
+
+.adminprivileges svg , .deanprivileges svg, .facultyprivileges svg{
+    margin-left: 30px;
+}
+
+.faqform, .forgotform, .resetform, .accountform, .updateform, .pwdchange, .deletefacultyform, .hallallocform, .examttform, .info{
+    margin-left: 180px;
+    margin-right: 180px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: black;
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px #6f2232;
+    border-radius: 25px;
+}
+
+input[type=text] {
+    border: 2px solid #c3073f;
+    border-radius: 25px;
+}
+
+::-webkit-file-upload-button {
+    background: #6f2232;
+    color: white;
+  }
+
+input[type=password]{
+    border: 2px solid #c3073f;
+    border-radius: 25px;
+}
+
+input[type=email]{
+    border: 2px solid #c3073f;
+    border-radius: 25px;
+}
+
+.forgotform button, .resetform button{
+    margin-left: 20px;
+}
+
+.updateform img{
+    margin-top: 20px;
+}
+
+.faqform button, .forgotform button, .resetform button, .accountform button, .updateform button, .pwdchange button, .deletefacultyform button, .hallallocform button, .examttform button, .slot button{
+    background: #6f2232;
+    color: whitesmoke;
+    margin-top:20px;
+    margin-bottom:20px
+}
+
+.formheading{
+    margin-top: 50px;
+}
+
+.faq1, .faq2, .faq3, .faq4, .faq5{
+    margin-left: 180px;
+    margin-right: 180px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 5px #6f2232;
+    padding: 10px;
+    border: 2px solid #c3073f;
+    border-radius: 25px;
+
+}
+#mainform label, .faqform label, .forgotform label, .resetform label,.accountform label , .updateform label, .deletefacultyform label, .hallallocform label, .examttform label{
+    color: #4e4e50;
+}
+
+.pdffiledisplayer{
+    font-family: 'Raleway', sans-serif;
+    color: white;
+    margin-left: 250px;
+    margin-right: 250px;
+    margin-top: 40px;
+    margin-bottom:30px;
+}
+
+table{
+    background-color: blanchedalmond;
+    width: 100%;
+}
+
+tr:hover {background-color: white;}
+
+th {
+    background-color: #c3073f;
+    color:black
+  }
+
+td{
+    text-align: left;
+}
+
+th, td{
+    border-bottom: 1px solid #4e4e50;
+    padding:10px;
+}
+
+@media only screen and (max-width: 1200px) {
+
+    .rowclass{
+        padding-right:0px;
+    }
+
+    .rowclass h5{
+        margin-top: 0px;
+        padding-top:10px;
+    }
+
+    #bootstrap-overrides{
+        display: block;
+    }
+    .carousel-inner img {height:300px;border-radius: 3%;}
+
+    .carouselclass{
+        box-shadow: 10px 10px 5px #6f2232;
+    }
+
+    #carouselid{
+        padding-left:0px;
+        padding-right: 0px;
+        border-radius: 3%;
+    }
+
+    .formclass, .fgtclass{
+        padding-left: 30px;
+        padding-right:30px;
+    }
+
+    .mainform h3{
+        display: none;
+    }
+
+    .mainform{
+        margin-top: 25px;
+        background-color: white;
+        border-radius: 3%;
+        box-shadow: 10px 10px 5px #6f2232;
+    }
+    
+    .mainbody{
+        background :none;
+        box-shadow: none;
+        margin-left: 150px;
+        margin-right: 150px;
+        margin-top: 40px;
+        margin-bottom:30px;
+    }
+  }
+
+  @media only screen and (max-width: 700px) {
+
+    .text{
+        font-size: 15px;
+    }
+
+    .animation{
+        font-size: 30px;
+    }
+
+    .homefaculty, .homedean, .homeadmin{
+        height: 200px;
+        width: 400px;
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+
+    .homefaculty h3, .homedean h3, .homeadmin h3{
+        font-size: 25px;
+    }
+
+    main h3, main h5, main h2, main h4, .formheading{
+        font-size: medium;
+    }
+
+    .adminprivileges button, .facultyprivileges button, .deanprivileges button{
+        font-size: small;
+    }
+    .faq1, .faq2, .faq3, .faq4, .faq5{
+        margin-left: 100px;
+        margin-right: 100px;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        background-color: whitesmoke;
+        box-shadow: 10px 10px 5px #6f2232;
+        padding: 10px;
+    }
+
+    .aboutclass{
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+      
+    .image {
+        display: block;
+        max-width: 100%;
+        max-height: auto;
+    }
+
+    .faqform, .forgotform, .resetform,.accountform ,.updateform, .pwdchange, .deletefacultyform, .hallallocform, .examttform{
+        margin-left: 100px;
+        margin-right: 100px;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        color: black;
+        background-color: whitesmoke;
+        box-shadow: 10px 10px 5px #6f2232;
+    }
+
+    .adminprivileges{
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 30px;
+        margin-bottom:20px;
+        background-color: whitesmoke;
+    }
+
+    .deanprivileges{
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 30px;
+        margin-bottom:20px;
+        background-color: whitesmoke;
+    }
+
+    .facultyprivileges{
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 30px;
+        margin-bottom:20px;
+        background-color: whitesmoke;
+    }
+    
+    .rowclass{
+        padding-right:0px;
+    }
+   
+    .rowclass h5{
+        margin-top: 0px;
+        padding-top:10px;
+    }
+
+    #bootstrap-overrides{
+        display: block;
+    }
+    .carousel-inner img {height:300px; border-radius: 3%;}
+
+    .carouselclass{
+        box-shadow: 10px 10px 5px #6f2232;
+    }
+
+    #carouselid{
+        padding-left:0px;
+        padding-right: 0px;
+        border-radius: 3%;
+    }
+
+    .formclass, .fgtclass{
+        padding-left: 10px;
+        padding-right:10px;
+        padding-bottom: 80px;
+    }
+
+    .mainform h3{
+        display: none;
+    }
+
+    .mainform{
+        margin-top: 25px;
+        background-color: white;
+        border-radius: 3%;
+        box-shadow: 10px 10px 5px #6f2232;
+    }
+    
+   
+
+    .mainbody{
+        background :none;
+        box-shadow: none;
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 40px;
+        margin-bottom:30px;
+    }
+
+    @media only screen and (max-width: 455px){
+        
+        .homefaculty, .homedean, .homeadmin{
+            height: 200px;
+            width: 300px;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+    }
+
+    @media only screen and (max-width: 400px){
+        
+        #quotes{
+            margin-left:30px;
+            margin-right: 30px;
+        }
+
+        header h3{
+            font-size: medium;
+        }
+
+        #adminbutton, #deanbutton, #facultybutton{
+            font-size: x-small
+        }
+
+        .aboutclass{
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+
+        .image {
+            display: block;
+            max-width: 100%;
+            max-height: auto;
+        }
+
+        .faq1, .faq2, .faq3, .faq4, .faq5{
+            margin-left: 30px;
+            margin-right: 30px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            background-color: whitesmoke;
+            box-shadow: 10px 10px 5px #6f2232;
+            padding: 10px;
+        }
+
+        .faqform, .forgotform, .resetform,.accountform, .updateform , .pwdchange,  .deletefacultyform ,.hallallocform, .examttform{
+            margin-left: 30px;
+            margin-right: 30px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: black;
+            background-color: whitesmoke;
+            box-shadow: 10px 10px 5px #6f2232;
+        }
+
+    }
+
+}
+
+@media only screen and (max-width: 815px){
+    .text{
+        font-size: 15px;
+    }
+}
+
+
+@media only screen and (max-width: 615px){
+    .text{
+        font-size: 10px;
+    }
+}
+
+@media only screen and (max-width: 415px){
+    .text{
+        font-size: 7px;
+    }
+}
+
+@media only screen and (max-width: 415px){
+    .homefaculty, .homedean, .homeadmin{
+        height: 200px;
+        width: 250px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+}
