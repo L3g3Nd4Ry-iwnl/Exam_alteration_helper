@@ -110,7 +110,7 @@ connection.connect((error) => {
 router
     .route('/login')
     .get((req,res) =>{
-        res.status(200).render(path.join(__dirname,'../views/faculty_login.ejs'),{error:process.env.temp1+' '+process.env.temp2+' '+process.env.temp3});
+        res.status(200).render(path.join(__dirname,'../views/faculty_login.ejs'),{error:null});
     });
 
 router
