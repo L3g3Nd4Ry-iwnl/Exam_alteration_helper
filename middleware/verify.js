@@ -2,14 +2,14 @@
 
 const path = require('path');
 
-const redirectLogin = (req, res, next) =>{
-    if (!req.session.userId){
-        res.redirect('/');
-    }
-    else{
-        next();
-    }
-}
+// const redirectLogin = (req, res, next) =>{
+//     if (!req.session.userId){
+//         res.redirect('/');
+//     }
+//     else{
+//         next();
+//     }
+// }
 
 // if faculty auth they must be redirected directly to faculty dashboard
 
