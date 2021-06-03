@@ -1,5 +1,5 @@
-api/.env
-api/test.js
+.env
+test.js
 # Logs
 logs
 *.log

@@ -99,20 +99,20 @@
 
 // console.log(typeof("1"-1));
 
-const express = require('express');
-const app = express();
-const path = require('path');
+// const express = require('express');
+// const app = express();
+// const path = require('path');
 
-app.use('/',express.static(path.join(__dirname,'views')));
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname,'views'));
+// app.use('/',express.static(path.join(__dirname,'views')));
+// app.set("view engine", "ejs");
+// app.set("views", path.join(__dirname,'views'));
 
-app.get('/', (req,res) => {
-    // res.setHeader('Content-Type', 'text/csv');
-    // res.setHeader("Content-Dispositon","attachment; filename=exchange.csv");
-    // res.send("<a href="./views/exchange_slot/exchange.csv" download></a>")
-    res.download(path.join(__dirname,"/views/exchange_slot/exchange.csv"), "exchange.csv");
+// app.get('/', (req,res) => {
+//     // res.setHeader('Content-Type', 'text/csv');
+//     // res.setHeader("Content-Dispositon","attachment; filename=exchange.csv");
+//     // res.send("<a href="./views/exchange_slot/exchange.csv" download></a>")
+//     res.download(path.join(__dirname,"/views/exchange_slot/exchange.csv"), "exchange.csv");
 
-});
+// });
 
-app.listen(3001);
+// app.listen(3001);
