@@ -250,7 +250,7 @@ router
 router
     .route('/download/hallalloc')
     .get(verify.isadmin,  urlencodedParser, (req, res) =>{
-        res.status(200).render(path.join(__dirname,'../views/admin_download_hall_alloc.ejs'));
+        res.status(200).render(path.join(__dirname,'../views/admin_download_hall_alloc.ejs'),{ADD:'downlaod'});
     })
     .post(verify.isadmin,  urlencodedParser, (req, res) =>{
         let filepath = path.join(__dirname,"../views/hall_allocation/"+req.body.year+"_"+req.body.examname+'_'+req.body.department+'.csv');
@@ -265,7 +265,7 @@ router
 router
     .route('/delete/hallalloc')
     .get(verify.isadmin,  urlencodedParser, (req, res) =>{
-        res.status(200).render(path.join(__dirname,'../views/admin_download_hall_alloc.ejs'));
+        res.status(200).render(path.join(__dirname,'../views/admin_download_hall_alloc.ejs'),{ADD:'delete'});
     })
     .post(verify.isadmin,  urlencodedParser, (req, res) =>{
         let filepath = path.join(__dirname,"../views/hall_allocation/"+req.body.year+"_"+req.body.examname+'_'+req.body.department+'.csv');

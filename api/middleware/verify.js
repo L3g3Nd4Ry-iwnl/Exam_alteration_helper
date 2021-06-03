@@ -67,7 +67,7 @@ const isadmin = (req, res, next) =>{
         next();
     }
     else{
-        res.status(403).render(path.join(__dirname,'../views/dean_login.ejs'),{error:'Unauthorized access!'});
+        res.status(403).render(path.join(__dirname,'../views/admin_login.ejs'),{error:'Unauthorized access!'});
     }
 }
 
