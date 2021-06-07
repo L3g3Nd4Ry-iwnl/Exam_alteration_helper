@@ -44,7 +44,7 @@ app.use(session({
         path: '/',
         maxAge: Number(process.env.SESS_LIFETIME),
         sameSite: true,
-        domain: 'https://exam-alteration-helper.herokuapp.com/',
+        domain: 'exam-alteration-helper.herokuapp.com',
         secure: IN_PROD
     }
 }));
