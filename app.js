@@ -41,6 +41,7 @@ app.use(session({
     saveUninitialized: false,
     secret: process.env.SESS_SECRET,
     cookie:{
+        path: '/',
         maxAge: Number(process.env.SESS_LIFETIME),
         sameSite: true,
         secure: IN_PROD
