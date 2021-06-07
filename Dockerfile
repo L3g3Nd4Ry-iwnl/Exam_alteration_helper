@@ -5,4 +5,3 @@ RUN npm install
 COPY . /api
 CMD ["npm","start"]
 EXPOSE 3000
-EXPOSE 3306
