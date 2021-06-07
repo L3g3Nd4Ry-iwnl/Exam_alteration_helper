@@ -44,6 +44,7 @@ app.use(session({
         path: '/',
         maxAge: Number(process.env.SESS_LIFETIME),
         sameSite: true,
+        httpOnly: true,
         secure: IN_PROD
     }
 }));
