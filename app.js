@@ -140,5 +140,6 @@ const server = app.listen(process.env.PORT, ()=> console.log(`Listening on port 
 process.on('SIGTERM', () => {
     server.close(() => {
       console.log('Process terminated');
-    })
+    });
+    process.exit(0);
   })
