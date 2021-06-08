@@ -7,7 +7,7 @@
     "dev": "nodemon app.js",
     "start": "node app.js",
     "mocha-test": "mocha --recursive ./Mocha-test",
-    "jest-test": "jest --detectOpenHandles ./Jest-test"
+    "jest-test": "jest --forceExit ./Jest-test"
   },
   "keywords": [
     "exam alteration helper"
