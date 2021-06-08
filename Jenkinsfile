@@ -51,6 +51,7 @@ pipeline {
             steps {
                 sh '''docker login --username saadhith --password hello_docker
                 docker build . -t saadhith/exam-alteration-helper --pull=true
+                docker push saadhith/exam-alteration-helper-demo
                 '''
                 echo "Completed docker image building"
             }
