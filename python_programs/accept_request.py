@@ -5,7 +5,7 @@ import os
 request_row_id = int(sys.argv[1])
 cur_path = os.getcwd()
 parent = os.path.dirname(cur_path)
-request_path = os.path.join(parent, "api\\views\\exchange_slot\\exchange.csv")
+request_path = os.path.join(cur_path, "views\\exchange_slot\\exchange.csv")
 
 
 request_df = pd.read_csv(request_path, header = 0, index_col=None)
@@ -20,7 +20,7 @@ for i in range(request_row_id+1, len(request_df)+1):
 
 request_df.to_csv(request_path, index=False)
 
-make_path = os.path.join(parent, "api\\views\\hall_allocation", filename)
+make_path = os.path.join(cur_path, "views\\hall_allocation", filename)
 
 make_change_df = pd.read_csv(make_path, header = 0, index_col=None)
 

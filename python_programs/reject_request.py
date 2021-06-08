@@ -5,7 +5,7 @@ import os
 request_row_id = int(sys.argv[1])
 cur_path = os.getcwd()
 parent = os.path.dirname(cur_path)
-request_path = os.path.join(parent, "api\\views\\exchange_slot\\exchange.csv")
+request_path = os.path.join(cur_path, "views\\exchange_slot\\exchange.csv")
 
 
 request_df = pd.read_csv(request_path, header = 0, index_col=None)
