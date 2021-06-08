@@ -5,3 +5,6 @@ LICENSE
 Procfile
 README.md
 .dockerignore
+.git
+.gitignore
+.pidfile
