@@ -4,11 +4,6 @@ pipeline {
         CI = 'true'
     }
     stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello World'
-            }
-        }
         stage('Cloning Git') {
             steps {
                 git 'https://github.com/L3g3Nd4Ry-iwnl/Exam_alteration_helper.git'
@@ -55,7 +50,7 @@ pipeline {
         stage('Docker image creation') {
             steps {
                 sh '''docker login --username saadhith --password hello_docker
-                docker build . -t saadhith/exam-alteration-helper-demo --pull=true
+                docker build . -t saadhith/exam-alteration-helper --pull=true
                 '''
                 echo "Completed docker image building"
             }
