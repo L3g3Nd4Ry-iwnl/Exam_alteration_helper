@@ -135,4 +135,10 @@ app.post('/addfaq', urlencodedParser, (req, res) => {
 });
 module.exports.app=app
 // listener
-app.listen(process.env.PORT, ()=> console.log(`Listening on port ${process.env.PORT}...   http://localhost:${process.env.PORT}`)); 
+const server = app.listen(process.env.PORT, ()=> console.log(`Listening on port ${process.env.PORT}...   http://localhost:${process.env.PORT}`)); 
+
+process.on('SIGTERM', () => {
+    server.close(() => {
+      console.log('Process terminated');
+    })
+  })
