@@ -40,6 +40,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     secret: process.env.SESS_SECRET,
+    proxy : true,
     cookie:{
         path: '/',
         maxAge: Number(process.env.SESS_LIFETIME),
@@ -48,7 +49,6 @@ app.use(session({
     }
 }));
 
-app.set('trust proxy', 'X-Forwarded-Proto');
 
 // mySQL database connection
 
