@@ -48,6 +48,8 @@ app.use(session({
     }
 }));
 
+app.set('trust proxy', 'X-Forwarded-Proto');
+
 // mySQL database connection
 
 const mysql = require('mysql');
