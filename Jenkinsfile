@@ -57,4 +57,12 @@ pipeline {
             }
         }
     }
+    post{
+        failure{
+            emailext attachLog: true, body: '''The log has been attached.<br>Please check.<br>Thanks''', subject: 'Jenkins Build failed', to: 'saadhith2@gmail.com'
+        }
+        success{
+            emailext attachLog: true, body: '''The log has been attached.<br>Please check.<br>Thanks''', subject: 'Jenkins Build passed', to: 'saadhith2@gmail.com'
+        }
+    }
 }
