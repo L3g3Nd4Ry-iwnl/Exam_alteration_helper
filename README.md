@@ -62,7 +62,7 @@ npm run mocha-test
 
 ## 💁Credits
 Created with 💖 by :
-- [Aadhith S](https://github.com/L3g3Nd4Ry-iwnl) Backend Developer
+- [Aadhith S](https://github.com/L3g3Nd4Ry-iwnl) Backend Developer and part of DevOps team
 - [Vignesh H](https://github.com/Vignesh1326) Frontend Developer
 - [Tharun Kumar A](https://github.com/TharunKumar107) Frontend Developer and part of DevOps team
 - [Tadishetty Dharmaraj](https://github.com/dharmaraj133) Tester and part of DevOps team
