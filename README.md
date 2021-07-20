@@ -4,7 +4,7 @@
 
 # Exam_alteration_helper
 
-## ❗Description
+## ❗ Description
 Many complexities and confusions still persist in the slot exchange of faculties during the allocation of examination schedules. We have developed this web application where faculties can themselves exchange their examination slots with other faculties after the exam schedule has been uploaded with ease.
  
 ## ❓ How to install the requirements
@@ -17,7 +17,7 @@ npm install
 npm run dev
 ```
 
-## 💻Tech stack used
+## 💻 Tech stack used
 
 * HTML
 * CSS
@@ -35,7 +35,7 @@ npm run dev
 * Jest
 * Heroku
 
-## 🎯How to run the tests
+## 🎯 How to run the tests
 1. Jest(Unit testing)
 ```javascript
 npm run jest-test
@@ -53,14 +53,14 @@ npm run mocha-test
 - Run the app in background
 - Run the Selenium files to get the output
 
-## ❕Other important things
+## ❕ Other important things
 
 - Jenkinsfile has the SCM pipeline script.
 - Dockerfile has the required script to build a docker image.
 - A live version can be found in: [Live Version](https://exam-alteration-helper.herokuapp.com)
 - A demo of the working can be viewed here: [Video Demo](https://youtu.be/i1jRs5SPhvg)
 
-## 💁Credits
+## 💁 Credits
 Created with 💖 by :
 - [Aadhith S](https://github.com/L3g3Nd4Ry-iwnl) Backend Developer and part of DevOps team
 - [Vignesh H](https://github.com/Vignesh1326) Frontend Developer
@@ -68,9 +68,9 @@ Created with 💖 by :
 - [Tadishetty Dharmaraj](https://github.com/dharmaraj133) Tester and part of DevOps team
 - [Yenigalla Yasasvi Krishna](https://github.com/yasasvi1217) Tester
 
-## 💌Contributing
+## 💌 Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-## 📕License
+## 📕 License
 [MIT](https://github.com/L3g3Nd4Ry-iwnl/Exam_alteration_helper/blob/master/LICENSE)
